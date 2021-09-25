@@ -24,6 +24,10 @@ class _$WalletEventTearOff {
   Disconnect disconnect() {
     return const Disconnect();
   }
+
+  CheckSupported checkSupported() {
+    return const CheckSupported();
+  }
 }
 
 /// @nodoc
@@ -35,18 +39,21 @@ mixin _$WalletEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() connect,
     required TResult Function() disconnect,
+    required TResult Function() checkSupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? connect,
     TResult Function()? disconnect,
+    TResult Function()? checkSupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connect,
     TResult Function()? disconnect,
+    TResult Function()? checkSupported,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -54,18 +61,21 @@ mixin _$WalletEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(Connect value) connect,
     required TResult Function(Disconnect value) disconnect,
+    required TResult Function(CheckSupported value) checkSupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Connect value)? connect,
     TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Connect value)? connect,
     TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,6 +136,7 @@ class _$Connect implements Connect {
   TResult when<TResult extends Object?>({
     required TResult Function() connect,
     required TResult Function() disconnect,
+    required TResult Function() checkSupported,
   }) {
     return connect();
   }
@@ -135,6 +146,7 @@ class _$Connect implements Connect {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? connect,
     TResult Function()? disconnect,
+    TResult Function()? checkSupported,
   }) {
     return connect?.call();
   }
@@ -144,6 +156,7 @@ class _$Connect implements Connect {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connect,
     TResult Function()? disconnect,
+    TResult Function()? checkSupported,
     required TResult orElse(),
   }) {
     if (connect != null) {
@@ -157,6 +170,7 @@ class _$Connect implements Connect {
   TResult map<TResult extends Object?>({
     required TResult Function(Connect value) connect,
     required TResult Function(Disconnect value) disconnect,
+    required TResult Function(CheckSupported value) checkSupported,
   }) {
     return connect(this);
   }
@@ -166,6 +180,7 @@ class _$Connect implements Connect {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Connect value)? connect,
     TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
   }) {
     return connect?.call(this);
   }
@@ -175,6 +190,7 @@ class _$Connect implements Connect {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Connect value)? connect,
     TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
     required TResult orElse(),
   }) {
     if (connect != null) {
@@ -228,6 +244,7 @@ class _$Disconnect implements Disconnect {
   TResult when<TResult extends Object?>({
     required TResult Function() connect,
     required TResult Function() disconnect,
+    required TResult Function() checkSupported,
   }) {
     return disconnect();
   }
@@ -237,6 +254,7 @@ class _$Disconnect implements Disconnect {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? connect,
     TResult Function()? disconnect,
+    TResult Function()? checkSupported,
   }) {
     return disconnect?.call();
   }
@@ -246,6 +264,7 @@ class _$Disconnect implements Disconnect {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connect,
     TResult Function()? disconnect,
+    TResult Function()? checkSupported,
     required TResult orElse(),
   }) {
     if (disconnect != null) {
@@ -259,6 +278,7 @@ class _$Disconnect implements Disconnect {
   TResult map<TResult extends Object?>({
     required TResult Function(Connect value) connect,
     required TResult Function(Disconnect value) disconnect,
+    required TResult Function(CheckSupported value) checkSupported,
   }) {
     return disconnect(this);
   }
@@ -268,6 +288,7 @@ class _$Disconnect implements Disconnect {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Connect value)? connect,
     TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
   }) {
     return disconnect?.call(this);
   }
@@ -277,6 +298,7 @@ class _$Disconnect implements Disconnect {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Connect value)? connect,
     TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
     required TResult orElse(),
   }) {
     if (disconnect != null) {
@@ -288,6 +310,115 @@ class _$Disconnect implements Disconnect {
 
 abstract class Disconnect implements WalletEvent {
   const factory Disconnect() = _$Disconnect;
+}
+
+/// @nodoc
+abstract class $CheckSupportedCopyWith<$Res> {
+  factory $CheckSupportedCopyWith(
+          CheckSupported value, $Res Function(CheckSupported) then) =
+      _$CheckSupportedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$CheckSupportedCopyWithImpl<$Res> extends _$WalletEventCopyWithImpl<$Res>
+    implements $CheckSupportedCopyWith<$Res> {
+  _$CheckSupportedCopyWithImpl(
+      CheckSupported _value, $Res Function(CheckSupported) _then)
+      : super(_value, (v) => _then(v as CheckSupported));
+
+  @override
+  CheckSupported get _value => super._value as CheckSupported;
+}
+
+/// @nodoc
+
+class _$CheckSupported implements CheckSupported {
+  const _$CheckSupported();
+
+  @override
+  String toString() {
+    return 'WalletEvent.checkSupported()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is CheckSupported);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() connect,
+    required TResult Function() disconnect,
+    required TResult Function() checkSupported,
+  }) {
+    return checkSupported();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? connect,
+    TResult Function()? disconnect,
+    TResult Function()? checkSupported,
+  }) {
+    return checkSupported?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? connect,
+    TResult Function()? disconnect,
+    TResult Function()? checkSupported,
+    required TResult orElse(),
+  }) {
+    if (checkSupported != null) {
+      return checkSupported();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Connect value) connect,
+    required TResult Function(Disconnect value) disconnect,
+    required TResult Function(CheckSupported value) checkSupported,
+  }) {
+    return checkSupported(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
+  }) {
+    return checkSupported?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Connect value)? connect,
+    TResult Function(Disconnect value)? disconnect,
+    TResult Function(CheckSupported value)? checkSupported,
+    required TResult orElse(),
+  }) {
+    if (checkSupported != null) {
+      return checkSupported(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CheckSupported implements WalletEvent {
+  const factory CheckSupported() = _$CheckSupported;
 }
 
 /// @nodoc

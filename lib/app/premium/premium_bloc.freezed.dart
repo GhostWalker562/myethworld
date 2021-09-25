@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'upgrade_bloc.dart';
+part of 'premium_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,68 +14,56 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$UpgradeEventTearOff {
-  const _$UpgradeEventTearOff();
+class _$PremiumEventTearOff {
+  const _$PremiumEventTearOff();
 
-  UpgradeAccount upgradeAccount(String token, String account,
-      [bool testing = false]) {
+  UpgradeAccount upgradeAccount(String token, Connected account) {
     return UpgradeAccount(
       token,
       account,
-      testing,
     );
   }
 
-  DowngradeAccount downgradeAccount(String token, String account,
-      [bool testing = false]) {
+  DowngradeAccount downgradeAccount(String token, Connected account) {
     return DowngradeAccount(
       token,
       account,
-      testing,
     );
   }
 
-  CheckAccount checkAccount(String account, [bool testing = false]) {
+  CheckAccount checkAccount(Connected account) {
     return CheckAccount(
       account,
-      testing,
     );
   }
 }
 
 /// @nodoc
-const $UpgradeEvent = _$UpgradeEventTearOff();
+const $PremiumEvent = _$PremiumEventTearOff();
 
 /// @nodoc
-mixin _$UpgradeEvent {
-  String get account => throw _privateConstructorUsedError;
-  bool get testing => throw _privateConstructorUsedError;
+mixin _$PremiumEvent {
+  Connected get account => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String token, String account, bool testing)
-        upgradeAccount,
-    required TResult Function(String token, String account, bool testing)
-        downgradeAccount,
-    required TResult Function(String account, bool testing) checkAccount,
+    required TResult Function(String token, Connected account) upgradeAccount,
+    required TResult Function(String token, Connected account) downgradeAccount,
+    required TResult Function(Connected account) checkAccount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -103,57 +91,52 @@ mixin _$UpgradeEvent {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $UpgradeEventCopyWith<UpgradeEvent> get copyWith =>
+  $PremiumEventCopyWith<PremiumEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UpgradeEventCopyWith<$Res> {
-  factory $UpgradeEventCopyWith(
-          UpgradeEvent value, $Res Function(UpgradeEvent) then) =
-      _$UpgradeEventCopyWithImpl<$Res>;
-  $Res call({String account, bool testing});
+abstract class $PremiumEventCopyWith<$Res> {
+  factory $PremiumEventCopyWith(
+          PremiumEvent value, $Res Function(PremiumEvent) then) =
+      _$PremiumEventCopyWithImpl<$Res>;
+  $Res call({Connected account});
 }
 
 /// @nodoc
-class _$UpgradeEventCopyWithImpl<$Res> implements $UpgradeEventCopyWith<$Res> {
-  _$UpgradeEventCopyWithImpl(this._value, this._then);
+class _$PremiumEventCopyWithImpl<$Res> implements $PremiumEventCopyWith<$Res> {
+  _$PremiumEventCopyWithImpl(this._value, this._then);
 
-  final UpgradeEvent _value;
+  final PremiumEvent _value;
   // ignore: unused_field
-  final $Res Function(UpgradeEvent) _then;
+  final $Res Function(PremiumEvent) _then;
 
   @override
   $Res call({
     Object? account = freezed,
-    Object? testing = freezed,
   }) {
     return _then(_value.copyWith(
       account: account == freezed
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      testing: testing == freezed
-          ? _value.testing
-          : testing // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as Connected,
     ));
   }
 }
 
 /// @nodoc
 abstract class $UpgradeAccountCopyWith<$Res>
-    implements $UpgradeEventCopyWith<$Res> {
+    implements $PremiumEventCopyWith<$Res> {
   factory $UpgradeAccountCopyWith(
           UpgradeAccount value, $Res Function(UpgradeAccount) then) =
       _$UpgradeAccountCopyWithImpl<$Res>;
   @override
-  $Res call({String token, String account, bool testing});
+  $Res call({String token, Connected account});
 }
 
 /// @nodoc
 class _$UpgradeAccountCopyWithImpl<$Res>
-    extends _$UpgradeEventCopyWithImpl<$Res>
+    extends _$PremiumEventCopyWithImpl<$Res>
     implements $UpgradeAccountCopyWith<$Res> {
   _$UpgradeAccountCopyWithImpl(
       UpgradeAccount _value, $Res Function(UpgradeAccount) _then)
@@ -166,7 +149,6 @@ class _$UpgradeAccountCopyWithImpl<$Res>
   $Res call({
     Object? token = freezed,
     Object? account = freezed,
-    Object? testing = freezed,
   }) {
     return _then(UpgradeAccount(
       token == freezed
@@ -176,11 +158,7 @@ class _$UpgradeAccountCopyWithImpl<$Res>
       account == freezed
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      testing == freezed
-          ? _value.testing
-          : testing // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as Connected,
     ));
   }
 }
@@ -188,19 +166,16 @@ class _$UpgradeAccountCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UpgradeAccount implements UpgradeAccount {
-  const _$UpgradeAccount(this.token, this.account, [this.testing = false]);
+  const _$UpgradeAccount(this.token, this.account);
 
   @override
   final String token;
   @override
-  final String account;
-  @JsonKey(defaultValue: false)
-  @override
-  final bool testing;
+  final Connected account;
 
   @override
   String toString() {
-    return 'UpgradeEvent.upgradeAccount(token: $token, account: $account, testing: $testing)';
+    return 'PremiumEvent.upgradeAccount(token: $token, account: $account)';
   }
 
   @override
@@ -210,18 +185,14 @@ class _$UpgradeAccount implements UpgradeAccount {
             (identical(other.token, token) ||
                 const DeepCollectionEquality().equals(other.token, token)) &&
             (identical(other.account, account) ||
-                const DeepCollectionEquality()
-                    .equals(other.account, account)) &&
-            (identical(other.testing, testing) ||
-                const DeepCollectionEquality().equals(other.testing, testing)));
+                const DeepCollectionEquality().equals(other.account, account)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(token) ^
-      const DeepCollectionEquality().hash(account) ^
-      const DeepCollectionEquality().hash(testing);
+      const DeepCollectionEquality().hash(account);
 
   @JsonKey(ignore: true)
   @override
@@ -231,39 +202,33 @@ class _$UpgradeAccount implements UpgradeAccount {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String token, String account, bool testing)
-        upgradeAccount,
-    required TResult Function(String token, String account, bool testing)
-        downgradeAccount,
-    required TResult Function(String account, bool testing) checkAccount,
+    required TResult Function(String token, Connected account) upgradeAccount,
+    required TResult Function(String token, Connected account) downgradeAccount,
+    required TResult Function(Connected account) checkAccount,
   }) {
-    return upgradeAccount(token, account, testing);
+    return upgradeAccount(token, account);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
   }) {
-    return upgradeAccount?.call(token, account, testing);
+    return upgradeAccount?.call(token, account);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
     required TResult orElse(),
   }) {
     if (upgradeAccount != null) {
-      return upgradeAccount(token, account, testing);
+      return upgradeAccount(token, account);
     }
     return orElse();
   }
@@ -303,15 +268,13 @@ class _$UpgradeAccount implements UpgradeAccount {
   }
 }
 
-abstract class UpgradeAccount implements UpgradeEvent {
-  const factory UpgradeAccount(String token, String account, [bool testing]) =
+abstract class UpgradeAccount implements PremiumEvent {
+  const factory UpgradeAccount(String token, Connected account) =
       _$UpgradeAccount;
 
   String get token => throw _privateConstructorUsedError;
   @override
-  String get account => throw _privateConstructorUsedError;
-  @override
-  bool get testing => throw _privateConstructorUsedError;
+  Connected get account => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $UpgradeAccountCopyWith<UpgradeAccount> get copyWith =>
@@ -320,17 +283,17 @@ abstract class UpgradeAccount implements UpgradeEvent {
 
 /// @nodoc
 abstract class $DowngradeAccountCopyWith<$Res>
-    implements $UpgradeEventCopyWith<$Res> {
+    implements $PremiumEventCopyWith<$Res> {
   factory $DowngradeAccountCopyWith(
           DowngradeAccount value, $Res Function(DowngradeAccount) then) =
       _$DowngradeAccountCopyWithImpl<$Res>;
   @override
-  $Res call({String token, String account, bool testing});
+  $Res call({String token, Connected account});
 }
 
 /// @nodoc
 class _$DowngradeAccountCopyWithImpl<$Res>
-    extends _$UpgradeEventCopyWithImpl<$Res>
+    extends _$PremiumEventCopyWithImpl<$Res>
     implements $DowngradeAccountCopyWith<$Res> {
   _$DowngradeAccountCopyWithImpl(
       DowngradeAccount _value, $Res Function(DowngradeAccount) _then)
@@ -343,7 +306,6 @@ class _$DowngradeAccountCopyWithImpl<$Res>
   $Res call({
     Object? token = freezed,
     Object? account = freezed,
-    Object? testing = freezed,
   }) {
     return _then(DowngradeAccount(
       token == freezed
@@ -353,11 +315,7 @@ class _$DowngradeAccountCopyWithImpl<$Res>
       account == freezed
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      testing == freezed
-          ? _value.testing
-          : testing // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as Connected,
     ));
   }
 }
@@ -365,19 +323,16 @@ class _$DowngradeAccountCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DowngradeAccount implements DowngradeAccount {
-  const _$DowngradeAccount(this.token, this.account, [this.testing = false]);
+  const _$DowngradeAccount(this.token, this.account);
 
   @override
   final String token;
   @override
-  final String account;
-  @JsonKey(defaultValue: false)
-  @override
-  final bool testing;
+  final Connected account;
 
   @override
   String toString() {
-    return 'UpgradeEvent.downgradeAccount(token: $token, account: $account, testing: $testing)';
+    return 'PremiumEvent.downgradeAccount(token: $token, account: $account)';
   }
 
   @override
@@ -387,18 +342,14 @@ class _$DowngradeAccount implements DowngradeAccount {
             (identical(other.token, token) ||
                 const DeepCollectionEquality().equals(other.token, token)) &&
             (identical(other.account, account) ||
-                const DeepCollectionEquality()
-                    .equals(other.account, account)) &&
-            (identical(other.testing, testing) ||
-                const DeepCollectionEquality().equals(other.testing, testing)));
+                const DeepCollectionEquality().equals(other.account, account)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(token) ^
-      const DeepCollectionEquality().hash(account) ^
-      const DeepCollectionEquality().hash(testing);
+      const DeepCollectionEquality().hash(account);
 
   @JsonKey(ignore: true)
   @override
@@ -408,39 +359,33 @@ class _$DowngradeAccount implements DowngradeAccount {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String token, String account, bool testing)
-        upgradeAccount,
-    required TResult Function(String token, String account, bool testing)
-        downgradeAccount,
-    required TResult Function(String account, bool testing) checkAccount,
+    required TResult Function(String token, Connected account) upgradeAccount,
+    required TResult Function(String token, Connected account) downgradeAccount,
+    required TResult Function(Connected account) checkAccount,
   }) {
-    return downgradeAccount(token, account, testing);
+    return downgradeAccount(token, account);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
   }) {
-    return downgradeAccount?.call(token, account, testing);
+    return downgradeAccount?.call(token, account);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
     required TResult orElse(),
   }) {
     if (downgradeAccount != null) {
-      return downgradeAccount(token, account, testing);
+      return downgradeAccount(token, account);
     }
     return orElse();
   }
@@ -480,15 +425,13 @@ class _$DowngradeAccount implements DowngradeAccount {
   }
 }
 
-abstract class DowngradeAccount implements UpgradeEvent {
-  const factory DowngradeAccount(String token, String account, [bool testing]) =
+abstract class DowngradeAccount implements PremiumEvent {
+  const factory DowngradeAccount(String token, Connected account) =
       _$DowngradeAccount;
 
   String get token => throw _privateConstructorUsedError;
   @override
-  String get account => throw _privateConstructorUsedError;
-  @override
-  bool get testing => throw _privateConstructorUsedError;
+  Connected get account => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $DowngradeAccountCopyWith<DowngradeAccount> get copyWith =>
@@ -497,16 +440,16 @@ abstract class DowngradeAccount implements UpgradeEvent {
 
 /// @nodoc
 abstract class $CheckAccountCopyWith<$Res>
-    implements $UpgradeEventCopyWith<$Res> {
+    implements $PremiumEventCopyWith<$Res> {
   factory $CheckAccountCopyWith(
           CheckAccount value, $Res Function(CheckAccount) then) =
       _$CheckAccountCopyWithImpl<$Res>;
   @override
-  $Res call({String account, bool testing});
+  $Res call({Connected account});
 }
 
 /// @nodoc
-class _$CheckAccountCopyWithImpl<$Res> extends _$UpgradeEventCopyWithImpl<$Res>
+class _$CheckAccountCopyWithImpl<$Res> extends _$PremiumEventCopyWithImpl<$Res>
     implements $CheckAccountCopyWith<$Res> {
   _$CheckAccountCopyWithImpl(
       CheckAccount _value, $Res Function(CheckAccount) _then)
@@ -518,17 +461,12 @@ class _$CheckAccountCopyWithImpl<$Res> extends _$UpgradeEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? account = freezed,
-    Object? testing = freezed,
   }) {
     return _then(CheckAccount(
       account == freezed
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      testing == freezed
-          ? _value.testing
-          : testing // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as Connected,
     ));
   }
 }
@@ -536,17 +474,14 @@ class _$CheckAccountCopyWithImpl<$Res> extends _$UpgradeEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CheckAccount implements CheckAccount {
-  const _$CheckAccount(this.account, [this.testing = false]);
+  const _$CheckAccount(this.account);
 
   @override
-  final String account;
-  @JsonKey(defaultValue: false)
-  @override
-  final bool testing;
+  final Connected account;
 
   @override
   String toString() {
-    return 'UpgradeEvent.checkAccount(account: $account, testing: $testing)';
+    return 'PremiumEvent.checkAccount(account: $account)';
   }
 
   @override
@@ -554,17 +489,12 @@ class _$CheckAccount implements CheckAccount {
     return identical(this, other) ||
         (other is CheckAccount &&
             (identical(other.account, account) ||
-                const DeepCollectionEquality()
-                    .equals(other.account, account)) &&
-            (identical(other.testing, testing) ||
-                const DeepCollectionEquality().equals(other.testing, testing)));
+                const DeepCollectionEquality().equals(other.account, account)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(account) ^
-      const DeepCollectionEquality().hash(testing);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(account);
 
   @JsonKey(ignore: true)
   @override
@@ -574,39 +504,33 @@ class _$CheckAccount implements CheckAccount {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String token, String account, bool testing)
-        upgradeAccount,
-    required TResult Function(String token, String account, bool testing)
-        downgradeAccount,
-    required TResult Function(String account, bool testing) checkAccount,
+    required TResult Function(String token, Connected account) upgradeAccount,
+    required TResult Function(String token, Connected account) downgradeAccount,
+    required TResult Function(Connected account) checkAccount,
   }) {
-    return checkAccount(account, testing);
+    return checkAccount(account);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
   }) {
-    return checkAccount?.call(account, testing);
+    return checkAccount?.call(account);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String token, String account, bool testing)?
-        upgradeAccount,
-    TResult Function(String token, String account, bool testing)?
-        downgradeAccount,
-    TResult Function(String account, bool testing)? checkAccount,
+    TResult Function(String token, Connected account)? upgradeAccount,
+    TResult Function(String token, Connected account)? downgradeAccount,
+    TResult Function(Connected account)? checkAccount,
     required TResult orElse(),
   }) {
     if (checkAccount != null) {
-      return checkAccount(account, testing);
+      return checkAccount(account);
     }
     return orElse();
   }
@@ -646,13 +570,11 @@ class _$CheckAccount implements CheckAccount {
   }
 }
 
-abstract class CheckAccount implements UpgradeEvent {
-  const factory CheckAccount(String account, [bool testing]) = _$CheckAccount;
+abstract class CheckAccount implements PremiumEvent {
+  const factory CheckAccount(Connected account) = _$CheckAccount;
 
   @override
-  String get account => throw _privateConstructorUsedError;
-  @override
-  bool get testing => throw _privateConstructorUsedError;
+  Connected get account => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $CheckAccountCopyWith<CheckAccount> get copyWith =>
@@ -660,13 +582,11 @@ abstract class CheckAccount implements UpgradeEvent {
 }
 
 /// @nodoc
-class _$UpgradeStateTearOff {
-  const _$UpgradeStateTearOff();
+class _$PremiumStateTearOff {
+  const _$PremiumStateTearOff();
 
-  Premium premium(SuperfluidUser user) {
-    return Premium(
-      user,
-    );
+  Premium premium() {
+    return const Premium();
   }
 
   Basic basic() {
@@ -680,35 +600,49 @@ class _$UpgradeStateTearOff {
   Upgrading upgrade() {
     return const Upgrading();
   }
+
+  Downgrading downgrade() {
+    return const Downgrading();
+  }
+
+  Cancel cancel() {
+    return const Cancel();
+  }
 }
 
 /// @nodoc
-const $UpgradeState = _$UpgradeStateTearOff();
+const $PremiumState = _$PremiumStateTearOff();
 
 /// @nodoc
-mixin _$UpgradeState {
+mixin _$PremiumState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SuperfluidUser user) premium,
+    required TResult Function() premium,
     required TResult Function() basic,
     required TResult Function() pending,
     required TResult Function() upgrade,
+    required TResult Function() downgrade,
+    required TResult Function() cancel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -718,6 +652,8 @@ mixin _$UpgradeState {
     required TResult Function(Basic value) basic,
     required TResult Function(Pending value) pending,
     required TResult Function(Upgrading value) upgrade,
+    required TResult Function(Downgrading value) downgrade,
+    required TResult Function(Cancel value) cancel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -726,6 +662,8 @@ mixin _$UpgradeState {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -734,128 +672,102 @@ mixin _$UpgradeState {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UpgradeStateCopyWith<$Res> {
-  factory $UpgradeStateCopyWith(
-          UpgradeState value, $Res Function(UpgradeState) then) =
-      _$UpgradeStateCopyWithImpl<$Res>;
+abstract class $PremiumStateCopyWith<$Res> {
+  factory $PremiumStateCopyWith(
+          PremiumState value, $Res Function(PremiumState) then) =
+      _$PremiumStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$UpgradeStateCopyWithImpl<$Res> implements $UpgradeStateCopyWith<$Res> {
-  _$UpgradeStateCopyWithImpl(this._value, this._then);
+class _$PremiumStateCopyWithImpl<$Res> implements $PremiumStateCopyWith<$Res> {
+  _$PremiumStateCopyWithImpl(this._value, this._then);
 
-  final UpgradeState _value;
+  final PremiumState _value;
   // ignore: unused_field
-  final $Res Function(UpgradeState) _then;
+  final $Res Function(PremiumState) _then;
 }
 
 /// @nodoc
 abstract class $PremiumCopyWith<$Res> {
   factory $PremiumCopyWith(Premium value, $Res Function(Premium) then) =
       _$PremiumCopyWithImpl<$Res>;
-  $Res call({SuperfluidUser user});
-
-  $SuperfluidUserCopyWith<$Res> get user;
 }
 
 /// @nodoc
-class _$PremiumCopyWithImpl<$Res> extends _$UpgradeStateCopyWithImpl<$Res>
+class _$PremiumCopyWithImpl<$Res> extends _$PremiumStateCopyWithImpl<$Res>
     implements $PremiumCopyWith<$Res> {
   _$PremiumCopyWithImpl(Premium _value, $Res Function(Premium) _then)
       : super(_value, (v) => _then(v as Premium));
 
   @override
   Premium get _value => super._value as Premium;
-
-  @override
-  $Res call({
-    Object? user = freezed,
-  }) {
-    return _then(Premium(
-      user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as SuperfluidUser,
-    ));
-  }
-
-  @override
-  $SuperfluidUserCopyWith<$Res> get user {
-    return $SuperfluidUserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value));
-    });
-  }
 }
 
 /// @nodoc
 
 class _$Premium implements Premium {
-  const _$Premium(this.user);
-
-  @override
-  final SuperfluidUser user;
+  const _$Premium();
 
   @override
   String toString() {
-    return 'UpgradeState.premium(user: $user)';
+    return 'PremiumState.premium()';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is Premium &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)));
+    return identical(this, other) || (other is Premium);
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(user);
-
-  @JsonKey(ignore: true)
-  @override
-  $PremiumCopyWith<Premium> get copyWith =>
-      _$PremiumCopyWithImpl<Premium>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SuperfluidUser user) premium,
+    required TResult Function() premium,
     required TResult Function() basic,
     required TResult Function() pending,
     required TResult Function() upgrade,
+    required TResult Function() downgrade,
+    required TResult Function() cancel,
   }) {
-    return premium(user);
+    return premium();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
   }) {
-    return premium?.call(user);
+    return premium?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
     required TResult orElse(),
   }) {
     if (premium != null) {
-      return premium(user);
+      return premium();
     }
     return orElse();
   }
@@ -867,6 +779,8 @@ class _$Premium implements Premium {
     required TResult Function(Basic value) basic,
     required TResult Function(Pending value) pending,
     required TResult Function(Upgrading value) upgrade,
+    required TResult Function(Downgrading value) downgrade,
+    required TResult Function(Cancel value) cancel,
   }) {
     return premium(this);
   }
@@ -878,6 +792,8 @@ class _$Premium implements Premium {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
   }) {
     return premium?.call(this);
   }
@@ -889,6 +805,8 @@ class _$Premium implements Premium {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
     required TResult orElse(),
   }) {
     if (premium != null) {
@@ -898,12 +816,8 @@ class _$Premium implements Premium {
   }
 }
 
-abstract class Premium implements UpgradeState {
-  const factory Premium(SuperfluidUser user) = _$Premium;
-
-  SuperfluidUser get user => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $PremiumCopyWith<Premium> get copyWith => throw _privateConstructorUsedError;
+abstract class Premium implements PremiumState {
+  const factory Premium() = _$Premium;
 }
 
 /// @nodoc
@@ -913,7 +827,7 @@ abstract class $BasicCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BasicCopyWithImpl<$Res> extends _$UpgradeStateCopyWithImpl<$Res>
+class _$BasicCopyWithImpl<$Res> extends _$PremiumStateCopyWithImpl<$Res>
     implements $BasicCopyWith<$Res> {
   _$BasicCopyWithImpl(Basic _value, $Res Function(Basic) _then)
       : super(_value, (v) => _then(v as Basic));
@@ -929,7 +843,7 @@ class _$Basic implements Basic {
 
   @override
   String toString() {
-    return 'UpgradeState.basic()';
+    return 'PremiumState.basic()';
   }
 
   @override
@@ -943,10 +857,12 @@ class _$Basic implements Basic {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SuperfluidUser user) premium,
+    required TResult Function() premium,
     required TResult Function() basic,
     required TResult Function() pending,
     required TResult Function() upgrade,
+    required TResult Function() downgrade,
+    required TResult Function() cancel,
   }) {
     return basic();
   }
@@ -954,10 +870,12 @@ class _$Basic implements Basic {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
   }) {
     return basic?.call();
   }
@@ -965,10 +883,12 @@ class _$Basic implements Basic {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
     required TResult orElse(),
   }) {
     if (basic != null) {
@@ -984,6 +904,8 @@ class _$Basic implements Basic {
     required TResult Function(Basic value) basic,
     required TResult Function(Pending value) pending,
     required TResult Function(Upgrading value) upgrade,
+    required TResult Function(Downgrading value) downgrade,
+    required TResult Function(Cancel value) cancel,
   }) {
     return basic(this);
   }
@@ -995,6 +917,8 @@ class _$Basic implements Basic {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
   }) {
     return basic?.call(this);
   }
@@ -1006,6 +930,8 @@ class _$Basic implements Basic {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
     required TResult orElse(),
   }) {
     if (basic != null) {
@@ -1015,7 +941,7 @@ class _$Basic implements Basic {
   }
 }
 
-abstract class Basic implements UpgradeState {
+abstract class Basic implements PremiumState {
   const factory Basic() = _$Basic;
 }
 
@@ -1026,7 +952,7 @@ abstract class $PendingCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PendingCopyWithImpl<$Res> extends _$UpgradeStateCopyWithImpl<$Res>
+class _$PendingCopyWithImpl<$Res> extends _$PremiumStateCopyWithImpl<$Res>
     implements $PendingCopyWith<$Res> {
   _$PendingCopyWithImpl(Pending _value, $Res Function(Pending) _then)
       : super(_value, (v) => _then(v as Pending));
@@ -1042,7 +968,7 @@ class _$Pending implements Pending {
 
   @override
   String toString() {
-    return 'UpgradeState.pending()';
+    return 'PremiumState.pending()';
   }
 
   @override
@@ -1056,10 +982,12 @@ class _$Pending implements Pending {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SuperfluidUser user) premium,
+    required TResult Function() premium,
     required TResult Function() basic,
     required TResult Function() pending,
     required TResult Function() upgrade,
+    required TResult Function() downgrade,
+    required TResult Function() cancel,
   }) {
     return pending();
   }
@@ -1067,10 +995,12 @@ class _$Pending implements Pending {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
   }) {
     return pending?.call();
   }
@@ -1078,10 +1008,12 @@ class _$Pending implements Pending {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
     required TResult orElse(),
   }) {
     if (pending != null) {
@@ -1097,6 +1029,8 @@ class _$Pending implements Pending {
     required TResult Function(Basic value) basic,
     required TResult Function(Pending value) pending,
     required TResult Function(Upgrading value) upgrade,
+    required TResult Function(Downgrading value) downgrade,
+    required TResult Function(Cancel value) cancel,
   }) {
     return pending(this);
   }
@@ -1108,6 +1042,8 @@ class _$Pending implements Pending {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
   }) {
     return pending?.call(this);
   }
@@ -1119,6 +1055,8 @@ class _$Pending implements Pending {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
     required TResult orElse(),
   }) {
     if (pending != null) {
@@ -1128,7 +1066,7 @@ class _$Pending implements Pending {
   }
 }
 
-abstract class Pending implements UpgradeState {
+abstract class Pending implements PremiumState {
   const factory Pending() = _$Pending;
 }
 
@@ -1139,7 +1077,7 @@ abstract class $UpgradingCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UpgradingCopyWithImpl<$Res> extends _$UpgradeStateCopyWithImpl<$Res>
+class _$UpgradingCopyWithImpl<$Res> extends _$PremiumStateCopyWithImpl<$Res>
     implements $UpgradingCopyWith<$Res> {
   _$UpgradingCopyWithImpl(Upgrading _value, $Res Function(Upgrading) _then)
       : super(_value, (v) => _then(v as Upgrading));
@@ -1155,7 +1093,7 @@ class _$Upgrading implements Upgrading {
 
   @override
   String toString() {
-    return 'UpgradeState.upgrade()';
+    return 'PremiumState.upgrade()';
   }
 
   @override
@@ -1169,10 +1107,12 @@ class _$Upgrading implements Upgrading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SuperfluidUser user) premium,
+    required TResult Function() premium,
     required TResult Function() basic,
     required TResult Function() pending,
     required TResult Function() upgrade,
+    required TResult Function() downgrade,
+    required TResult Function() cancel,
   }) {
     return upgrade();
   }
@@ -1180,10 +1120,12 @@ class _$Upgrading implements Upgrading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
   }) {
     return upgrade?.call();
   }
@@ -1191,10 +1133,12 @@ class _$Upgrading implements Upgrading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SuperfluidUser user)? premium,
+    TResult Function()? premium,
     TResult Function()? basic,
     TResult Function()? pending,
     TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
     required TResult orElse(),
   }) {
     if (upgrade != null) {
@@ -1210,6 +1154,8 @@ class _$Upgrading implements Upgrading {
     required TResult Function(Basic value) basic,
     required TResult Function(Pending value) pending,
     required TResult Function(Upgrading value) upgrade,
+    required TResult Function(Downgrading value) downgrade,
+    required TResult Function(Cancel value) cancel,
   }) {
     return upgrade(this);
   }
@@ -1221,6 +1167,8 @@ class _$Upgrading implements Upgrading {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
   }) {
     return upgrade?.call(this);
   }
@@ -1232,6 +1180,8 @@ class _$Upgrading implements Upgrading {
     TResult Function(Basic value)? basic,
     TResult Function(Pending value)? pending,
     TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
     required TResult orElse(),
   }) {
     if (upgrade != null) {
@@ -1241,6 +1191,258 @@ class _$Upgrading implements Upgrading {
   }
 }
 
-abstract class Upgrading implements UpgradeState {
+abstract class Upgrading implements PremiumState {
   const factory Upgrading() = _$Upgrading;
+}
+
+/// @nodoc
+abstract class $DowngradingCopyWith<$Res> {
+  factory $DowngradingCopyWith(
+          Downgrading value, $Res Function(Downgrading) then) =
+      _$DowngradingCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$DowngradingCopyWithImpl<$Res> extends _$PremiumStateCopyWithImpl<$Res>
+    implements $DowngradingCopyWith<$Res> {
+  _$DowngradingCopyWithImpl(
+      Downgrading _value, $Res Function(Downgrading) _then)
+      : super(_value, (v) => _then(v as Downgrading));
+
+  @override
+  Downgrading get _value => super._value as Downgrading;
+}
+
+/// @nodoc
+
+class _$Downgrading implements Downgrading {
+  const _$Downgrading();
+
+  @override
+  String toString() {
+    return 'PremiumState.downgrade()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is Downgrading);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() premium,
+    required TResult Function() basic,
+    required TResult Function() pending,
+    required TResult Function() upgrade,
+    required TResult Function() downgrade,
+    required TResult Function() cancel,
+  }) {
+    return downgrade();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? premium,
+    TResult Function()? basic,
+    TResult Function()? pending,
+    TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
+  }) {
+    return downgrade?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? premium,
+    TResult Function()? basic,
+    TResult Function()? pending,
+    TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
+    required TResult orElse(),
+  }) {
+    if (downgrade != null) {
+      return downgrade();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Premium value) premium,
+    required TResult Function(Basic value) basic,
+    required TResult Function(Pending value) pending,
+    required TResult Function(Upgrading value) upgrade,
+    required TResult Function(Downgrading value) downgrade,
+    required TResult Function(Cancel value) cancel,
+  }) {
+    return downgrade(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Premium value)? premium,
+    TResult Function(Basic value)? basic,
+    TResult Function(Pending value)? pending,
+    TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
+  }) {
+    return downgrade?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Premium value)? premium,
+    TResult Function(Basic value)? basic,
+    TResult Function(Pending value)? pending,
+    TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
+    required TResult orElse(),
+  }) {
+    if (downgrade != null) {
+      return downgrade(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Downgrading implements PremiumState {
+  const factory Downgrading() = _$Downgrading;
+}
+
+/// @nodoc
+abstract class $CancelCopyWith<$Res> {
+  factory $CancelCopyWith(Cancel value, $Res Function(Cancel) then) =
+      _$CancelCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$CancelCopyWithImpl<$Res> extends _$PremiumStateCopyWithImpl<$Res>
+    implements $CancelCopyWith<$Res> {
+  _$CancelCopyWithImpl(Cancel _value, $Res Function(Cancel) _then)
+      : super(_value, (v) => _then(v as Cancel));
+
+  @override
+  Cancel get _value => super._value as Cancel;
+}
+
+/// @nodoc
+
+class _$Cancel implements Cancel {
+  const _$Cancel();
+
+  @override
+  String toString() {
+    return 'PremiumState.cancel()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is Cancel);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() premium,
+    required TResult Function() basic,
+    required TResult Function() pending,
+    required TResult Function() upgrade,
+    required TResult Function() downgrade,
+    required TResult Function() cancel,
+  }) {
+    return cancel();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? premium,
+    TResult Function()? basic,
+    TResult Function()? pending,
+    TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
+  }) {
+    return cancel?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? premium,
+    TResult Function()? basic,
+    TResult Function()? pending,
+    TResult Function()? upgrade,
+    TResult Function()? downgrade,
+    TResult Function()? cancel,
+    required TResult orElse(),
+  }) {
+    if (cancel != null) {
+      return cancel();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Premium value) premium,
+    required TResult Function(Basic value) basic,
+    required TResult Function(Pending value) pending,
+    required TResult Function(Upgrading value) upgrade,
+    required TResult Function(Downgrading value) downgrade,
+    required TResult Function(Cancel value) cancel,
+  }) {
+    return cancel(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Premium value)? premium,
+    TResult Function(Basic value)? basic,
+    TResult Function(Pending value)? pending,
+    TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
+  }) {
+    return cancel?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Premium value)? premium,
+    TResult Function(Basic value)? basic,
+    TResult Function(Pending value)? pending,
+    TResult Function(Upgrading value)? upgrade,
+    TResult Function(Downgrading value)? downgrade,
+    TResult Function(Cancel value)? cancel,
+    required TResult orElse(),
+  }) {
+    if (cancel != null) {
+      return cancel(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Cancel implements PremiumState {
+  const factory Cancel() = _$Cancel;
 }

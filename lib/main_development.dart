@@ -7,7 +7,7 @@ import 'package:myethworld/app/app.dart';
 import 'package:myethworld/app/app_bloc_observer.dart';
 import 'package:myethworld/app/injectable.dart';
 
-void main() {
+void main() async {
   Bloc.observer = AppBlocObserver();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);

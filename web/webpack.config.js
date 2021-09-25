@@ -16,6 +16,7 @@ module.exports = [
       minimizer: [new TerserPlugin()],
     },
   },
+
   // {
   //   entry: "./pack/polywrap/polywrap.ts",
   //   mode: "production",

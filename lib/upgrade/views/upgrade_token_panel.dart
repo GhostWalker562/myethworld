@@ -13,7 +13,6 @@ import 'package:myethworld/services/superfluid/superfluid_service.dart';
 import 'package:myethworld/upgrade/downgrade_token/downgrade_token_bloc.dart';
 import 'package:myethworld/upgrade/upgrade_token/upgrade_token_bloc.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:myethworld/upgrade/upgrade_token/upgrade_token_bloc.dart';
 
 class UpgradeTokenPanel extends StatefulWidget {
   const UpgradeTokenPanel({Key? key, required this.state}) : super(key: key);
@@ -27,7 +26,7 @@ class UpgradeTokenPanel extends StatefulWidget {
 class _UpgradeTokenPanelState extends State<UpgradeTokenPanel> {
   final ScrollController controller = ScrollController();
   final TextEditingController upgradeTextController = TextEditingController();
-  final TextEditingController downgradeTextControler = TextEditingController();
+  final TextEditingController downgradeTextController = TextEditingController();
 
   SuperToken? selectedUpgradeToken;
   SuperToken? selectedDowngradeToken;
@@ -48,7 +47,7 @@ class _UpgradeTokenPanelState extends State<UpgradeTokenPanel> {
       downgrade ? selectedDowngradeToken : selectedUpgradeToken;
 
   TextEditingController getController(bool downgrade) =>
-      downgrade ? downgradeTextControler : upgradeTextController;
+      downgrade ? downgradeTextController : upgradeTextController;
 
   void _onUpgrade(BuildContext context, SuperToken token) {
     final bloc = context.read<UpgradeTokenBloc>();
@@ -69,8 +68,8 @@ class _UpgradeTokenPanelState extends State<UpgradeTokenPanel> {
 
   void _onDowngrade(BuildContext context, SuperToken token) {
     final bloc = context.read<DowngradeTokenBloc>();
-    // Approve
-    bloc.add(Downgrade(token, double.parse(downgradeTextControler.text)));
+    // Downgrade
+    bloc.add(Downgrade(token, double.parse(downgradeTextController.text)));
     // Show full screen dialog
     showDialog(
       context: context,
@@ -89,30 +88,38 @@ class _UpgradeTokenPanelState extends State<UpgradeTokenPanel> {
       runSpacing: 12,
       children: SuperfluidService.getChainTokens(state.chainId)
           .map<Widget>(
-            (e) => AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: context.colorScheme.primary,
-                  width: 2,
-                  style: (e == getToken(downgrade))
-                      ? BorderStyle.solid
-                      : BorderStyle.none,
-                ),
-              ),
-              padding: const EdgeInsets.all(4.0),
-              child: TransparentButton(
-                onTap: () => setState(() {
+            (e) => TransparentButton(
+              onTap: () => setState(
+                () {
                   if (downgrade) {
                     selectedDowngradeToken = e;
                     return;
                   }
                   selectedUpgradeToken = e;
-                }),
-                child: TokenIcon(
-                  token: e,
-                  size: 72,
+                },
+              ),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOutExpo,
+                decoration: UpgradeThemes.decoration.copyWith(
+                  border: Border.all(
+                    color: (e == getToken(downgrade))
+                        ? UpgradeThemes.colorScheme.primary
+                        : context.colorScheme.primary,
+                    width: 1,
+                  ),
+                ),
+                padding: const EdgeInsets.all(6.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TokenIcon(
+                      token: e,
+                      size: 24,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(e.symbol),
+                  ],
                 ),
               ),
             ),
@@ -227,6 +234,8 @@ class _UpgradeTokenPanelState extends State<UpgradeTokenPanel> {
                     text: 'Downgraded $amount ${token.symbol} 🤝',
                   ),
                 );
+                selectedDowngradeToken = null;
+                downgradeTextController.text = '';
                 setState(() => showDowngrade = false);
               },
               error: () {
@@ -366,7 +375,7 @@ If you would like to unwrap your tokens, you may simply downgrade them. If you r
               // Approve
               AnimatedSizedSwitcher(
                 duration: const Duration(milliseconds: 200),
-                child: (downgradeTextControler.text.isNotEmpty)
+                child: (downgradeTextController.text.isNotEmpty)
                     ? _buildDowngradeButton(selectedDowngradeToken!)
                     : fallback,
               ),

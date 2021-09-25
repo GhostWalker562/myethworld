@@ -4,7 +4,7 @@ import 'package:flutter_improved_scrolling/flutter_improved_scrolling.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
-import 'package:myethworld/app/upgrade/upgrade_bloc.dart';
+import 'package:myethworld/app/premium/premium_bloc.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:auto_route/auto_route.dart';
 

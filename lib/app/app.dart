@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myethworld/app/router.gr.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
-import 'package:myethworld/app/upgrade/upgrade_bloc.dart';
+import 'package:myethworld/app/premium/premium_bloc.dart';
 
 import 'app/app_bloc.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,9 +20,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AppBloc()),
-        BlocProvider(
-          create: (context) => UpgradeBloc(),
-        ),
+        BlocProvider(create: (context) => PremiumBloc()),
         BlocProvider(
           create: (context) => WalletBloc()..add(const WalletEvent.connect()),
         ),
@@ -40,15 +38,12 @@ class App extends StatelessWidget {
           return BlocListener<WalletBloc, WalletState>(
             listener: (context, state) {
               if (state is Connected) {
-                context.read<UpgradeBloc>().add(
-                      UpgradeEvent.checkAccount(
-                        state.address,
-                        state.chainId == 4 ? true : false,
-                      ),
-                    );
+                context
+                    .read<PremiumBloc>()
+                    .add(CheckAccount(state));
               }
             },
-            child: BlocListener<UpgradeBloc, UpgradeState>(
+            child: BlocListener<PremiumBloc, PremiumState>(
               listener: (context, state) {},
               child: child,
             ),

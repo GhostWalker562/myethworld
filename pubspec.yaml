@@ -13,15 +13,29 @@ dependencies:
 
   # UI
   cupertino_icons: ^1.0.2
-  simple_animations: ^3.2.0
+  simple_animations: ^4.0.0
   responsive_framework: ^0.1.4
   flutter_improved_scrolling: ^0.0.2
   flutterbook: ^0.1.3
+  supercharged: ^2.1.1
+  sa3_liquid: ^1.0.1
+  cached_network_image: ^3.1.0
+  flutter_svg: ^0.22.0
+  fluttertoast: ^8.0.8
+  lottie: ^1.2.0
+  dropdown_search: ^1.0.0
 
   # State Management
-  bloc: ^7.2.0-dev.3
-  flutter_bloc: ^7.2.0
+  bloc: ^7.2.0
+  flutter_bloc: ^7.3.0
   get_it: ^7.2.0
+
+  # Services
+  flutter_web3: ^2.1.1
+  graphql: ^5.0.0
+
+  # Persistence
+  hive: ^2.0.4
 
   # Generators
   auto_route: ^2.3.2
@@ -30,9 +44,6 @@ dependencies:
   provider: ^6.0.0
   google_fonts: ^2.1.0
   injectable: ^1.5.0
-  flutter_web3: ^2.1.1
-  flutter_svg: ^0.22.0
-  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +54,7 @@ dev_dependencies:
   # Generators
   auto_route_generator: ^2.3.2
   freezed: ^0.14.5
-  json_serializable: ^5.0.1
+  json_serializable: ^5.0.2
   injectable_generator: ^1.5.2
 
 dependency_overrides:

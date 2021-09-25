@@ -22,14 +22,14 @@ class Header extends StatelessWidget {
       color: color ?? context.colorScheme.surface,
       child: Row(
         children: [
-          const Spacer(),
+          const SizedBox(width: 48),
           TransparentButton(child: const Logo(), onTap: onLogoTap),
           if (leading != null) leading!,
           const Spacer(flex: 10),
           Row(
             children: [if (actions != null) ...actions!],
           ),
-          const Spacer(),
+          const SizedBox(width: 48),
         ],
       ),
     );

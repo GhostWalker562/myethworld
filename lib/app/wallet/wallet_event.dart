@@ -4,4 +4,5 @@ part of 'wallet_bloc.dart';
 class WalletEvent with _$WalletEvent {
   const factory WalletEvent.connect() = Connect;
   const factory WalletEvent.disconnect() = Disconnect;
+  const factory WalletEvent.checkSupported() = CheckSupported;
 }

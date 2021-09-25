@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myethworld/app/injectable.dart';
 import 'package:myethworld/app/themes.dart';
-import 'package:myethworld/app/upgrade/upgrade_bloc.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:myethworld/services/superfluid/superfluid_service.dart';
 import 'package:myethworld/upgrade/downgrade_token/downgrade_token_bloc.dart';
 import 'package:myethworld/upgrade/upgrade_token/upgrade_token_bloc.dart';
 import 'package:myethworld/upgrade/views/upgrade_token_panel.dart';
-import 'package:simple_animations/simple_animations.dart';
+import 'package:sa3_liquid/liquid/plasma/plasma.dart';
 
 import 'upgrade_flow_panel.dart';
 
@@ -47,6 +48,7 @@ class _UpgradePageState extends State<UpgradePage> {
                             color: UpgradeThemes.colorScheme.primary
                                 .withOpacity(0.025),
                             blur: 2.0,
+                            particleType: ParticleType.atlas,
                           ),
                         ),
                         Center(

@@ -18,35 +18,35 @@ class AppRouter extends _i1.RootStackRouter {
 
   @override
   final Map<String, _i1.PageFactory> pagesMap = {
-    HomeRoute.name: (routeData) => _i1.CustomPage<dynamic>(
-        routeData: routeData,
-        builder: (_) {
-          return const _i3.HomePage();
-        },
-        transitionsBuilder: _i4.transitionBuilder,
-        durationInMilliseconds: 1000,
-        opaque: true,
-        barrierDismissible: false),
-    SnapSwapRoute.name: (routeData) => _i1.CustomPage<dynamic>(
-        routeData: routeData,
-        builder: (_) {
-          return const _i5.SnapSwapPage();
-        },
-        transitionsBuilder: _i4.snapSwapBuilder,
-        durationInMilliseconds: 1000,
-        reverseDurationInMilliseconds: 1000,
-        opaque: true,
-        barrierDismissible: false),
-    UpgradeRoute.name: (routeData) => _i1.CustomPage<dynamic>(
-        routeData: routeData,
-        builder: (_) {
-          return const _i6.UpgradePage();
-        },
-        transitionsBuilder: _i4.upgradeBuilder,
-        durationInMilliseconds: 1000,
-        reverseDurationInMilliseconds: 1000,
-        opaque: true,
-        barrierDismissible: false)
+    HomeRoute.name: (routeData) {
+      return _i1.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i3.HomePage(),
+          transitionsBuilder: _i4.RouterAnimations.transitionBuilder,
+          durationInMilliseconds: 1000,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    SnapSwapRoute.name: (routeData) {
+      return _i1.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i5.SnapSwapPage(),
+          transitionsBuilder: _i4.RouterAnimations.snapSwapBuilder,
+          durationInMilliseconds: 1000,
+          reverseDurationInMilliseconds: 1000,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    UpgradeRoute.name: (routeData) {
+      return _i1.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i6.UpgradePage(),
+          transitionsBuilder: _i4.RouterAnimations.upgradeBuilder,
+          durationInMilliseconds: 1000,
+          reverseDurationInMilliseconds: 1000,
+          opaque: true,
+          barrierDismissible: false);
+    }
   };
 
   @override

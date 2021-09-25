@@ -1,14 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_web3/flutter_web3.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 import 'package:myethworld/app/injectable.dart';
+import 'package:myethworld/app/premium/premium_bloc.dart';
 import 'package:myethworld/app/themes.dart';
-import 'package:myethworld/app/upgrade/upgrade_bloc.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:myethworld/components/toasts.dart';
@@ -40,9 +37,8 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
   final superfluidService = getIt<SuperfluidService>();
 
   void _onUpgrade(BuildContext context, SuperToken token) {
-    final bloc = context.read<UpgradeBloc>();
-    bloc.add(UpgradeAccount(token.address, connected.address,
-        SuperfluidService.isTestNet(connected.chainId)));
+    final bloc = context.read<PremiumBloc>();
+    bloc.add(UpgradeAccount(token.address, connected));
     showDialog(
       context: context,
       barrierColor: Colors.black38,
@@ -50,15 +46,11 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
       builder: (context) {
         return BlocProvider.value(
           value: bloc,
-          child: BlocConsumer<UpgradeBloc, UpgradeState>(
+          child: BlocConsumer<PremiumBloc, PremiumState>(
             listener: (context, state) {
               state.whenOrNull(
-                basic: () {
-                  context.router.pop();
-                },
-                premium: (_) {
-                  context.router.pop();
-                },
+                basic: () => context.router.pop(),
+                premium: () => context.router.pop(),
               );
             },
             builder: (context, state) {
@@ -69,14 +61,15 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
                     color: UpgradeThemes.colorScheme.surface,
                     borderRadius: Radii.m,
                   ),
-                  child: StatusLoadingIndicators(
-                    text: 'Upgrade',
-                    success: false,
-                    color: UpgradeThemes.colorScheme.primary.withOpacity(0.25),
-                    child: SvgPicture.asset(
-                      'images/transfer.svg',
-                      color: UpgradeThemes.colorScheme.surface,
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      LottieBuilder.network(
+                        'https://assets6.lottiefiles.com/packages/lf20_1w0mawxh.json',
+                        width: 200,
+                      ),
+                      const Text('Upgrading'),
+                    ],
                   ),
                 ),
               );
@@ -88,10 +81,8 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
   }
 
   void _onDowngrade(BuildContext context) {
-    final bloc = context.read<UpgradeBloc>();
-    print(bloc.premiumToken!.address);
-    bloc.add(DowngradeAccount(bloc.premiumToken!.address, connected.address,
-        SuperfluidService.isTestNet(connected.chainId)));
+    final bloc = context.read<PremiumBloc>();
+    bloc.add(DowngradeAccount(bloc.premiumToken!.address, connected));
     showDialog(
       context: context,
       barrierColor: Colors.black38,
@@ -99,34 +90,27 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
       builder: (context) {
         return BlocProvider.value(
           value: bloc,
-          child: BlocConsumer<UpgradeBloc, UpgradeState>(
+          child: BlocConsumer<PremiumBloc, PremiumState>(
             listener: (context, state) {
-              print(state);
               state.whenOrNull(
-                basic: () {
-                  context.router.pop();
-                },
-                premium: (_) {
-                  context.router.pop();
-                },
+                basic: () => context.router.pop(),
+                premium: () => context.router.pop(),
               );
             },
             builder: (context, state) {
               return Center(
                 child: Container(
                   padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: UpgradeThemes.colorScheme.surface,
-                    borderRadius: Radii.m,
-                  ),
-                  child: StatusLoadingIndicators(
-                    text: 'Downgrade',
-                    success: false,
-                    color: UpgradeThemes.colorScheme.primary.withOpacity(0.25),
-                    child: SvgPicture.asset(
-                      'images/transfer.svg',
-                      color: UpgradeThemes.colorScheme.surface,
-                    ),
+                  decoration: UpgradeThemes.decoration,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      LottieBuilder.network(
+                        'https://assets6.lottiefiles.com/packages/lf20_1w0mawxh.json',
+                        width: 200,
+                      ),
+                      const Text('Downgrading'),
+                    ],
                   ),
                 ),
               );
@@ -139,19 +123,32 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UpgradeBloc, UpgradeState>(
+    return BlocConsumer<PremiumBloc, PremiumState>(
       listener: (context, state) {
-        state.whenOrNull(upgrade: () {
-          final fToast = FToast();
-          fToast.init(context);
-          fToast.showToast(
-            toastDuration: const Duration(seconds: 5),
-            child: const UpgradeStyleToast(
-              text:
-                  '🔥 Upgrading your Account 💎 (You may need to refresh to see changes)',
-            ),
-          );
-        });
+        final fToast = FToast();
+        fToast.init(context);
+        state.whenOrNull(
+          upgrade: () {
+            fToast.showToast(
+              toastDuration: const Duration(seconds: 5),
+              child:
+                  const UpgradeStyleToast(text: '🔥 Upgrading your Account 💎'),
+            );
+          },
+          downgrade: () {
+            fToast.showToast(
+              toastDuration: const Duration(seconds: 5),
+              child:
+                  const UpgradeStyleToast(text: 'Downgrading your Account 😔'),
+            );
+          },
+          cancel: () {
+            fToast.showToast(
+              toastDuration: const Duration(seconds: 5),
+              child: UpgradeStyleToast.rejected(),
+            );
+          },
+        );
       },
       builder: (context, state) {
         return CustomImprovedScrolling(
@@ -164,6 +161,7 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                //* Header
                 SelectableText(
                   'Plans',
                   style: accentTextTheme.bodyText2?.copyWith(fontSize: 32),
@@ -174,60 +172,8 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
                   spacing: 24,
                   runSpacing: 24,
                   children: SuperfluidService.getChainTokens(connected.chainId)
-                      .map<Widget>(
-                        (e) => Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            // Show green when the contract has been approved.
-                            color: UpgradeThemes.colorScheme.surface,
-                            borderRadius: Radii.m,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TokenIcon(
-                                token: e,
-                                size: 48,
-                              ),
-                              const SizedBox(width: 8),
-                              FutureBuilder<BigInt>(
-                                future: superfluidService.getTokenBalance(
-                                    e.address, connected.address),
-                                builder: (context, snapshot) {
-                                  late final String text;
-                                  if (snapshot.hasData) {
-                                    text =
-                                        '\$' + readableBigInt(snapshot.data!);
-                                  } else {
-                                    text = '\$' '0.000000';
-                                  }
-                                  return Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: text.substring(
-                                              0, text.length - 5),
-                                          style: context.textTheme.bodyText2!
-                                              .copyWith(
-                                            fontSize: 24,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: text.substring(text.length - 4),
-                                          style: context.textTheme.bodyText2!
-                                              .copyWith(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
+                      .map<Widget>((e) =>
+                          TokenBalanceCard(token: e, connected: connected))
                       .toList(),
                 ),
                 const SizedBox(height: 8),
@@ -239,113 +185,203 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                Wrap(
-                  runSpacing: 24,
-                  spacing: 24,
-                  children: [
-                    PlanCard(
-                      title: 'Basic 😎',
-                      isSelected: state is Basic,
-                      bullets: const [
-                        '• Snap Swap - Exchange tokens with the best rates. 👋',
-                        '• File Upload - Upload files onto the decentralized web. 💻 ',
-                      ],
-                      buttonText: 'Change to Basic',
-                      selectedButtonText: 'Current Plan',
-                      planCost: Text(
-                        'Free',
-                        style: context.textTheme.bodyText2!.copyWith(
-                          fontSize: 24,
-                        ),
-                      ),
-                      onTap: () => _onDowngrade(context),
-                    ),
-                    PlanCard(
-                      title: 'Premium 💎',
-                      isSelected: state is Premium,
-                      bullets: const [
-                        '• Snap Swap - Exchange tokens with the best rates. 👋',
-                        '• File Upload - Upload files onto the decentralized web. 💻 ',
-                        '• Solidity Editor - Build contracts through no-code tools. 📜 ',
-                        '• NFT Editor - Create and mint NFTs. 🎨',
-                        '• Liquidty Pools - Invest money and earn with high appreciative rates. 💰',
-                      ],
-                      buttonText: 'Become Premium',
-                      selectedButtonText: 'Current Plan',
-                      planCost: Text.rich(
-                        TextSpan(
+
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  child: (state is Basic || state is Premium)
+                      ?
+                      //* Cards
+                      Wrap(
+                          runSpacing: 24,
+                          spacing: 24,
                           children: [
-                            TextSpan(
-                              text: '\$1.00',
-                              style: context.textTheme.bodyText2!.copyWith(
-                                fontSize: 24,
+                            PlanCard(
+                              title: 'Basic 😎',
+                              isSelected: state is Basic,
+                              bullets: const [
+                                '• Snap Swap - Exchange tokens with the best rates. 👋',
+                                '• File Upload - Upload files onto the decentralized web. 💻 ',
+                              ],
+                              buttonText: 'Change to Basic',
+                              selectedButtonText: 'Current Plan',
+                              planCost: Text(
+                                'Free',
+                                style: context.textTheme.bodyText2!.copyWith(
+                                  fontSize: 24,
+                                ),
                               ),
+                              onTap: () => _onDowngrade(context),
                             ),
-                            TextSpan(
-                              text: '0000',
-                              style: context.textTheme.bodyText2!.copyWith(
-                                fontSize: 12,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' /mo',
-                              style: context.textTheme.bodyText2!.copyWith(
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      buttonReplacement: (state is! Premium)
-                          ? Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: SuperfluidService.getChainTokens(
-                                      connected.chainId)
-                                  .map<Widget>(
-                                    (e) => Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 12),
-                                      child: TransparentButton(
-                                        onTap: () => _onUpgrade(context, e),
-                                        child: Container(
-                                          width: double.infinity,
-                                          padding: EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            borderRadius: Radii.m,
-                                            color: UpgradeThemes
-                                                .colorScheme.primary
-                                                .withOpacity(0.75),
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: Row(
-                                            children: [
-                                              TokenIcon(token: e, size: 36),
-                                              SizedBox(width: 12),
-                                              Text(
-                                                'Upgrade with ${e.symbol}',
-                                                style: context
-                                                    .textTheme.subtitle1!
-                                                    .copyWith(
-                                                        color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                            PlanCard(
+                              title: 'Premium 💎',
+                              isSelected: state is Premium,
+                              bullets: const [
+                                '• Snap Swap - Exchange tokens with the best rates. 👋',
+                                '• File Upload - Upload files onto the decentralized web. 💻 ',
+                                '• Solidity Editor - Build contracts through no-code tools. 📜 ',
+                                '• NFT Editor - Create and mint NFTs. 🎨',
+                                '• Liquidty Pools - Invest money and earn with high appreciative rates. 💰',
+                              ],
+                              buttonText: 'Become Premium',
+                              selectedButtonText: 'Current Plan',
+                              planCost: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '\$2.56',
+                                      style:
+                                          context.textTheme.bodyText2!.copyWith(
+                                        fontSize: 24,
                                       ),
                                     ),
-                                  )
-                                  .toList(),
-                            )
-                          : null,
-                    ),
-                  ],
+                                    TextSpan(
+                                      text: '2420',
+                                      style:
+                                          context.textTheme.bodyText2!.copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: ' /mo',
+                                      style:
+                                          context.textTheme.bodyText2!.copyWith(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              buttonReplacement: (state is! Premium)
+                                  // Create a list of supported token buttons to choose which
+                                  // token to upgrade with
+                                  ? Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: SuperfluidService
+                                              .getChainTokens(connected.chainId)
+                                          .map<Widget>(
+                                            (e) => Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 12),
+                                              child: UpgradeTokenButton(
+                                                onTap: () =>
+                                                    _onUpgrade(context, e),
+                                                token: e,
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    )
+                                  : null,
+                            ),
+                          ],
+                        )
+                      : Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: UpgradeThemes.decoration,
+                          child: const CupertinoActivityIndicator(),
+                        ),
                 ),
-                SizedBox(height: 64),
+                const SizedBox(height: 64),
               ],
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class TokenBalanceCard extends StatelessWidget {
+  TokenBalanceCard({
+    Key? key,
+    required this.token,
+    required this.connected,
+  }) : super(key: key);
+
+  final PolygonToken token;
+  final Connected connected;
+
+  final superfluidService = getIt<SuperfluidService>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: UpgradeThemes.decoration,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TokenIcon(
+            token: token,
+            size: 48,
+          ),
+          const SizedBox(width: 8),
+          FutureBuilder<BigInt>(
+            future: superfluidService.getTokenBalance(
+                token.address, connected.address),
+            builder: (context, snapshot) {
+              late final String text;
+              if (snapshot.hasData) {
+                text = '\$' + readableBigInt(snapshot.data!);
+              } else {
+                text = '\$' '0.000000';
+              }
+              return Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: text.substring(0, text.length - 5),
+                      style: context.textTheme.bodyText2!.copyWith(
+                        fontSize: 24,
+                      ),
+                    ),
+                    TextSpan(
+                      text: text.substring(text.length - 4),
+                      style: context.textTheme.bodyText2!.copyWith(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UpgradeTokenButton extends StatelessWidget {
+  const UpgradeTokenButton({Key? key, this.onTap, required this.token})
+      : super(key: key);
+
+  final VoidCallback? onTap;
+  final PolygonToken token;
+
+  @override
+  Widget build(BuildContext context) {
+    return TransparentButton(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: Radii.m,
+          color: UpgradeThemes.colorScheme.primary.withOpacity(0.75),
+        ),
+        child: Row(
+          children: [
+            TokenIcon(token: token, size: 36),
+            const SizedBox(width: 12),
+            Text(
+              'Upgrade with ${token.symbol}',
+              style: context.textTheme.subtitle1!.copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -378,15 +414,13 @@ class PlanCard extends StatelessWidget {
     return Container(
       width: 350,
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
+      decoration: UpgradeThemes.decoration.copyWith(
         // Show green when the contract has been approved.
         border: Border.all(
           color: UpgradeThemes.colorScheme.primary,
           width: 2,
           style: (isSelected) ? BorderStyle.solid : BorderStyle.none,
         ),
-        color: UpgradeThemes.colorScheme.surface,
-        borderRadius: Radii.m,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,45 +467,6 @@ class PlanCard extends StatelessWidget {
               ),
         ],
       ),
-    );
-  }
-}
-
-class StatusLoadingIndicators extends StatelessWidget {
-  const StatusLoadingIndicators({
-    Key? key,
-    required this.color,
-    required this.child,
-    required this.success,
-    required this.text,
-  }) : super(key: key);
-
-  final Color color;
-  final Widget child;
-  final bool success;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            // Show green when the contract has been approved.
-            color: color,
-            borderRadius: (success) ? Radii.m : BorderRadius.circular(24),
-          ),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
-            child: (success) ? child : const CupertinoActivityIndicator(),
-          ),
-        ),
-        const SizedBox(height: 4),
-        SelectableText(text),
-      ],
     );
   }
 }

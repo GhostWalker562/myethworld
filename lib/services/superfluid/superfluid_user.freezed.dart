@@ -374,11 +374,13 @@ class _$FlowTearOff {
   _Flow call(
       {required String sender,
       required String flowRate,
-      required String receiver}) {
+      required String receiver,
+      String? token}) {
     return _Flow(
       sender: sender,
       flowRate: flowRate,
       receiver: receiver,
+      token: token,
     );
   }
 
@@ -395,6 +397,7 @@ mixin _$Flow {
   String get sender => throw _privateConstructorUsedError;
   String get flowRate => throw _privateConstructorUsedError;
   String get receiver => throw _privateConstructorUsedError;
+  String? get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -405,7 +408,7 @@ mixin _$Flow {
 abstract class $FlowCopyWith<$Res> {
   factory $FlowCopyWith(Flow value, $Res Function(Flow) then) =
       _$FlowCopyWithImpl<$Res>;
-  $Res call({String sender, String flowRate, String receiver});
+  $Res call({String sender, String flowRate, String receiver, String? token});
 }
 
 /// @nodoc
@@ -421,6 +424,7 @@ class _$FlowCopyWithImpl<$Res> implements $FlowCopyWith<$Res> {
     Object? sender = freezed,
     Object? flowRate = freezed,
     Object? receiver = freezed,
+    Object? token = freezed,
   }) {
     return _then(_value.copyWith(
       sender: sender == freezed
@@ -435,6 +439,10 @@ class _$FlowCopyWithImpl<$Res> implements $FlowCopyWith<$Res> {
           ? _value.receiver
           : receiver // ignore: cast_nullable_to_non_nullable
               as String,
+      token: token == freezed
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -444,7 +452,7 @@ abstract class _$FlowCopyWith<$Res> implements $FlowCopyWith<$Res> {
   factory _$FlowCopyWith(_Flow value, $Res Function(_Flow) then) =
       __$FlowCopyWithImpl<$Res>;
   @override
-  $Res call({String sender, String flowRate, String receiver});
+  $Res call({String sender, String flowRate, String receiver, String? token});
 }
 
 /// @nodoc
@@ -461,6 +469,7 @@ class __$FlowCopyWithImpl<$Res> extends _$FlowCopyWithImpl<$Res>
     Object? sender = freezed,
     Object? flowRate = freezed,
     Object? receiver = freezed,
+    Object? token = freezed,
   }) {
     return _then(_Flow(
       sender: sender == freezed
@@ -475,6 +484,10 @@ class __$FlowCopyWithImpl<$Res> extends _$FlowCopyWithImpl<$Res>
           ? _value.receiver
           : receiver // ignore: cast_nullable_to_non_nullable
               as String,
+      token: token == freezed
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -483,7 +496,10 @@ class __$FlowCopyWithImpl<$Res> extends _$FlowCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Flow implements _Flow {
   const _$_Flow(
-      {required this.sender, required this.flowRate, required this.receiver});
+      {required this.sender,
+      required this.flowRate,
+      required this.receiver,
+      this.token});
 
   factory _$_Flow.fromJson(Map<String, dynamic> json) => _$$_FlowFromJson(json);
 
@@ -493,10 +509,12 @@ class _$_Flow implements _Flow {
   final String flowRate;
   @override
   final String receiver;
+  @override
+  final String? token;
 
   @override
   String toString() {
-    return 'Flow(sender: $sender, flowRate: $flowRate, receiver: $receiver)';
+    return 'Flow(sender: $sender, flowRate: $flowRate, receiver: $receiver, token: $token)';
   }
 
   @override
@@ -510,7 +528,9 @@ class _$_Flow implements _Flow {
                     .equals(other.flowRate, flowRate)) &&
             (identical(other.receiver, receiver) ||
                 const DeepCollectionEquality()
-                    .equals(other.receiver, receiver)));
+                    .equals(other.receiver, receiver)) &&
+            (identical(other.token, token) ||
+                const DeepCollectionEquality().equals(other.token, token)));
   }
 
   @override
@@ -518,7 +538,8 @@ class _$_Flow implements _Flow {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(sender) ^
       const DeepCollectionEquality().hash(flowRate) ^
-      const DeepCollectionEquality().hash(receiver);
+      const DeepCollectionEquality().hash(receiver) ^
+      const DeepCollectionEquality().hash(token);
 
   @JsonKey(ignore: true)
   @override
@@ -535,7 +556,8 @@ abstract class _Flow implements Flow {
   const factory _Flow(
       {required String sender,
       required String flowRate,
-      required String receiver}) = _$_Flow;
+      required String receiver,
+      String? token}) = _$_Flow;
 
   factory _Flow.fromJson(Map<String, dynamic> json) = _$_Flow.fromJson;
 
@@ -545,6 +567,8 @@ abstract class _Flow implements Flow {
   String get flowRate => throw _privateConstructorUsedError;
   @override
   String get receiver => throw _privateConstructorUsedError;
+  @override
+  String? get token => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$FlowCopyWith<_Flow> get copyWith => throw _privateConstructorUsedError;

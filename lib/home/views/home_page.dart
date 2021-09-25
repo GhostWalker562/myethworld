@@ -49,8 +49,7 @@ class _HomePageState extends State<HomePage> {
               controller: controller,
               child: ResponsiveGridView.builder(
                 controller: controller,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 48, vertical: 48),
+                padding: const EdgeInsets.all(48),
                 itemCount: features.length,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const ResponsiveGridDelegate(

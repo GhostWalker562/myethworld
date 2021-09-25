@@ -7,13 +7,14 @@ class TransparentButton extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.onTap,
     this.onEnter,
-    this.onExit,
+    this.onExit, this.behavior,
   }) : super(key: key);
   final Widget child;
   final Duration duration;
   final VoidCallback? onTap;
   final VoidCallback? onEnter;
   final VoidCallback? onExit;
+  final HitTestBehavior? behavior;
 
   @override
   _TransparentButtonState createState() => _TransparentButtonState();
@@ -43,7 +44,7 @@ class _TransparentButtonState extends State<TransparentButton> {
         },
         cursor: clickable ? SystemMouseCursors.click : SystemMouseCursors.basic,
         child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+          behavior: widget.behavior ?? HitTestBehavior.translucent,
           onTap: widget.onTap,
           child: widget.child,
         ),

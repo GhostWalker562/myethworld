@@ -15,9 +15,9 @@ class _UpgradeButtonState extends State<UpgradeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UpgradeBloc, UpgradeState>(
+    return BlocBuilder<PremiumBloc, PremiumState>(
       builder: (context, state) {
-        bool isPremium = state is Premium;
+        // bool isPremium = state is Premium;
         bool isBasic = state is Basic;
 
         return TransparentButton(
@@ -29,15 +29,15 @@ class _UpgradeButtonState extends State<UpgradeButton> {
             // if (isConnected) setState(() => showDisconnect = false);
           },
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: Radii.s,
               color: Colors.white,
-              border: Border.all(
-                color: isPremium
-                    ? UpgradeThemes.colorScheme.primary
-                    : context.colorScheme.primary,
-                width: 1,
-              ),
+              // border: Border.all(
+                // color: isPremium
+                //     ? UpgradeThemes.colorScheme.primary
+                //     : context.colorScheme.primary,
+                // width: 1,
+              // ),
             ),
             height: 40,
             child: Center(

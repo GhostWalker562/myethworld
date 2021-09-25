@@ -33,6 +33,7 @@ class Flow with _$Flow {
     required String sender,
     required String flowRate,
     required String receiver,
+    String? token,
   }) = _Flow;
 
   factory Flow.fromJson(Map<String, dynamic> json) => _$FlowFromJson(json);

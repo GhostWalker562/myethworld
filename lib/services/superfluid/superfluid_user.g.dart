@@ -39,10 +39,12 @@ _$_Flow _$$_FlowFromJson(Map<String, dynamic> json) => _$_Flow(
       sender: json['sender'] as String,
       flowRate: json['flowRate'] as String,
       receiver: json['receiver'] as String,
+      token: json['token'] as String?,
     );
 
 Map<String, dynamic> _$$_FlowToJson(_$_Flow instance) => <String, dynamic>{
       'sender': instance.sender,
       'flowRate': instance.flowRate,
       'receiver': instance.receiver,
+      'token': instance.token,
     };

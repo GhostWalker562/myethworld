@@ -33,4 +33,12 @@ class Web3Service {
       }
     }
   }
+
+  Future<BigInt> allowance(
+    String address,
+    String tokenAddress,
+    String spenderAddress,
+  ) async =>
+      await ContractERC20(tokenAddress, provider!.getSigner())
+          .allowance(address, spenderAddress);
 }

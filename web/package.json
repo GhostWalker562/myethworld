@@ -11,6 +11,7 @@
     "@superfluid-finance/js-sdk": "0.5.4-dev.bebd97c.0",
     "@web3api/client-js": "^0.0.1-prealpha.44",
     "dotenv": "^10.0.0",
+    "moralis": "^0.0.54",
     "paraswap": "^5.0.1",
     "terser-webpack-plugin": "^5.2.4",
     "ts-loader": "^9.2.5",

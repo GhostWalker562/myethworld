@@ -16,17 +16,21 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     // Connect functions
     on<Connect>(connect);
     on<Disconnect>(disconnect);
-
-    if (web3Service.isSupported) {
-      // Subscribe to `chainChanged` event
-      ethereum!.onChainChanged((chainId) => clear());
-      // Subscribe to `accountsChanged` event.
-      ethereum!.onAccountsChanged((accounts) => clear());
-      emit(const WalletState.unconnected());
-    }
+    on<CheckSupported>(checkSupported);
   }
 
   final Web3Service web3Service = getIt<Web3Service>();
+
+  Future<void> checkSupported(
+      CheckSupported event, Emitter<WalletState> emit) async {
+    if (web3Service.isSupported) {
+      // Subscribe to `chainChanged` event
+      ethereum!.onChainChanged((chainId) => clear(emit));
+      // Subscribe to `accountsChanged` event.
+      ethereum!.onAccountsChanged((accounts) => clear(emit));
+      emit(const WalletState.unconnected());
+    }
+  }
 
   Future<void> connect(Connect event, Emitter<WalletState> emit) async {
     if (!web3Service.isSupported) return emit(const WalletState.unsupported());
@@ -42,10 +46,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   Future<void> disconnect(Disconnect event, Emitter<WalletState> emit) async {
     if (!web3Service.isSupported) return emit(const WalletState.unsupported());
-    clear();
+    clear(emit);
   }
 
-  void clear() => emit(const WalletState.unconnected());
+  void clear(Emitter<WalletState> emit) =>
+      emit(const WalletState.unconnected());
 
   static String obscureAddress(String address) =>
       '${address.substring(0, 2 + 4 + 1)}...${address.substring(42 - 4, 42)}';

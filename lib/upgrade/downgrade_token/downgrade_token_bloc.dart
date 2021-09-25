@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -26,7 +27,7 @@ class DowngradeTokenBloc
       await tx.wait();
       emit(_Success(event.token, event.amount));
     } catch (e) {
-      print(e);
+      log(e.toString());
       emit(const _Error());
       emit(const _Idle());
     }

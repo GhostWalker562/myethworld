@@ -1,9 +1,16 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:js_util';
 import 'package:flutter_web3/flutter_web3.dart';
+import 'package:graphql/client.dart';
 import 'package:injectable/injectable.dart';
+import 'package:myethworld/constants.dart';
 import 'package:myethworld/interops/superfluid.dart';
 import 'package:myethworld/services/superfluid/superfluid_user.dart';
+
+import "package:gql/language.dart" as lang;
+
+export 'superfluid_user.dart';
 
 class PolygonToken {
   final String symbol;
@@ -28,6 +35,8 @@ class SuperfluidService {
   static bool isTestNet(int chainId) => chainId == 4;
   static List<SuperToken> getChainTokens(int chainId) =>
       (isTestNet(chainId) ? supportedTestTokens : supportedMainTokens);
+  static String getSubgraph(int chainId) =>
+      (isTestNet(chainId) ? rinkebySubgraph : polygonSubgraph);
 
   Future<void> initSf() async {
     if (initialized) return;
@@ -35,17 +44,16 @@ class SuperfluidService {
     initialized = true;
   }
 
+  /// Get the details of a user or set up a token
   Future<SuperfluidUser> userSf(String address, String token) async {
     final promise = await promiseToFuture(sfUser(address, token));
     final json = jsonDecode(stringify(promise));
     return SuperfluidUser.fromJson(json['cfa']);
   }
 
+  /// Create a flow/update for a user.
   Future<void> flowSf(String address, String amount) async =>
       await promiseToFuture<void>(sfFlow(address, amount));
-
-  Future<void> cancelFlowSf(String address) async =>
-      await promiseToFuture<void>(sfCancelFlow(address));
 
   /// Approve and allow the corresponding [amount]. This will allow the signer
   /// to send [amount] of [tokenAddress] to [superTokenAddress].
@@ -63,14 +71,6 @@ class SuperfluidService {
       await Contract(superTokenAddress, abi, provider!.getSigner())
           .send('upgrade', [BigInt.from(amount * 1e18)]);
 
-  Future<BigInt> allowance(
-    String tokenAddress,
-    String superTokenAddress,
-    String address,
-  ) async =>
-      await ContractERC20(tokenAddress, provider!.getSigner())
-          .allowance(address, superTokenAddress);
-
   /// Upgrade from (f){token} to (f){token}x with the corresponding [amount] and
   /// [superTokenAddress]
   Future<TransactionResponse> downgrade(
@@ -80,14 +80,6 @@ class SuperfluidService {
       await Contract(superTokenAddress, abi, provider!.getSigner())
           .send('downgrade', [BigInt.from(amount * 1e18)]);
 
-  // Contract ERC20 for Dai
-
-  // Contract for SuperToken for Daix
-
-  // Approve from Dai
-
-  // Upgrade from Super Token
-
   Future<BigInt> getTokenBalance(
     String superTokenAddress,
     String address,
@@ -95,6 +87,56 @@ class SuperfluidService {
       BigInt.parse(jsonDecode(stringify(
           await Contract(superTokenAddress, abi, provider!.getSigner())
               .call('balanceOf', [address])))['hex']);
+
+  /// Retrieve the OutFlows from the user using the subgraph
+  Future<List<Flow>> outFlows(String address, int chainId) async {
+    final flows = <Flow>[];
+
+    // Set Up
+    final subgraph = getSubgraph(chainId);
+    final link = HttpLink(subgraph);
+    final store = await HiveStore.open(boxName: subgraph);
+
+    final client = GraphQLClient(
+      /// pass the store to the cache for persistence
+      cache: GraphQLCache(store: store),
+      link: link,
+    );
+
+    // Options
+    final doc = lang.parseString(retrieveOutFlows);
+    final options = QueryOptions(
+      document: doc,
+      variables: <String, dynamic>{'address': address.toLowerCase()},
+    );
+
+    final result = await client.query(options);
+    final Map<String, dynamic>? data = result.data;
+
+    // Parse the flows
+    if (data != null && data['account'] != null) {
+      for (Map<String, dynamic> flow in data['account']['flowsOwned']) {
+        flows.add(
+          Flow(
+            sender: address,
+            receiver: flow['recipient']['id'],
+            flowRate: flow['flowRate'],
+            token: flow['token']['id'],
+          ),
+        );
+      }
+    }
+
+    log('Retrieved OutFlows: ${flows.toString()}');
+
+    return flows;
+  }
+
+  //* Basic upgrade process
+  // Contract ERC20 for Dai
+  // Contract for SuperToken for Daix
+  // Approve from Dai
+  // Upgrade from Super Token
 
   static const abi = [
     "function upgrade(uint256 amount)",
@@ -134,6 +176,22 @@ class SuperfluidService {
       '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
     ),
   ];
+
+  static const String retrieveOutFlows = r'''
+query RetrieveOutFlows($address: ID!) {
+  account(id: $address) {
+    flowsOwned (where: {flowRate_not: 0}) {
+      flowRate
+      recipient {
+        id
+      }
+      token {
+        id
+      }
+    }
+  }
+}
+''';
 
   static const recipientAccount = '0x5bf57B6bE918b085AB68a833F7DE5493243C4156';
 }

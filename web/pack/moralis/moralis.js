@@ -11,7 +11,6 @@ let dex;
   dex = Moralis.Plugins.oneInch;
 
   await Moralis.enable();
-  // let user = Moralis.User.current();
   // if (!user) {
   //   await Moralis.authenticate();
   // }
@@ -20,6 +19,7 @@ let dex;
 
 async function swap(inputToken, outputToken, amount) {
   try {
+    let user = Moralis.User.current();
     if (!user) {
       user = await Moralis.Web3.authenticate();
     }
@@ -47,6 +47,7 @@ async function swapTokens() {
 
 async function swapAllowance(inputToken, amount) {
   try {
+    let user = Moralis.User.current();
     if (!user) {
       user = await Moralis.Web3.authenticate();
     }
@@ -54,17 +55,22 @@ async function swapAllowance(inputToken, amount) {
     throw error;
   }
 
-  const allowance = await Moralis.Plugins.oneInch.hasAllowance({
+  const allowance = await dex.hasAllowance({
     chain: "polygon",
     fromTokenAddress: inputToken,
     fromAddress: Moralis.User.current().get("ethAddress"),
     amount: amount,
   });
+
+  if (allowance.toString() == "false") {
+    throw "Not enough allowance";
+  }
   console.log(`The user has enough allowance: ${allowance}`);
 }
 
 async function swapApprove(inputToken) {
   try {
+    let user = Moralis.User.current();
     if (!user) {
       user = await Moralis.Web3.authenticate();
     }

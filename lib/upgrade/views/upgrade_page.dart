@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myethworld/app/injectable.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:myethworld/services/superfluid/superfluid_service.dart';
 import 'package:myethworld/upgrade/downgrade_token/downgrade_token_bloc.dart';
 import 'package:myethworld/upgrade/upgrade_token/upgrade_token_bloc.dart';
 import 'package:myethworld/upgrade/views/upgrade_token_panel.dart';
@@ -105,16 +103,3 @@ class _UpgradePageState extends State<UpgradePage> {
     );
   }
 }
-// DropdownButton(
-//   value: 'DAI',
-//   items: [
-//     DropdownMenuItem(
-//       value: 'DAI',
-//       child: Text('DAI'),
-//     ),
-//     DropdownMenuItem(
-//       value: 'USDC',
-//       child: Text('USDC'),
-//     ),
-//   ],
-// ),

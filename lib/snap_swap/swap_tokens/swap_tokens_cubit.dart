@@ -25,17 +25,19 @@ class SwapTokensCubit extends Cubit<SwapTokensState> {
 
   void changeInputToken(SwapToken from) {
     // Assign
-    if (!_checkSwap(from)) return emit(state.copyWith(from: from));
+    if (from == state.to) {
+      return emit(state.copyWith(from: from, to: state.from));
+    }
     // Swap
-    emit(state.copyWith(from: state.to, to: from));
+    emit(state.copyWith(from: from));
   }
 
   void changeOutputToken(SwapToken to) {
     // Assign
-    if (!_checkSwap(to)) return emit(state.copyWith(to: to));
+    if (to == state.from) {
+      return emit(state.copyWith(from: state.to, to: to));
+    }
     // Swap
-    emit(state.copyWith(from: to, to: state.from));
+    emit(state.copyWith(to: to));
   }
-
-  bool _checkSwap(SwapToken e) => (e == state.from || e == state.to);
 }

@@ -13,22 +13,22 @@ part 'wallet_bloc.freezed.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
   WalletBloc() : super(const Unsupported()) {
-    // Connect functions
     on<Connect>(connect);
     on<Disconnect>(disconnect);
+    on<Clear>(clear);
     on<CheckSupported>(checkSupported);
   }
 
   final Web3Service web3Service = getIt<Web3Service>();
 
-  Future<void> checkSupported(
-      CheckSupported event, Emitter<WalletState> emit) async {
+  void checkSupported(CheckSupported event, Emitter<WalletState> emit) {
     if (web3Service.isSupported) {
       // Subscribe to `chainChanged` event
-      ethereum!.onChainChanged((chainId) => clear(emit));
+      ethereum!.onChainChanged((chainId) => _clear());
       // Subscribe to `accountsChanged` event.
-      ethereum!.onAccountsChanged((accounts) => clear(emit));
+      ethereum!.onAccountsChanged((accounts) => _clear());
       emit(const WalletState.unconnected());
+      add(const WalletEvent.connect());
     }
   }
 
@@ -46,11 +46,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   Future<void> disconnect(Disconnect event, Emitter<WalletState> emit) async {
     if (!web3Service.isSupported) return emit(const WalletState.unsupported());
-    clear(emit);
+    _clear();
   }
 
-  void clear(Emitter<WalletState> emit) =>
+  void clear(Clear event, Emitter<WalletState> emit) =>
       emit(const WalletState.unconnected());
+
+  void _clear() => add(const Clear());
 
   static String obscureAddress(String address) =>
       '${address.substring(0, 2 + 4 + 1)}...${address.substring(42 - 4, 42)}';

@@ -60,9 +60,7 @@ class _UpgradeTokenPanelState extends State<UpgradeTokenPanel> {
       barrierColor: Colors.black38,
       barrierDismissible: false,
       useRootNavigator: false,
-      builder: (context) {
-        return UpgradeTokenDialog(bloc: bloc);
-      },
+      builder: (context) => UpgradeTokenDialog(bloc: bloc),
     );
   }
 
@@ -76,9 +74,7 @@ class _UpgradeTokenPanelState extends State<UpgradeTokenPanel> {
       barrierColor: Colors.black38,
       barrierDismissible: false,
       useRootNavigator: false,
-      builder: (context) {
-        return DowngradeTokenDialog(bloc: bloc);
-      },
+      builder: (context) => DowngradeTokenDialog(bloc: bloc),
     );
   }
 

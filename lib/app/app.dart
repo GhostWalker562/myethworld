@@ -22,7 +22,8 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => AppBloc()),
         BlocProvider(create: (context) => PremiumBloc()),
         BlocProvider(
-          create: (context) => WalletBloc()..add(const WalletEvent.connect()),
+          create: (context) =>
+              WalletBloc()..add(const WalletEvent.checkSupported()),
         ),
       ],
       child: MaterialApp.router(
@@ -38,9 +39,7 @@ class App extends StatelessWidget {
           return BlocListener<WalletBloc, WalletState>(
             listener: (context, state) {
               if (state is Connected) {
-                context
-                    .read<PremiumBloc>()
-                    .add(CheckAccount(state));
+                context.read<PremiumBloc>().add(CheckAccount(state));
               }
             },
             child: BlocListener<PremiumBloc, PremiumState>(

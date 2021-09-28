@@ -10,6 +10,7 @@ export 'swap_token.dart';
 
 @injectable
 class SwapService {
+  /// Get the list of supported tokens
   Future<List<SwapToken>> tokens() async {
     final tokens = await promiseToFuture(swapTokens());
     final json = jsonDecode(stringify(tokens));
@@ -21,6 +22,17 @@ class SwapService {
 
     return data;
   }
+
+  /// Check whether the user has enough allowance for the amount swap. Will throw
+  /// an error if an error occurs.
+  Future<void> checkAllowance(String token, num amount) async =>
+      await promiseToFuture(swapAllowance(token, amount));
+
+  Future<void> approve(String token) async =>
+      await promiseToFuture(swapApprove(token));
+
+  Future<void> inchSwap(String input, String output, num amount) async =>
+      await promiseToFuture(swap(input, output, amount));
 }
 
 // {

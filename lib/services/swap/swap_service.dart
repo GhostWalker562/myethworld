@@ -2,22 +2,23 @@ import 'dart:convert';
 import 'dart:js_util';
 
 import 'package:flutter_web3/flutter_web3.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:myethworld/interops/moralis.dart';
-
-import 'swap_token.dart';
-export 'swap_token.dart';
+// ignore: library_prefixes
+import 'package:myethworld/interops/moralis.dart' as Moralis;
+import 'package:myethworld/services/tokens/polygon_token.dart';
+export 'package:myethworld/services/tokens/polygon_token.dart';
 
 @injectable
 class SwapService {
   /// Get the list of supported tokens
-  Future<List<SwapToken>> tokens() async {
-    final tokens = await promiseToFuture(swapTokens());
+  Future<List<InchToken>> tokens() async {
+    final tokens = await promiseToFuture(Moralis.swapTokens());
     final json = jsonDecode(stringify(tokens));
 
-    final List<SwapToken> data = [];
+    final List<InchToken> data = [];
     for (String address in (json['tokens'] as Map<String, dynamic>).keys) {
-      data.add(SwapToken.fromJson(json['tokens'][address]));
+      data.add(InchToken.fromJson(json['tokens'][address]));
     }
 
     return data;
@@ -26,14 +27,35 @@ class SwapService {
   /// Check whether the user has enough allowance for the amount swap. Will throw
   /// an error if an error occurs.
   Future<void> checkAllowance(String token, num amount) async =>
-      await promiseToFuture(swapAllowance(token, amount));
+      await promiseToFuture(Moralis.swapAllowance(token, amount));
 
   Future<void> approve(String token) async =>
-      await promiseToFuture(swapApprove(token));
+      await promiseToFuture(Moralis.swapApprove(token));
 
-  Future<void> inchSwap(String input, String output, num amount) async =>
-      await promiseToFuture(swap(input, output, amount));
+  Future<void> inchSwap(String input, String output, String amount) async =>
+      await promiseToFuture(Moralis.swap(input, output, amount));
+
+  Future<List<BalancedInchToken>> getTokenBalances() async {
+    final balance = await promiseToFuture(Moralis.getTokenBalances());
+    final json = jsonDecode(stringify(balance));
+
+    final List<BalancedInchToken> data = [];
+    for (Map<String, dynamic> token in (json as List<dynamic>)) {
+      data.add(BalancedInchToken.fromJson(token));
+    }
+
+    return data;
+  }
+
+  Future<BigInt> getNativeBalance() async {
+    final balance = await promiseToFuture(Moralis.getNativeBalance());
+    final json = jsonDecode(stringify(balance));
+
+    if (json['balance'] == null) return BigInt.from(0);
+    return BigInt.from(num.parse(json['balance']));
+  }
 }
+
 
 // {
 //   "tokens": {

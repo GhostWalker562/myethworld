@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,12 +8,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myethworld/app/themes.dart';
+import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:myethworld/services/swap/swap_token.dart';
+import 'package:myethworld/components/wallet_guard.dart';
+import 'package:myethworld/services/tokens/polygon_token.dart';
 import 'package:myethworld/snap_swap/swap/swap_bloc.dart';
 import 'package:myethworld/snap_swap/swap_tokens/swap_tokens_cubit.dart';
 import 'package:quiver/strings.dart';
+import 'package:sa3_liquid/liquid/plasma/plasma.dart';
 
 class SnapSwapPage extends StatefulWidget {
   const SnapSwapPage({Key? key}) : super(key: key);
@@ -24,25 +29,52 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
   final ScrollController controller = ScrollController();
   final TextEditingController inputController = TextEditingController();
 
-  void _checkAllowance(BuildContext context, SwapToken from, String val) {
+  void _checkAllowance(BuildContext context, InchToken from, String val) {
     if (inputController.text.isNotEmpty) {
-      context
-          .read<SwapBloc>()
-          .add(CheckAllowance(from.address, double.parse(val)));
+      context.read<SwapBloc>().add(CheckAllowance(from, double.parse(val)));
     }
   }
 
-  void _onApprove(BuildContext context, SwapToken from) =>
+  void _onApprove(BuildContext context, InchToken from) =>
       context.read<SwapBloc>().add(Approve(from.address));
 
   void _onSwap(
-          BuildContext context, SwapToken from, SwapToken to, String val) =>
-      context
-          .read<SwapBloc>()
-          .add(Swap(from.address, to.address, double.parse(val)));
+          BuildContext context, InchToken from, InchToken to, String val) =>
+      context.read<SwapBloc>().add(Swap(from.address, to.address,
+          double.parse(val) * pow(10, from.decimals)));
 
   void _swapBlocListener(BuildContext context, SwapState state) => state
       .whenOrNull(swapped: () => context.read<SwapBloc>().add(const Reset()));
+
+  /// Get the balance of a token using the given parameters in a readable string.
+  String _getBalance(
+      InchToken token, BigInt nativeBalance, List<BalancedInchToken> balances) {
+    String str = '0.00';
+    if (token.isNative) {
+      str = (nativeBalance.toDouble() / pow(10, token.decimals))
+          .toStringAsFixed(7);
+    } else if (balances.where((e) => e.address == token.address).isNotEmpty) {
+      final balToken = balances.firstWhere((e) => e.address == token.address);
+      str = (balToken.balance.toDouble() / pow(10, balToken.decimals))
+          .toStringAsFixed(7);
+    }
+
+    return str;
+  }
+
+  /// Returns whether the user has enough funds to faciliate the transaction.
+  bool _hasSufficientFunds(InchToken token, BigInt nativeBalance,
+      List<BalancedInchToken> balances, double amount) {
+    if (token.isNative) {
+      return (nativeBalance.toInt() / pow(10, token.decimals)) > amount;
+    } else if (balances.where((e) => e.address == token.address).isNotEmpty) {
+      final balToken = balances.firstWhere((e) => e.address == token.address);
+      return (balToken.balance.toDouble() / pow(10, balToken.decimals)) >
+          amount;
+    }
+    // Can't find the token
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,198 +91,207 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
 
         return SnapSwapWrapper(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(48.0),
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.all(36),
-                  decoration: BoxDecoration(
-                    borderRadius: Radii.m,
-                    color: context.colorScheme.surface,
-                  ),
-                  width: 800,
-                  child: BlocBuilder<SwapTokensCubit, SwapTokensState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        (_, from, to) => const SizedBox.shrink(),
-                        data: (tokens, from, to) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              //* Form
+            Center(
+              child: Container(
+                margin: const EdgeInsets.all(48.0),
+                padding: const EdgeInsets.all(36),
+                decoration: BoxDecoration(
+                  borderRadius: Radii.m,
+                  color: context.colorScheme.surface,
+                ),
+                width: 800,
+                child: BlocBuilder<SwapTokensCubit, SwapTokensState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      data: (tokens, from, to, nativeBalance, balances) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            //* Form
 
-                              //* From
-                              Row(
-                                children: [
-                                  SelectableText(
-                                    'from',
-                                    style: accentTextTheme.headline4!.copyWith(
-                                      color: onSurface,
-                                      fontSize: 36,
-                                    ),
+                            //* From
+                            Row(
+                              children: [
+                                SelectableText(
+                                  'from',
+                                  style: accentTextTheme.headline4!.copyWith(
+                                    color: onSurface,
+                                    fontSize: 36,
                                   ),
-                                  const Spacer(),
-                                  FutureBuilder(
-                                    builder: (context, snapshot) {
-                                      return const Text('Balance: ');
+                                ),
+                                const Spacer(),
+                                if (from != null)
+                                  Text(
+                                      'Balance: ${_getBalance(from, nativeBalance!, balances)}'),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: CustomDropdownSearch(
+                                    item: from,
+                                    tokens: tokens,
+                                    onChanged: (InchToken? token) {
+                                      if (token == null) return;
+                                      context
+                                          .read<SwapTokensCubit>()
+                                          .changeInputToken(token);
                                     },
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: CustomDropdownSearch(
-                                      item: from,
-                                      tokens: tokens,
-                                      onChanged: (SwapToken? token) {
-                                        if (token == null) return;
-                                        context
-                                            .read<SwapTokensCubit>()
-                                            .changeInputToken(token);
-                                      },
+                                ),
+                                const Spacer(),
+                                Expanded(
+                                  flex: 2,
+                                  child: TextField(
+                                    controller: inputController,
+                                    textDirection: TextDirection.rtl,
+                                    cursorColor: onSurface,
+                                    cursorWidth: 1,
+                                    style: context.textTheme.subtitle1,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'(^\-?\d*\.?\d*)'))
+                                    ],
+                                    onChanged: (val) =>
+                                        _checkAllowance(context, from!, val),
+                                    decoration: InputDecoration(
+                                      hintText: '0.0',
+                                      hintStyle:
+                                          context.textTheme.subtitle1!.copyWith(
+                                        color: onSurface.withOpacity(0.5),
+                                      ),
+                                      hintTextDirection: TextDirection.rtl,
                                     ),
                                   ),
-                                  const Spacer(),
-                                  Expanded(
-                                    flex: 2,
-                                    child: TextField(
-                                      controller: inputController,
-                                      textDirection: TextDirection.rtl,
-                                      cursorColor: onSurface,
-                                      cursorWidth: 1,
-                                      style: context.textTheme.subtitle1,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'(^\-?\d*\.?\d*)'))
-                                      ],
-                                      onChanged: (val) =>
-                                          _checkAllowance(context, from!, val),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              SelectableText(
-                                from?.name ?? '',
-                                style: context.textTheme.caption,
-                              ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            SelectableText(
+                              from?.name ?? '',
+                              style: context.textTheme.caption,
+                            ),
 
-                              //* Divider
-                              const SizedBox(height: 24),
-                              Row(
-                                children: [
-                                  Expanded(child: Divider(color: onSurface)),
-                                  const SizedBox(width: 12),
-                                  SvgPicture.asset(
-                                    'images/circle_down.svg',
-                                    height: 32,
+                            //* Divider
+                            const SizedBox(height: 24),
+                            Row(
+                              children: [
+                                Expanded(child: Divider(color: onSurface)),
+                                const SizedBox(width: 12),
+                                SvgPicture.asset(
+                                  'images/circle_down.svg',
+                                  height: 32,
+                                  color: onSurface,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(child: Divider(color: onSurface)),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+
+                            //* To
+                            Row(
+                              children: [
+                                SelectableText(
+                                  'to',
+                                  style: accentTextTheme.headline4!.copyWith(
                                     color: onSurface,
+                                    fontSize: 36,
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(child: Divider(color: onSurface)),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
+                                ),
+                                const Spacer(),
+                                FutureBuilder(builder: (context, snapshot) {
+                                  return const Text('Balance: ');
+                                }),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: CustomDropdownSearch(
+                                    item: to,
+                                    tokens: tokens,
+                                    onChanged: (InchToken? token) {
+                                      if (token == null) return;
+                                      context
+                                          .read<SwapTokensCubit>()
+                                          .changeOutputToken(token);
+                                    },
+                                  ),
+                                ),
+                                const Spacer(),
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            SelectableText(
+                              to?.name ?? '',
+                              style: context.textTheme.caption,
+                            ),
+                            const SizedBox(height: 24),
 
-                              //* To
-                              Row(
-                                children: [
-                                  SelectableText(
-                                    'to',
-                                    style: accentTextTheme.headline4!.copyWith(
-                                      color: onSurface,
-                                      fontSize: 36,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  FutureBuilder(builder: (context, snapshot) {
-                                    return const Text('Balance: ');
-                                  }),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: CustomDropdownSearch(
-                                      item: to,
-                                      tokens: tokens,
-                                      onChanged: (SwapToken? token) {
-                                        if (token == null) return;
-                                        context
-                                            .read<SwapTokensCubit>()
-                                            .changeOutputToken(token);
-                                      },
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              SelectableText(
-                                to?.name ?? '',
-                                style: context.textTheme.caption,
-                              ),
-                              const SizedBox(height: 24),
+                            //* Submission buttons
+                            if (from != null && to != null)
+                              ValueListenableBuilder<TextEditingValue>(
+                                valueListenable: inputController,
+                                builder: (context, value, child) {
+                                  final text = value.text;
 
-                              //* Submission buttons
-                              if (from != null && to != null)
-                                ValueListenableBuilder<TextEditingValue>(
-                                  valueListenable: inputController,
-                                  builder: (context, value, child) {
-                                    if (value.text.isNotEmpty) {
-                                      return child!;
-                                    } else {
-                                      return const SizedBox.shrink();
-                                    }
-                                  },
-                                  child: BlocConsumer<SwapBloc, SwapState>(
-                                    listener: _swapBlocListener,
-                                    builder: (context, state) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          if (!equalsIgnoreCase(from.address,
-                                              '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'))
-                                            TransparentButton(
-                                              onTap: state.whenOrNull(
-                                                unapproved: () => () =>
-                                                    _onApprove(context, from),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: Radii.m,
-                                                  color: context
-                                                      .colorScheme.secondary,
-                                                ),
-                                                height: 60,
-                                                alignment: Alignment.center,
-                                                child: state.maybeWhen(
-                                                  loading: (status) =>
-                                                      const CupertinoActivityIndicator(),
-                                                  orElse: () => Text(
-                                                    'Approve',
-                                                    style: context
-                                                        .textTheme.button,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                  if (text.isNotEmpty &&
+                                      _hasSufficientFunds(from, nativeBalance!,
+                                          balances, double.parse(text))) {
+                                    return child!;
+                                  } else if (value.text.isNotEmpty &&
+                                      double.parse(text) > 0) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: Radii.m,
+                                        color: context.colorScheme.secondary
+                                            .withOpacity(0.1),
+                                      ),
+                                      height: 60,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Insufficient Funds',
+                                        style: context.textTheme.button,
+                                      ),
+                                    );
+                                  } else if (value.text.isNotEmpty) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: Radii.m,
+                                        color: context.colorScheme.secondary
+                                            .withOpacity(0.1),
+                                      ),
+                                      height: 60,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Invalid Amount',
+                                        style: context.textTheme.button,
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                },
+                                child: BlocConsumer<SwapBloc, SwapState>(
+                                  listener: _swapBlocListener,
+                                  builder: (context, state) {
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        if (!from.isNative)
                                           TransparentButton(
-                                            onTap: () => _onSwap(
-                                              context,
-                                              from,
-                                              to,
-                                              inputController.text,
+                                            onTap: state.whenOrNull(
+                                              unapproved: () => () =>
+                                                  _onApprove(context, from),
                                             ),
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -264,27 +305,52 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                                 loading: (status) =>
                                                     const CupertinoActivityIndicator(),
                                                 orElse: () => Text(
-                                                  'Swap',
+                                                  'Approve',
                                                   style:
                                                       context.textTheme.button,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      );
-                                    },
-                                  ),
+                                        const SizedBox(height: 24),
+                                        TransparentButton(
+                                          onTap: () => _onSwap(
+                                            context,
+                                            from,
+                                            to,
+                                            inputController.text,
+                                          ),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: Radii.m,
+                                              color:
+                                                  context.colorScheme.secondary,
+                                            ),
+                                            height: 60,
+                                            alignment: Alignment.center,
+                                            child: state.maybeWhen(
+                                              loading: (status) =>
+                                                  const CupertinoActivityIndicator(),
+                                              orElse: () => Text(
+                                                'Swap',
+                                                style: context.textTheme.button,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 ),
-                            ],
-                          );
-                        },
-                        orElse: () {
-                          return const CupertinoActivityIndicator();
-                        },
-                      );
-                    },
-                  ),
+                              ),
+                          ],
+                        );
+                      },
+                      orElse: () {
+                        return const CupertinoActivityIndicator();
+                      },
+                    );
+                  },
                 ),
               ),
             )
@@ -303,9 +369,9 @@ class CustomDropdownSearch extends StatelessWidget {
     this.onChanged,
   }) : super(key: key);
 
-  final SwapToken? item;
-  final List<SwapToken> tokens;
-  final ValueChanged<SwapToken?>? onChanged;
+  final InchToken? item;
+  final List<InchToken> tokens;
+  final ValueChanged<InchToken?>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -314,7 +380,7 @@ class CustomDropdownSearch extends StatelessWidget {
       mode: Mode.MENU,
       items: tokens,
       showSearchBox: true,
-      filterFn: (SwapToken? token, String? str) {
+      filterFn: (InchToken? token, String? str) {
         if (str == null || token == null) {
           return false;
         }
@@ -347,13 +413,13 @@ class CustomDropdownSearch extends StatelessWidget {
         ),
       ),
       onChanged: onChanged,
-      popupItemBuilder: (context, SwapToken token, show) {
+      popupItemBuilder: (context, InchToken token, show) {
         return Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
             children: [
               CircleAvatar(
-                foregroundImage: CachedNetworkImageProvider(token.logoURI),
+                foregroundImage: CachedNetworkImageProvider(token.asset!),
                 maxRadius: 24,
                 backgroundColor: context.colorScheme.primary,
                 child: Text(
@@ -383,14 +449,14 @@ class CustomDropdownSearch extends StatelessWidget {
           color: context.colorScheme.onSurface,
         );
       },
-      dropdownBuilder: (context, SwapToken? token) {
+      dropdownBuilder: (context, InchToken? token) {
         if (token == null) {
           return const SizedBox.shrink();
         }
         return Row(
           children: [
             CircleAvatar(
-              foregroundImage: CachedNetworkImageProvider(token.logoURI),
+              foregroundImage: CachedNetworkImageProvider(token.asset!),
               maxRadius: 16,
               backgroundColor: context.colorScheme.primary,
               child: Text(
@@ -429,9 +495,7 @@ class SnapSwapWrapper extends StatelessWidget {
       child: Scaffold(
         body: CustomImprovedScrolling(
           controller: controller,
-          child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: controller,
+          child: Column(
             children: [
               Header(
                 onLogoTap: () => context.router.pushNamed('/'),
@@ -455,7 +519,17 @@ class SnapSwapWrapper extends StatelessWidget {
                   ConnectButton(),
                 ],
               ),
-              ...children,
+              Expanded(
+                child: WalletGuard(
+                  child: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: controller,
+                    children: [
+                      ...children,
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

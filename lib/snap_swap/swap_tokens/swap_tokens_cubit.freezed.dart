@@ -17,23 +17,21 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SwapTokensStateTearOff {
   const _$SwapTokensStateTearOff();
 
-  _SwapToken call(List<SwapToken> tokens, {SwapToken? from, SwapToken? to}) {
-    return _SwapToken(
-      tokens,
-      from: from,
-      to: to,
-    );
-  }
-
-  _Data data(List<SwapToken> tokens, {SwapToken? from, SwapToken? to}) {
+  _Data data(List<InchToken> tokens,
+      {InchToken? from,
+      InchToken? to,
+      BigInt? nativeBalance,
+      List<BalancedInchToken> balances = const []}) {
     return _Data(
       tokens,
       from: from,
       to: to,
+      nativeBalance: nativeBalance,
+      balances: balances,
     );
   }
 
-  _Loading loading(List<SwapToken> tokens, {SwapToken? from, SwapToken? to}) {
+  _Loading loading(List<InchToken> tokens, {InchToken? from, InchToken? to}) {
     return _Loading(
       tokens,
       from: from,
@@ -41,7 +39,7 @@ class _$SwapTokensStateTearOff {
     );
   }
 
-  _Error error(List<SwapToken> tokens, {SwapToken? from, SwapToken? to}) {
+  _Error error(List<InchToken> tokens, {InchToken? from, InchToken? to}) {
     return _Error(
       tokens,
       from: from,
@@ -55,69 +53,66 @@ const $SwapTokensState = _$SwapTokensStateTearOff();
 
 /// @nodoc
 mixin _$SwapTokensState {
-  List<SwapToken> get tokens => throw _privateConstructorUsedError;
-  SwapToken? get from => throw _privateConstructorUsedError;
-  SwapToken? get to => throw _privateConstructorUsedError;
+  List<InchToken> get tokens => throw _privateConstructorUsedError;
+  InchToken? get from => throw _privateConstructorUsedError;
+  InchToken? get to => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        $default, {
+  TResult when<TResult extends Object?>({
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens,
+            InchToken? from,
+            InchToken? to,
+            BigInt? nativeBalance,
+            List<BalancedInchToken> balances)
         data,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         loading,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_SwapToken value) $default, {
+  TResult map<TResult extends Object?>({
     required TResult Function(_Data value) data,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
@@ -135,10 +130,7 @@ abstract class $SwapTokensStateCopyWith<$Res> {
   factory $SwapTokensStateCopyWith(
           SwapTokensState value, $Res Function(SwapTokensState) then) =
       _$SwapTokensStateCopyWithImpl<$Res>;
-  $Res call({List<SwapToken> tokens, SwapToken? from, SwapToken? to});
-
-  $SwapTokenCopyWith<$Res>? get from;
-  $SwapTokenCopyWith<$Res>? get to;
+  $Res call({List<InchToken> tokens, InchToken? from, InchToken? to});
 }
 
 /// @nodoc
@@ -160,233 +152,17 @@ class _$SwapTokensStateCopyWithImpl<$Res>
       tokens: tokens == freezed
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
-              as List<SwapToken>,
+              as List<InchToken>,
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
     ));
   }
-
-  @override
-  $SwapTokenCopyWith<$Res>? get from {
-    if (_value.from == null) {
-      return null;
-    }
-
-    return $SwapTokenCopyWith<$Res>(_value.from!, (value) {
-      return _then(_value.copyWith(from: value));
-    });
-  }
-
-  @override
-  $SwapTokenCopyWith<$Res>? get to {
-    if (_value.to == null) {
-      return null;
-    }
-
-    return $SwapTokenCopyWith<$Res>(_value.to!, (value) {
-      return _then(_value.copyWith(to: value));
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$SwapTokenCopyWith<$Res>
-    implements $SwapTokensStateCopyWith<$Res> {
-  factory _$SwapTokenCopyWith(
-          _SwapToken value, $Res Function(_SwapToken) then) =
-      __$SwapTokenCopyWithImpl<$Res>;
-  @override
-  $Res call({List<SwapToken> tokens, SwapToken? from, SwapToken? to});
-
-  @override
-  $SwapTokenCopyWith<$Res>? get from;
-  @override
-  $SwapTokenCopyWith<$Res>? get to;
-}
-
-/// @nodoc
-class __$SwapTokenCopyWithImpl<$Res> extends _$SwapTokensStateCopyWithImpl<$Res>
-    implements _$SwapTokenCopyWith<$Res> {
-  __$SwapTokenCopyWithImpl(_SwapToken _value, $Res Function(_SwapToken) _then)
-      : super(_value, (v) => _then(v as _SwapToken));
-
-  @override
-  _SwapToken get _value => super._value as _SwapToken;
-
-  @override
-  $Res call({
-    Object? tokens = freezed,
-    Object? from = freezed,
-    Object? to = freezed,
-  }) {
-    return _then(_SwapToken(
-      tokens == freezed
-          ? _value.tokens
-          : tokens // ignore: cast_nullable_to_non_nullable
-              as List<SwapToken>,
-      from: from == freezed
-          ? _value.from
-          : from // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
-      to: to == freezed
-          ? _value.to
-          : to // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_SwapToken implements _SwapToken {
-  const _$_SwapToken(this.tokens, {this.from, this.to});
-
-  @override
-  final List<SwapToken> tokens;
-  @override
-  final SwapToken? from;
-  @override
-  final SwapToken? to;
-
-  @override
-  String toString() {
-    return 'SwapTokensState(tokens: $tokens, from: $from, to: $to)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is _SwapToken &&
-            (identical(other.tokens, tokens) ||
-                const DeepCollectionEquality().equals(other.tokens, tokens)) &&
-            (identical(other.from, from) ||
-                const DeepCollectionEquality().equals(other.from, from)) &&
-            (identical(other.to, to) ||
-                const DeepCollectionEquality().equals(other.to, to)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(tokens) ^
-      const DeepCollectionEquality().hash(from) ^
-      const DeepCollectionEquality().hash(to);
-
-  @JsonKey(ignore: true)
-  @override
-  _$SwapTokenCopyWith<_SwapToken> get copyWith =>
-      __$SwapTokenCopyWithImpl<_SwapToken>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        $default, {
-    required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        data,
-    required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        loading,
-    required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        error,
-  }) {
-    return $default(tokens, from, to);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        error,
-  }) {
-    return $default?.call(tokens, from, to);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        error,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(tokens, from, to);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_SwapToken value) $default, {
-    required TResult Function(_Data value) data,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Error value) error,
-  }) {
-    return $default(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
-    TResult Function(_Data value)? data,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Error value)? error,
-  }) {
-    return $default?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
-    TResult Function(_Data value)? data,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if ($default != null) {
-      return $default(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _SwapToken implements SwapTokensState {
-  const factory _SwapToken(List<SwapToken> tokens,
-      {SwapToken? from, SwapToken? to}) = _$_SwapToken;
-
-  @override
-  List<SwapToken> get tokens => throw _privateConstructorUsedError;
-  @override
-  SwapToken? get from => throw _privateConstructorUsedError;
-  @override
-  SwapToken? get to => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  _$SwapTokenCopyWith<_SwapToken> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -394,12 +170,12 @@ abstract class _$DataCopyWith<$Res> implements $SwapTokensStateCopyWith<$Res> {
   factory _$DataCopyWith(_Data value, $Res Function(_Data) then) =
       __$DataCopyWithImpl<$Res>;
   @override
-  $Res call({List<SwapToken> tokens, SwapToken? from, SwapToken? to});
-
-  @override
-  $SwapTokenCopyWith<$Res>? get from;
-  @override
-  $SwapTokenCopyWith<$Res>? get to;
+  $Res call(
+      {List<InchToken> tokens,
+      InchToken? from,
+      InchToken? to,
+      BigInt? nativeBalance,
+      List<BalancedInchToken> balances});
 }
 
 /// @nodoc
@@ -416,20 +192,30 @@ class __$DataCopyWithImpl<$Res> extends _$SwapTokensStateCopyWithImpl<$Res>
     Object? tokens = freezed,
     Object? from = freezed,
     Object? to = freezed,
+    Object? nativeBalance = freezed,
+    Object? balances = freezed,
   }) {
     return _then(_Data(
       tokens == freezed
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
-              as List<SwapToken>,
+              as List<InchToken>,
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
+      nativeBalance: nativeBalance == freezed
+          ? _value.nativeBalance
+          : nativeBalance // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+      balances: balances == freezed
+          ? _value.balances
+          : balances // ignore: cast_nullable_to_non_nullable
+              as List<BalancedInchToken>,
     ));
   }
 }
@@ -437,18 +223,24 @@ class __$DataCopyWithImpl<$Res> extends _$SwapTokensStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Data implements _Data {
-  const _$_Data(this.tokens, {this.from, this.to});
+  const _$_Data(this.tokens,
+      {this.from, this.to, this.nativeBalance, this.balances = const []});
 
   @override
-  final List<SwapToken> tokens;
+  final List<InchToken> tokens;
   @override
-  final SwapToken? from;
+  final InchToken? from;
   @override
-  final SwapToken? to;
+  final InchToken? to;
+  @override
+  final BigInt? nativeBalance;
+  @JsonKey(defaultValue: const [])
+  @override
+  final List<BalancedInchToken> balances;
 
   @override
   String toString() {
-    return 'SwapTokensState.data(tokens: $tokens, from: $from, to: $to)';
+    return 'SwapTokensState.data(tokens: $tokens, from: $from, to: $to, nativeBalance: $nativeBalance, balances: $balances)';
   }
 
   @override
@@ -460,7 +252,13 @@ class _$_Data implements _Data {
             (identical(other.from, from) ||
                 const DeepCollectionEquality().equals(other.from, from)) &&
             (identical(other.to, to) ||
-                const DeepCollectionEquality().equals(other.to, to)));
+                const DeepCollectionEquality().equals(other.to, to)) &&
+            (identical(other.nativeBalance, nativeBalance) ||
+                const DeepCollectionEquality()
+                    .equals(other.nativeBalance, nativeBalance)) &&
+            (identical(other.balances, balances) ||
+                const DeepCollectionEquality()
+                    .equals(other.balances, balances)));
   }
 
   @override
@@ -468,7 +266,9 @@ class _$_Data implements _Data {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(tokens) ^
       const DeepCollectionEquality().hash(from) ^
-      const DeepCollectionEquality().hash(to);
+      const DeepCollectionEquality().hash(to) ^
+      const DeepCollectionEquality().hash(nativeBalance) ^
+      const DeepCollectionEquality().hash(balances);
 
   @JsonKey(ignore: true)
   @override
@@ -477,60 +277,59 @@ class _$_Data implements _Data {
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        $default, {
+  TResult when<TResult extends Object?>({
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens,
+            InchToken? from,
+            InchToken? to,
+            BigInt? nativeBalance,
+            List<BalancedInchToken> balances)
         data,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         loading,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         error,
   }) {
-    return data(tokens, from, to);
+    return data(tokens, from, to, nativeBalance, balances);
   }
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
   }) {
-    return data?.call(tokens, from, to);
+    return data?.call(tokens, from, to, nativeBalance, balances);
   }
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(tokens, from, to);
+      return data(tokens, from, to, nativeBalance, balances);
     }
     return orElse();
   }
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_SwapToken value) $default, {
+  TResult map<TResult extends Object?>({
     required TResult Function(_Data value) data,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
@@ -540,8 +339,7 @@ class _$_Data implements _Data {
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
@@ -551,8 +349,7 @@ class _$_Data implements _Data {
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
@@ -566,15 +363,20 @@ class _$_Data implements _Data {
 }
 
 abstract class _Data implements SwapTokensState {
-  const factory _Data(List<SwapToken> tokens,
-      {SwapToken? from, SwapToken? to}) = _$_Data;
+  const factory _Data(List<InchToken> tokens,
+      {InchToken? from,
+      InchToken? to,
+      BigInt? nativeBalance,
+      List<BalancedInchToken> balances}) = _$_Data;
 
   @override
-  List<SwapToken> get tokens => throw _privateConstructorUsedError;
+  List<InchToken> get tokens => throw _privateConstructorUsedError;
   @override
-  SwapToken? get from => throw _privateConstructorUsedError;
+  InchToken? get from => throw _privateConstructorUsedError;
   @override
-  SwapToken? get to => throw _privateConstructorUsedError;
+  InchToken? get to => throw _privateConstructorUsedError;
+  BigInt? get nativeBalance => throw _privateConstructorUsedError;
+  List<BalancedInchToken> get balances => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$DataCopyWith<_Data> get copyWith => throw _privateConstructorUsedError;
@@ -586,12 +388,7 @@ abstract class _$LoadingCopyWith<$Res>
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
   @override
-  $Res call({List<SwapToken> tokens, SwapToken? from, SwapToken? to});
-
-  @override
-  $SwapTokenCopyWith<$Res>? get from;
-  @override
-  $SwapTokenCopyWith<$Res>? get to;
+  $Res call({List<InchToken> tokens, InchToken? from, InchToken? to});
 }
 
 /// @nodoc
@@ -613,15 +410,15 @@ class __$LoadingCopyWithImpl<$Res> extends _$SwapTokensStateCopyWithImpl<$Res>
       tokens == freezed
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
-              as List<SwapToken>,
+              as List<InchToken>,
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
     ));
   }
 }
@@ -632,11 +429,11 @@ class _$_Loading implements _Loading {
   const _$_Loading(this.tokens, {this.from, this.to});
 
   @override
-  final List<SwapToken> tokens;
+  final List<InchToken> tokens;
   @override
-  final SwapToken? from;
+  final InchToken? from;
   @override
-  final SwapToken? to;
+  final InchToken? to;
 
   @override
   String toString() {
@@ -669,17 +466,19 @@ class _$_Loading implements _Loading {
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        $default, {
+  TResult when<TResult extends Object?>({
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens,
+            InchToken? from,
+            InchToken? to,
+            BigInt? nativeBalance,
+            List<BalancedInchToken> balances)
         data,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         loading,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         error,
   }) {
     return loading(tokens, from, to);
@@ -687,14 +486,13 @@ class _$_Loading implements _Loading {
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
   }) {
     return loading?.call(tokens, from, to);
@@ -702,14 +500,13 @@ class _$_Loading implements _Loading {
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
     required TResult orElse(),
   }) {
@@ -721,8 +518,7 @@ class _$_Loading implements _Loading {
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_SwapToken value) $default, {
+  TResult map<TResult extends Object?>({
     required TResult Function(_Data value) data,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
@@ -732,8 +528,7 @@ class _$_Loading implements _Loading {
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
@@ -743,8 +538,7 @@ class _$_Loading implements _Loading {
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
@@ -758,15 +552,15 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements SwapTokensState {
-  const factory _Loading(List<SwapToken> tokens,
-      {SwapToken? from, SwapToken? to}) = _$_Loading;
+  const factory _Loading(List<InchToken> tokens,
+      {InchToken? from, InchToken? to}) = _$_Loading;
 
   @override
-  List<SwapToken> get tokens => throw _privateConstructorUsedError;
+  List<InchToken> get tokens => throw _privateConstructorUsedError;
   @override
-  SwapToken? get from => throw _privateConstructorUsedError;
+  InchToken? get from => throw _privateConstructorUsedError;
   @override
-  SwapToken? get to => throw _privateConstructorUsedError;
+  InchToken? get to => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -778,12 +572,7 @@ abstract class _$ErrorCopyWith<$Res> implements $SwapTokensStateCopyWith<$Res> {
   factory _$ErrorCopyWith(_Error value, $Res Function(_Error) then) =
       __$ErrorCopyWithImpl<$Res>;
   @override
-  $Res call({List<SwapToken> tokens, SwapToken? from, SwapToken? to});
-
-  @override
-  $SwapTokenCopyWith<$Res>? get from;
-  @override
-  $SwapTokenCopyWith<$Res>? get to;
+  $Res call({List<InchToken> tokens, InchToken? from, InchToken? to});
 }
 
 /// @nodoc
@@ -805,15 +594,15 @@ class __$ErrorCopyWithImpl<$Res> extends _$SwapTokensStateCopyWithImpl<$Res>
       tokens == freezed
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
-              as List<SwapToken>,
+              as List<InchToken>,
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
-              as SwapToken?,
+              as InchToken?,
     ));
   }
 }
@@ -824,11 +613,11 @@ class _$_Error implements _Error {
   const _$_Error(this.tokens, {this.from, this.to});
 
   @override
-  final List<SwapToken> tokens;
+  final List<InchToken> tokens;
   @override
-  final SwapToken? from;
+  final InchToken? from;
   @override
-  final SwapToken? to;
+  final InchToken? to;
 
   @override
   String toString() {
@@ -861,17 +650,19 @@ class _$_Error implements _Error {
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)
-        $default, {
+  TResult when<TResult extends Object?>({
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens,
+            InchToken? from,
+            InchToken? to,
+            BigInt? nativeBalance,
+            List<BalancedInchToken> balances)
         data,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         loading,
     required TResult Function(
-            List<SwapToken> tokens, SwapToken? from, SwapToken? to)
+            List<InchToken> tokens, InchToken? from, InchToken? to)
         error,
   }) {
     return error(tokens, from, to);
@@ -879,14 +670,13 @@ class _$_Error implements _Error {
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
   }) {
     return error?.call(tokens, from, to);
@@ -894,14 +684,13 @@ class _$_Error implements _Error {
 
   @override
   @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
-        $default, {
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
+            BigInt? nativeBalance, List<BalancedInchToken> balances)?
         data,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
-    TResult Function(List<SwapToken> tokens, SwapToken? from, SwapToken? to)?
+    TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         error,
     required TResult orElse(),
   }) {
@@ -913,8 +702,7 @@ class _$_Error implements _Error {
 
   @override
   @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_SwapToken value) $default, {
+  TResult map<TResult extends Object?>({
     required TResult Function(_Data value) data,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
@@ -924,8 +712,7 @@ class _$_Error implements _Error {
 
   @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
@@ -935,8 +722,7 @@ class _$_Error implements _Error {
 
   @override
   @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_SwapToken value)? $default, {
+  TResult maybeMap<TResult extends Object?>({
     TResult Function(_Data value)? data,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
@@ -950,15 +736,15 @@ class _$_Error implements _Error {
 }
 
 abstract class _Error implements SwapTokensState {
-  const factory _Error(List<SwapToken> tokens,
-      {SwapToken? from, SwapToken? to}) = _$_Error;
+  const factory _Error(List<InchToken> tokens,
+      {InchToken? from, InchToken? to}) = _$_Error;
 
   @override
-  List<SwapToken> get tokens => throw _privateConstructorUsedError;
+  List<InchToken> get tokens => throw _privateConstructorUsedError;
   @override
-  SwapToken? get from => throw _privateConstructorUsedError;
+  InchToken? get from => throw _privateConstructorUsedError;
   @override
-  SwapToken? get to => throw _privateConstructorUsedError;
+  InchToken? get to => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ErrorCopyWith<_Error> get copyWith => throw _privateConstructorUsedError;

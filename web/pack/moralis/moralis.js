@@ -18,14 +18,7 @@ let dex;
 })();
 
 async function swap(inputToken, outputToken, amount) {
-  try {
-    let user = Moralis.User.current();
-    if (!user) {
-      user = await Moralis.Web3.authenticate();
-    }
-  } catch (error) {
-    throw error;
-  }
+  await authModifier();
 
   const options = {
     chain: "polygon",
@@ -46,14 +39,7 @@ async function swapTokens() {
 }
 
 async function swapAllowance(inputToken, amount) {
-  try {
-    let user = Moralis.User.current();
-    if (!user) {
-      user = await Moralis.Web3.authenticate();
-    }
-  } catch (error) {
-    throw error;
-  }
+  await authModifier();
 
   const allowance = await dex.hasAllowance({
     chain: "polygon",
@@ -69,6 +55,33 @@ async function swapAllowance(inputToken, amount) {
 }
 
 async function swapApprove(inputToken) {
+  await authModifier();
+
+  await Moralis.Plugins.oneInch.approve({
+    chain: "polygon", // The blockchain you want to use (eth/bsc/polygon)
+    tokenAddress: inputToken, // The token you want to swap
+    fromAddress: Moralis.User.current().get("ethAddress"), // Your wallet address
+  });
+}
+
+async function getNativeBalance() {
+  await authModifier();
+
+  const options = { chain: "polygon" };
+  const balance = await Moralis.Web3API.account.getNativeBalance(options);
+  return balance;
+}
+
+async function getTokenBalances() {
+  await authModifier();
+
+  const options = { chain: "polygon" };
+  const balances = await Moralis.Web3API.account.getTokenBalances(options);
+
+  return balances;
+}
+
+async function authModifier() {
   try {
     let user = Moralis.User.current();
     if (!user) {
@@ -77,10 +90,4 @@ async function swapApprove(inputToken) {
   } catch (error) {
     throw error;
   }
-
-  await Moralis.Plugins.oneInch.approve({
-    chain: "polygon", // The blockchain you want to use (eth/bsc/polygon)
-    tokenAddress: inputToken, // The token you want to swap
-    fromAddress: Moralis.User.current().get("ethAddress"), // Your wallet address
-  });
 }

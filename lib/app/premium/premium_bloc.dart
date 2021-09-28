@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/services/superfluid/superfluid_service.dart';
 import 'package:myethworld/services/superfluid/superfluid_user.dart';
+import 'package:myethworld/services/tokens/polygon_token.dart';
 import 'package:myethworld/services/web3service/web3_service.dart';
 
 import '../injectable.dart';

@@ -44,7 +44,7 @@ class _UpgradePageState extends State<UpgradePage> {
                         Positioned.fill(
                           child: PlasmaRenderer(
                             color: UpgradeThemes.colorScheme.primary
-                                .withOpacity(0.025),
+                                .withOpacity(0.05),
                             blur: 2.0,
                             particleType: ParticleType.atlas,
                           ),

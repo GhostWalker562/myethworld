@@ -27,7 +27,9 @@ class SwapBloc extends Bloc<SwapEvent, SwapState> {
       CheckAllowance event, Emitter<SwapState> emit) async {
     emit(const SwapState.loading(LoadingStatus.approval));
     try {
-      await swapService.checkAllowance(event.from, event.amount);
+      if (!event.from.isNative) {
+        await swapService.checkAllowance(event.from.address, event.amount);
+      }
       emit(const SwapState.approved());
     } catch (e) {
       emit(const SwapState.unapproved());
@@ -48,7 +50,8 @@ class SwapBloc extends Bloc<SwapEvent, SwapState> {
   Future<void> swap(Swap event, Emitter<SwapState> emit) async {
     emit(const SwapState.loading(LoadingStatus.swap));
     try {
-      await swapService.inchSwap(event.from, event.out, event.amount);
+      await swapService.inchSwap(
+          event.from, event.out, event.amount.floor().toString());
       emit(const SwapState.swapped());
     } catch (e) {
       emit(const SwapState.error());

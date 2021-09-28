@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SwapEventTearOff {
   const _$SwapEventTearOff();
 
-  CheckAllowance checkAllowance(String from, double amount) {
+  CheckAllowance checkAllowance(InchToken from, double amount) {
     return CheckAllowance(
       from,
       amount,
@@ -50,7 +50,7 @@ const $SwapEvent = _$SwapEventTearOff();
 mixin _$SwapEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String from, double amount) checkAllowance,
+    required TResult Function(InchToken from, double amount) checkAllowance,
     required TResult Function(String from) approve,
     required TResult Function(String from, String out, double amount) swap,
     required TResult Function() reset,
@@ -58,7 +58,7 @@ mixin _$SwapEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -66,7 +66,7 @@ mixin _$SwapEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -120,7 +120,7 @@ abstract class $CheckAllowanceCopyWith<$Res> {
   factory $CheckAllowanceCopyWith(
           CheckAllowance value, $Res Function(CheckAllowance) then) =
       _$CheckAllowanceCopyWithImpl<$Res>;
-  $Res call({String from, double amount});
+  $Res call({InchToken from, double amount});
 }
 
 /// @nodoc
@@ -142,7 +142,7 @@ class _$CheckAllowanceCopyWithImpl<$Res> extends _$SwapEventCopyWithImpl<$Res>
       from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as String,
+              as InchToken,
       amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -157,7 +157,7 @@ class _$CheckAllowance implements CheckAllowance {
   const _$CheckAllowance(this.from, this.amount);
 
   @override
-  final String from;
+  final InchToken from;
   @override
   final double amount;
 
@@ -190,7 +190,7 @@ class _$CheckAllowance implements CheckAllowance {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String from, double amount) checkAllowance,
+    required TResult Function(InchToken from, double amount) checkAllowance,
     required TResult Function(String from) approve,
     required TResult Function(String from, String out, double amount) swap,
     required TResult Function() reset,
@@ -201,7 +201,7 @@ class _$CheckAllowance implements CheckAllowance {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -212,7 +212,7 @@ class _$CheckAllowance implements CheckAllowance {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -263,9 +263,10 @@ class _$CheckAllowance implements CheckAllowance {
 }
 
 abstract class CheckAllowance implements SwapEvent {
-  const factory CheckAllowance(String from, double amount) = _$CheckAllowance;
+  const factory CheckAllowance(InchToken from, double amount) =
+      _$CheckAllowance;
 
-  String get from => throw _privateConstructorUsedError;
+  InchToken get from => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CheckAllowanceCopyWith<CheckAllowance> get copyWith =>
@@ -334,7 +335,7 @@ class _$Approve implements Approve {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String from, double amount) checkAllowance,
+    required TResult Function(InchToken from, double amount) checkAllowance,
     required TResult Function(String from) approve,
     required TResult Function(String from, String out, double amount) swap,
     required TResult Function() reset,
@@ -345,7 +346,7 @@ class _$Approve implements Approve {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -356,7 +357,7 @@ class _$Approve implements Approve {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -497,7 +498,7 @@ class _$Swap implements Swap {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String from, double amount) checkAllowance,
+    required TResult Function(InchToken from, double amount) checkAllowance,
     required TResult Function(String from) approve,
     required TResult Function(String from, String out, double amount) swap,
     required TResult Function() reset,
@@ -508,7 +509,7 @@ class _$Swap implements Swap {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -519,7 +520,7 @@ class _$Swap implements Swap {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -616,7 +617,7 @@ class _$Reset implements Reset {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String from, double amount) checkAllowance,
+    required TResult Function(InchToken from, double amount) checkAllowance,
     required TResult Function(String from) approve,
     required TResult Function(String from, String out, double amount) swap,
     required TResult Function() reset,
@@ -627,7 +628,7 @@ class _$Reset implements Reset {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,
@@ -638,7 +639,7 @@ class _$Reset implements Reset {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String from, double amount)? checkAllowance,
+    TResult Function(InchToken from, double amount)? checkAllowance,
     TResult Function(String from)? approve,
     TResult Function(String from, String out, double amount)? swap,
     TResult Function()? reset,

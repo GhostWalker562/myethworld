@@ -15,7 +15,7 @@ class TokenIcon extends StatelessWidget {
       width: size,
       child: AspectRatio(
         aspectRatio: 1,
-        child: SvgPicture.asset(token.asset),
+        child: SvgPicture.asset(token.asset!),
       ),
     );
   }

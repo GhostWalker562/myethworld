@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
@@ -181,9 +182,9 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                               children: [
                                 Expanded(child: Divider(color: onSurface)),
                                 const SizedBox(width: 12),
-                                SvgPicture.asset(
-                                  'images/circle_down.svg',
-                                  height: 32,
+                                Icon(
+                                  IconlyBroken.arrowDownSquare,
+                                  size: 32,
                                   color: onSurface,
                                 ),
                                 const SizedBox(width: 12),
@@ -444,8 +445,8 @@ class CustomDropdownSearch extends StatelessWidget {
       maxHeight: context.mediaQuery.height * 0.6,
       popupBackgroundColor: context.colorScheme.surface,
       dropdownButtonBuilder: (context) {
-        return SvgPicture.asset(
-          'images/chevron_down.svg',
+        return Icon(
+          IconlyBroken.arrowDown2,
           color: context.colorScheme.onSurface,
         );
       },
@@ -521,7 +522,7 @@ class SnapSwapWrapper extends StatelessWidget {
               ),
               Expanded(
                 child: WalletGuard(
-                  child: ListView(
+                  builder: (context, state) => ListView(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: controller,
                     children: [

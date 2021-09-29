@@ -17,8 +17,7 @@ class _UpgradeButtonState extends State<UpgradeButton> {
   Widget build(BuildContext context) {
     return BlocBuilder<PremiumBloc, PremiumState>(
       builder: (context, state) {
-        // bool isPremium = state is Premium;
-        bool isBasic = state is Basic;
+        bool isPremium = state is Premium;
 
         return TransparentButton(
           onTap: () => _upgradePage(context),
@@ -33,10 +32,10 @@ class _UpgradeButtonState extends State<UpgradeButton> {
               borderRadius: Radii.s,
               color: Colors.white,
               // border: Border.all(
-                // color: isPremium
-                //     ? UpgradeThemes.colorScheme.primary
-                //     : context.colorScheme.primary,
-                // width: 1,
+              // color: isPremium
+              //     ? UpgradeThemes.colorScheme.primary
+              //     : context.colorScheme.primary,
+              // width: 1,
               // ),
             ),
             height: 40,
@@ -46,12 +45,24 @@ class _UpgradeButtonState extends State<UpgradeButton> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Transform.scale(
-                      scale: 0.8,
-                      child: Image.network('https://i.imgur.com/gTDxlJB.png'),
-                    ),
-                    if (isBasic) ...[
-                      const SizedBox(width: 4),
+                    if (isPremium) ...[
+                      ShaderText(
+                        gradient: LinearGradient(
+                          colors: [
+                            UpgradeThemes.colorScheme.primary,
+                            UpgradeThemes.colorScheme.secondary,
+                          ],
+                        ),
+                        child: Text(
+                          'PREMIUM',
+                          style: context.textTheme.button!.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                      ),
+                    ] else ...[
                       Text(
                         'UPGRADE',
                         style: context.textTheme.button!.copyWith(

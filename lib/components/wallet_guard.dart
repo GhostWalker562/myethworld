@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web3/ethereum.dart';
@@ -14,17 +16,17 @@ class WalletGuard extends StatelessWidget {
   final Widget Function(BuildContext context, Connected state) builder;
 
   void _switchChain() async {
-    try {
-      await ethereum!.walletSwitchChain(13);
-    } on EthereumUnrecognizedChainException {
+    await ethereum!.walletSwitchChain(137, () async {
+      log('Adding chain... 137, Polygon');
       await ethereum!.walletAddChain(
-        chainId: 13,
-        chainName: 'Polygon Mainnet',
+        chainId: 137,
+        chainName: 'Polygon',
         nativeCurrency:
             CurrencyParams(name: 'Polygon', symbol: 'MATIC', decimals: 18),
-        rpcUrls: ['https://polygon-rpc.com'],
+        rpcUrls: ['https://rpc-mainnet.matic.network'],
+        blockExplorerUrls: ['https://polygonscan.com/'],
       );
-    }
+    });
   }
 
   @override

@@ -7,17 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myethworld/app/themes.dart';
-import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:myethworld/components/wallet_guard.dart';
 import 'package:myethworld/services/tokens/polygon_token.dart';
 import 'package:myethworld/snap_swap/swap/swap_bloc.dart';
 import 'package:myethworld/snap_swap/swap_tokens/swap_tokens_cubit.dart';
-import 'package:quiver/strings.dart';
-import 'package:sa3_liquid/liquid/plasma/plasma.dart';
 
 class SnapSwapPage extends StatefulWidget {
   const SnapSwapPage({Key? key}) : super(key: key);
@@ -488,41 +484,41 @@ class SnapSwapWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: SwapTokensCubit()),
-        BlocProvider.value(value: SwapBloc()),
-      ],
-      child: Scaffold(
-        body: CustomImprovedScrolling(
-          controller: controller,
-          child: Column(
-            children: [
-              Header(
-                onLogoTap: () => context.router.pushNamed('/'),
-                leading: ShaderText(
-                  gradient: LinearGradient(
-                    colors: [
-                      context.colorScheme.primaryVariant,
-                      context.colorScheme.secondary,
-                      context.colorScheme.secondaryVariant,
-                    ],
-                  ),
-                  child: Text(
-                    'Snap Swap',
-                    style: accentTextTheme.headline4!
-                        .copyWith(color: Colors.white),
-                  ),
+    return Scaffold(
+      body: CustomImprovedScrolling(
+        controller: controller,
+        child: Column(
+          children: [
+            Header(
+              onLogoTap: () => context.router.pushNamed('/'),
+              leading: ShaderText(
+                gradient: LinearGradient(
+                  colors: [
+                    context.colorScheme.primaryVariant,
+                    context.colorScheme.secondary,
+                    context.colorScheme.secondaryVariant,
+                  ],
                 ),
-                actions: const [
-                  UpgradeButton(),
-                  SizedBox(width: 8),
-                  ConnectButton(),
-                ],
+                child: Text(
+                  'Snap Swap',
+                  style:
+                      accentTextTheme.headline4!.copyWith(color: Colors.white),
+                ),
               ),
-              Expanded(
-                child: WalletGuard(
-                  builder: (context, state) => ListView(
+              actions: const [
+                UpgradeButton(),
+                SizedBox(width: 8),
+                ConnectButton(),
+              ],
+            ),
+            Expanded(
+              child: WalletGuard(
+                builder: (context, state) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: SwapTokensCubit()),
+                    BlocProvider.value(value: SwapBloc()),
+                  ],
+                  child: ListView(
                     physics: const NeverScrollableScrollPhysics(),
                     controller: controller,
                     children: [
@@ -531,8 +527,8 @@ class SnapSwapWrapper extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

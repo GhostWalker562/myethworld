@@ -35,6 +35,7 @@ async function swap(inputToken, outputToken, amount) {
 
 async function swapTokens() {
   const result = await dex.getSupportedTokens({ chain: "polygon" });
+  console.log(result);
   return result;
 }
 
@@ -82,10 +83,10 @@ async function getTokenBalances() {
 }
 
 async function authModifier() {
+  let user = Moralis.User.current();
   try {
-    let user = Moralis.User.current();
     if (!user) {
-      user = await Moralis.Web3.authenticate();
+      await Moralis.Web3.authenticate();
     }
   } catch (error) {
     throw error;

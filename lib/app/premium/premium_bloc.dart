@@ -34,6 +34,7 @@ class PremiumBloc extends Bloc<PremiumEvent, PremiumState> {
     final previousState = state;
     emit(const PremiumState.pending());
     try {
+      if (!SuperfluidService.initialized) await superfluidService.initSf();
       await superfluidService.userSf(event.account.address, event.token);
       await superfluidService.flowSf(SuperfluidService.recipientAccount,
           (2.562420 / 30 / 24 / 60 / 60 * 1e18).toStringAsFixed(0));
@@ -52,6 +53,7 @@ class PremiumBloc extends Bloc<PremiumEvent, PremiumState> {
     final previousState = state;
     emit(const PremiumState.pending());
     try {
+      if (!SuperfluidService.initialized) await superfluidService.initSf();
       await superfluidService.userSf(event.account.address, event.token);
       await superfluidService.flowSf(
           SuperfluidService.recipientAccount, 0.toString());

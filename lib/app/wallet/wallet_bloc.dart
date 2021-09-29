@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myethworld/app/injectable.dart';
+import 'package:myethworld/services/superfluid/superfluid_service.dart';
 import 'package:myethworld/services/web3service/web3_service.dart';
 
 part 'wallet_event.dart';
@@ -49,8 +50,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     _clear();
   }
 
-  void clear(Clear event, Emitter<WalletState> emit) =>
+  void clear(Clear event, Emitter<WalletState> emit) {
       emit(const WalletState.unconnected());
+      SuperfluidService.initialized = false;
+  }
 
   void _clear() => add(const Clear());
 

@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myethworld/app/router.gr.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:auto_route/auto_route.dart';
+
+import 'dart:math';
 
 class Feature {
   final String name;
@@ -35,37 +38,67 @@ class _HomePageState extends State<HomePage> {
     ];
 
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          const Header(
-            actions: [
-              UpgradeButton(),
-              SizedBox(width: 8),
-              ConnectButton(),
-            ],
-          ),
-          Expanded(
-            child: CustomImprovedScrolling(
-              controller: controller,
-              child: ResponsiveGridView.builder(
-                controller: controller,
-                padding: const EdgeInsets.all(48),
-                itemCount: features.length,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const ResponsiveGridDelegate(
-                  minCrossAxisExtent: 350,
-                  maxCrossAxisExtent: 400,
-                  mainAxisSpacing: 48,
-                  crossAxisSpacing: 48,
-                ),
-                itemBuilder: (context, index) {
-                  final Feature feature = features[index];
-                  return FeatureApp(
-                    feature: feature,
-                  );
-                },
+          Positioned(
+            left: 16,
+            bottom: 16,
+            child: Opacity(
+              opacity: 0.5,
+              child: CachedNetworkImage(
+                imageUrl: 'https://i.imgur.com/T9uLUcJ.png',
+                height: 200,
               ),
             ),
+          ),
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: Opacity(
+              opacity: 0.5,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(pi),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://i.imgur.com/7ZDUFam.png',
+                  height: 300,
+                ),
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              const Header(
+                actions: [
+                  UpgradeButton(),
+                  SizedBox(width: 8),
+                  ConnectButton(),
+                ],
+              ),
+              Expanded(
+                child: CustomImprovedScrolling(
+                  controller: controller,
+                  child: ResponsiveGridView.builder(
+                    controller: controller,
+                    padding: const EdgeInsets.all(48),
+                    itemCount: features.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const ResponsiveGridDelegate(
+                      minCrossAxisExtent: 350,
+                      maxCrossAxisExtent: 400,
+                      mainAxisSpacing: 48,
+                      crossAxisSpacing: 48,
+                    ),
+                    itemBuilder: (context, index) {
+                      final Feature feature = features[index];
+                      return FeatureApp(
+                        feature: feature,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -83,17 +116,42 @@ class FeatureApp extends StatelessWidget {
     return TransparentButton(
       onTap: feature.onTap,
       child: PerspectiveTransform(
-        child: ClipRRect(
-          borderRadius: Radii.m,
-          child: Container(
-            color: context.colorScheme.primary.withOpacity(0.25),
-            child: Center(
-              child: Text(
-                feature.name,
-                style: context.textTheme.headline5,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: Radii.m,
+                border: Border.all(
+                  color: context.colorScheme.onSurface.withOpacity(0.1),
+                  width: 2,
+                ),
+                color: context.colorScheme.surface.withOpacity(0.25),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Transform.scale(
+                  scale: 1.05,
+                  child: Image.asset(
+                    'assets/images/snap_swap.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
-          ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Text(
+                  feature.name,
+                  style: accentTextTheme.headline5!.copyWith(
+                    fontSize: 42,
+                    color: context.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

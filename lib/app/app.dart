@@ -35,6 +35,7 @@ class App extends StatelessWidget {
         // supportedLocales: AppLocalizations.supportedLocales,
         routerDelegate: _appRouter.delegate(),
         routeInformationParser: _appRouter.defaultRouteParser(),
+        debugShowCheckedModeBanner: false,
         builder: (context, child) {
           return BlocListener<WalletBloc, WalletState>(
             listener: (context, state) {

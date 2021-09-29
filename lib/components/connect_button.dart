@@ -70,10 +70,10 @@ class _ConnectButtonState extends State<ConnectButton> {
                             padding: const EdgeInsets.only(left: 8.0),
                             child: TransparentButton(
                               onTap: () => _disconnectFromWallet(context),
-                              child: const Icon(
-                                Icons.close,
+                              child: Icon(
+                                IconlyBroken.closeSquare,
                                 size: 20,
-                                color: Colors.white,
+                                color: context.colorScheme.error,
                               ),
                             ),
                           )

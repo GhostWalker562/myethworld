@@ -41,7 +41,7 @@ class _UpgradeButtonState extends State<UpgradeButton> {
             height: 40,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

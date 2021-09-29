@@ -25,7 +25,6 @@ class WalletGuard extends StatelessWidget {
         rpcUrls: ['https://polygon-rpc.com'],
       );
     }
-    ethereum?.walletSwitchChain(13);
   }
 
   @override

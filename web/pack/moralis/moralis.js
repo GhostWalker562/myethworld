@@ -18,8 +18,6 @@ let dex;
 })();
 
 async function swap(inputToken, outputToken, amount) {
-  await authModifier();
-
   const options = {
     chain: "polygon",
     fromTokenAddress: inputToken,
@@ -29,8 +27,14 @@ async function swap(inputToken, outputToken, amount) {
     slippage: 1,
   };
 
-  var receipt = await dex.swap(options);
-  console.log(receipt);
+  try {
+    console.log(options);
+    var receipt = await dex.swap(options);
+    console.log(receipt);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 }
 
 async function swapTokens() {
@@ -40,8 +44,6 @@ async function swapTokens() {
 }
 
 async function swapAllowance(inputToken, amount) {
-  await authModifier();
-
   const allowance = await dex.hasAllowance({
     chain: "polygon",
     fromTokenAddress: inputToken,
@@ -56,8 +58,6 @@ async function swapAllowance(inputToken, amount) {
 }
 
 async function swapApprove(inputToken) {
-  await authModifier();
-
   await Moralis.Plugins.oneInch.approve({
     chain: "polygon", // The blockchain you want to use (eth/bsc/polygon)
     tokenAddress: inputToken, // The token you want to swap
@@ -66,29 +66,46 @@ async function swapApprove(inputToken) {
 }
 
 async function getNativeBalance() {
-  await authModifier();
-
   const options = { chain: "polygon" };
   const balance = await Moralis.Web3API.account.getNativeBalance(options);
   return balance;
 }
 
 async function getTokenBalances() {
-  await authModifier();
-
   const options = { chain: "polygon" };
   const balances = await Moralis.Web3API.account.getTokenBalances(options);
 
   return balances;
 }
 
-async function authModifier() {
+async function authenticate() {
   let user = Moralis.User.current();
   try {
     if (!user) {
-      await Moralis.Web3.authenticate();
+      user = await Moralis.Web3.authenticate();
     }
+    console.log("Logged in user:", user);
+    return user;
   } catch (error) {
     throw error;
   }
+}
+
+async function user() {
+  return Moralis.User.current();
+}
+
+async function logOut() {
+  return Moralis.User.logOut();
+}
+
+async function quote(inputToken, outputToken, amount) {
+  const quote = await dex.quote({
+    chain: "polygon", // The blockchain you want to use (eth/bsc/polygon)
+    fromTokenAddress: inputToken, // The token you want to swap
+    toTokenAddress: outputToken, // The token you want to receive
+    amount: amount,
+  });
+
+  return quote;
 }

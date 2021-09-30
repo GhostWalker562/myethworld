@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myethworld/app/injectable.dart';
@@ -7,13 +9,11 @@ part 'swap_tokens_state.dart';
 part 'swap_tokens_cubit.freezed.dart';
 
 class SwapTokensCubit extends Cubit<SwapTokensState> {
-  SwapTokensCubit() : super(const SwapTokensState.loading([])) {
-    refreshTokens();
-  }
-
+  SwapTokensCubit() : super(const SwapTokensState.loading([]));
   final swapService = getIt<SwapService>();
 
   Future<void> refreshTokens() async {
+    log('Retrieving tokens');
     try {
       final tokens = await swapService.tokens();
       final nativeBalance = await swapService.getNativeBalance();

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js';
 import 'dart:js_util';
 
 import 'package:flutter_web3/flutter_web3.dart';
@@ -32,7 +33,7 @@ class SwapService {
   Future<void> approve(String token) async =>
       await promiseToFuture(Moralis.swapApprove(token));
 
-  Future<void> inchSwap(String input, String output, String amount) async =>
+  Future<JsObject> inchSwap(String input, String output, String amount) async =>
       await promiseToFuture(Moralis.swap(input, output, amount));
 
   Future<List<BalancedInchToken>> getTokenBalances() async {
@@ -54,6 +55,18 @@ class SwapService {
     if (json['balance'] == null) return BigInt.from(0);
     return BigInt.from(num.parse(json['balance']));
   }
+
+  Future<bool> user() async {
+    final user = await promiseToFuture(Moralis.user());
+    return user != null;
+  }
+
+  Future<bool> authenticate() async {
+    final user = await promiseToFuture(Moralis.authenticate());
+    return user != null;
+  }
+
+  Future<void> logOut() async => await promiseToFuture(Moralis.logOut());
 }
 
 

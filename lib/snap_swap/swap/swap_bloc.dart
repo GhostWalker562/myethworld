@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter_web3/ethereum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myethworld/app/injectable.dart';
 import 'package:myethworld/services/swap/swap_service.dart';
@@ -50,11 +54,17 @@ class SwapBloc extends Bloc<SwapEvent, SwapState> {
   Future<void> swap(Swap event, Emitter<SwapState> emit) async {
     emit(const SwapState.loading(LoadingStatus.swap));
     try {
-      await swapService.inchSwap(
+      final receipt = await swapService.inchSwap(
           event.from, event.out, event.amount.floor().toString());
-      emit(const SwapState.swapped());
+      final json = jsonDecode(stringify(receipt));
+      if ((json['status'] as String)[0] == '2') {
+        emit(const SwapState.swapped());
+      } else {
+        throw json['message'];
+      }
     } catch (e) {
       emit(const SwapState.error());
+      log(e.toString());
       emit(const SwapState.approved());
     }
   }

@@ -6,6 +6,7 @@ import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/app/premium/premium_bloc.dart';
 
 import 'app/app_bloc.dart';
+import 'moralis/moralis_bloc.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:myethworld/counter/counter.dart';
 // import 'package:myethworld/l10n/l10n.dart';
@@ -25,6 +26,7 @@ class App extends StatelessWidget {
           create: (context) =>
               WalletBloc()..add(const WalletEvent.checkSupported()),
         ),
+        BlocProvider(create: (context) => MoralisBloc()),
       ],
       child: MaterialApp.router(
         theme: theme,

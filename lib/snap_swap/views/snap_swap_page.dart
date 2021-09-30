@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:myethworld/app/moralis/moralis_bloc.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:auto_route/auto_route.dart';
@@ -14,6 +15,7 @@ import 'package:myethworld/components/wallet_guard.dart';
 import 'package:myethworld/services/tokens/polygon_token.dart';
 import 'package:myethworld/snap_swap/swap/swap_bloc.dart';
 import 'package:myethworld/snap_swap/swap_tokens/swap_tokens_cubit.dart';
+import 'package:sa3_liquid/liquid/plasma/plasma.dart';
 
 class SnapSwapPage extends StatefulWidget {
   const SnapSwapPage({Key? key}) : super(key: key);
@@ -144,7 +146,6 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                   flex: 2,
                                   child: TextField(
                                     controller: inputController,
-                                    textDirection: TextDirection.rtl,
                                     cursorColor: onSurface,
                                     cursorWidth: 1,
                                     style: context.textTheme.subtitle1,
@@ -160,7 +161,6 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                           context.textTheme.subtitle1!.copyWith(
                                         color: onSurface.withOpacity(0.5),
                                       ),
-                                      hintTextDirection: TextDirection.rtl,
                                     ),
                                   ),
                                 ),
@@ -513,19 +513,95 @@ class SnapSwapWrapper extends StatelessWidget {
             ),
             Expanded(
               child: WalletGuard(
-                builder: (context, state) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider.value(value: SwapTokensCubit()),
-                    BlocProvider.value(value: SwapBloc()),
-                  ],
-                  child: ListView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: controller,
-                    children: [
-                      ...children,
-                    ],
-                  ),
-                ),
+                builder: (BuildContext context, state) {
+                  return BlocBuilder<MoralisBloc, MoralisState>(
+                    builder: (context, state) {
+                      return state.when(
+                        authenticated: () {
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(
+                                  value: SwapTokensCubit()..refreshTokens()),
+                              BlocProvider.value(value: SwapBloc()),
+                            ],
+                            child: ListView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: controller,
+                              children: [
+                                ...children,
+                              ],
+                            ),
+                          );
+                        },
+                        unauthenticated: () {
+                          return Stack(
+                            children: [
+                              Positioned.fill(
+                                child: PlasmaRenderer(
+                                  color: UpgradeThemes.colorScheme.primary
+                                      .withOpacity(0.05),
+                                  blur: 2.0,
+                                  particleType: ParticleType.atlas,
+                                ),
+                              ),
+                              Center(
+                                child: Container(
+                                  padding: const EdgeInsets.all(24),
+                                  decoration: BoxDecoration(
+                                    // Show green when the contract has been approved.
+                                    color: UpgradeThemes.colorScheme.surface,
+                                    borderRadius: Radii.m,
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SelectableText(
+                                        '🏃‍♂️ Last Step 😊',
+                                        style: accentTextTheme.bodyText2
+                                            ?.copyWith(fontSize: 24),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      SizedBox(
+                                        width: 300,
+                                        child: TransparentButton(
+                                          onTap: () => context
+                                              .read<MoralisBloc>()
+                                              .add(const MoralisEvent
+                                                  .authenticate()),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 24),
+                                            width: 200,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              borderRadius: Radii.s,
+                                              color:
+                                                  context.colorScheme.primary,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Authenticate',
+                                                style: context.textTheme.button!
+                                                    .copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],

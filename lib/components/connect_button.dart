@@ -16,6 +16,7 @@ class _ConnectButtonState extends State<ConnectButton> {
 
   void _disconnectFromWallet(BuildContext context) {
     context.read<WalletBloc>().add(const WalletEvent.disconnect());
+    context.read<MoralisBloc>().add(const MoralisEvent.logout());
     setState(() => showDisconnect = false);
   }
 

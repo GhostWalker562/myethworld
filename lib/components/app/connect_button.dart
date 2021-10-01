@@ -1,4 +1,4 @@
-part of 'components.dart';
+part of 'app_components.dart';
 
 class ConnectButton extends StatefulWidget {
   const ConnectButton({Key? key}) : super(key: key);

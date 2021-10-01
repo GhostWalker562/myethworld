@@ -25,6 +25,7 @@ dependencies:
   lottie: ^1.2.0
   dropdown_search: ^1.0.0
   flutter_iconly: ^1.0.2
+  responsive_builder: ^0.4.1
 
   # Utilities
   quiver: ^3.0.1

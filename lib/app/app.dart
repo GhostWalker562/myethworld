@@ -4,6 +4,7 @@ import 'package:myethworld/app/router.gr.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:myethworld/app/wallet/wallet_bloc.dart';
 import 'package:myethworld/app/premium/premium_bloc.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import 'app/app_bloc.dart';
 import 'moralis/moralis_bloc.dart';
@@ -39,16 +40,42 @@ class App extends StatelessWidget {
         routeInformationParser: _appRouter.defaultRouteParser(),
         debugShowCheckedModeBanner: false,
         builder: (context, child) {
-          return BlocListener<WalletBloc, WalletState>(
-            listener: (context, state) {
-              if (state is Connected) {
-                context.read<PremiumBloc>().add(CheckAccount(state));
-              }
+          return ScreenTypeLayout.builder(
+            tablet: (context) {
+              return BlocListener<WalletBloc, WalletState>(
+                listener: (context, state) {
+                  if (state is Connected) {
+                    context.read<PremiumBloc>().add(CheckAccount(state));
+                  }
+                },
+                child: BlocListener<PremiumBloc, PremiumState>(
+                  listener: (context, state) {},
+                  child: child,
+                ),
+              );
             },
-            child: BlocListener<PremiumBloc, PremiumState>(
-              listener: (context, state) {},
-              child: child,
-            ),
+            desktop: (context) {
+              return BlocListener<WalletBloc, WalletState>(
+                listener: (context, state) {
+                  if (state is Connected) {
+                    context.read<PremiumBloc>().add(CheckAccount(state));
+                  }
+                },
+                child: BlocListener<PremiumBloc, PremiumState>(
+                  listener: (context, state) {},
+                  child: child,
+                ),
+              );
+            },
+            mobile: (context) {
+              return const Scaffold(
+                body: Center(
+                  child: SelectableText(
+                    'MyEthWorld only supports desktop or tablet devices.',
+                  ),
+                ),
+              );
+            },
           );
         },
       ),

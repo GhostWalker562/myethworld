@@ -13,6 +13,7 @@ class MoralisBloc extends Bloc<MoralisEvent, MoralisState> {
     on<Authenticate>(authenticate);
     on<Logout>(logOut);
     on<Refresh>(refresh);
+    add(const Refresh());
   }
 
   final SwapService _swapService = getIt<SwapService>();

@@ -1,14 +1,4 @@
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_web3/ethereum.dart';
-import 'package:flutter_web3/ethers.dart';
-import 'package:myethworld/app/themes.dart';
-import 'package:myethworld/app/wallet/wallet_bloc.dart';
-import 'package:sa3_liquid/liquid/plasma/plasma.dart';
-
-import 'components.dart';
+part of 'app_components.dart';
 
 class WalletGuard extends StatelessWidget {
   const WalletGuard({Key? key, required this.builder}) : super(key: key);

@@ -1,4 +1,4 @@
-part of 'components.dart';
+part of 'app_components.dart';
 
 class UpgradeButton extends StatefulWidget {
   const UpgradeButton({Key? key}) : super(key: key);

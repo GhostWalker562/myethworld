@@ -7,9 +7,10 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
+import '../file_upload/views/views.dart' as _i6;
 import '../home/home.dart' as _i3;
 import '../snap_swap/snap_swap.dart' as _i5;
-import '../upgrade/upgrade.dart' as _i6;
+import '../upgrade/upgrade.dart' as _i7;
 import 'router.dart' as _i4;
 
 class AppRouter extends _i1.RootStackRouter {
@@ -37,10 +38,20 @@ class AppRouter extends _i1.RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
+    FileUploadRoute.name: (routeData) {
+      return _i1.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i6.FileUploadPage(),
+          transitionsBuilder: _i4.RouterAnimations.fileUploadBuilder,
+          durationInMilliseconds: 1000,
+          reverseDurationInMilliseconds: 1000,
+          opaque: true,
+          barrierDismissible: false);
+    },
     UpgradeRoute.name: (routeData) {
       return _i1.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i6.UpgradePage(),
+          child: const _i7.UpgradePage(),
           transitionsBuilder: _i4.RouterAnimations.upgradeBuilder,
           durationInMilliseconds: 1000,
           reverseDurationInMilliseconds: 1000,
@@ -53,6 +64,7 @@ class AppRouter extends _i1.RootStackRouter {
   List<_i1.RouteConfig> get routes => [
         _i1.RouteConfig(HomeRoute.name, path: '/'),
         _i1.RouteConfig(SnapSwapRoute.name, path: '/snap-swap'),
+        _i1.RouteConfig(FileUploadRoute.name, path: '/file-upload'),
         _i1.RouteConfig(UpgradeRoute.name, path: '/upgrade'),
         _i1.RouteConfig('*#redirect',
             path: '*', redirectTo: '/', fullMatch: true)
@@ -69,6 +81,12 @@ class SnapSwapRoute extends _i1.PageRouteInfo<void> {
   const SnapSwapRoute() : super(name, path: '/snap-swap');
 
   static const String name = 'SnapSwapRoute';
+}
+
+class FileUploadRoute extends _i1.PageRouteInfo<void> {
+  const FileUploadRoute() : super(name, path: '/file-upload');
+
+  static const String name = 'FileUploadRoute';
 }
 
 class UpgradeRoute extends _i1.PageRouteInfo<void> {

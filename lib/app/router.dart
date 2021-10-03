@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myethworld/file_upload/views/views.dart';
 import 'package:myethworld/home/home.dart';
 import 'package:myethworld/snap_swap/snap_swap.dart';
 import 'package:myethworld/upgrade/upgrade.dart';
@@ -27,6 +28,13 @@ import 'package:supercharged/supercharged.dart';
       durationInMilliseconds: 1000,
       reverseDurationInMilliseconds: 1000,
       transitionsBuilder: RouterAnimations.snapSwapBuilder,
+    ),
+    CustomRoute(
+      page: FileUploadPage,
+      path: '/file-upload',
+      durationInMilliseconds: 1000,
+      reverseDurationInMilliseconds: 1000,
+      transitionsBuilder: RouterAnimations.fileUploadBuilder,
     ),
     CustomRoute(
       page: UpgradePage,
@@ -69,6 +77,20 @@ class RouterAnimations {
         'Snap Swap',
         const Color(0xFF121212),
         const Color(0xFFF43B86),
+      );
+
+  static Widget fileUploadBuilder(
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child) =>
+      baseTransition(
+        context,
+        animation,
+        child,
+        'File Upload',
+        const Color(0xFFFFF2EC),
+        const Color(0xFF2F2E9C),
       );
 
   static Widget streamSwapBuilder(

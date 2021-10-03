@@ -719,8 +719,10 @@ class _$SwapStateTearOff {
     return const _Swapped();
   }
 
-  _Error error() {
-    return const _Error();
+  _Error error(dynamic e) {
+    return _Error(
+      e,
+    );
   }
 }
 
@@ -736,7 +738,7 @@ mixin _$SwapState {
     required TResult Function() unapproved,
     required TResult Function() approved,
     required TResult Function() swapped,
-    required TResult Function() error,
+    required TResult Function(dynamic e) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -746,7 +748,7 @@ mixin _$SwapState {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -756,7 +758,7 @@ mixin _$SwapState {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -850,7 +852,7 @@ class _$_Idle implements _Idle {
     required TResult Function() unapproved,
     required TResult Function() approved,
     required TResult Function() swapped,
-    required TResult Function() error,
+    required TResult Function(dynamic e) error,
   }) {
     return idle();
   }
@@ -863,7 +865,7 @@ class _$_Idle implements _Idle {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
   }) {
     return idle?.call();
   }
@@ -876,7 +878,7 @@ class _$_Idle implements _Idle {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
     required TResult orElse(),
   }) {
     if (idle != null) {
@@ -1000,7 +1002,7 @@ class _$_Loading implements _Loading {
     required TResult Function() unapproved,
     required TResult Function() approved,
     required TResult Function() swapped,
-    required TResult Function() error,
+    required TResult Function(dynamic e) error,
   }) {
     return loading(status);
   }
@@ -1013,7 +1015,7 @@ class _$_Loading implements _Loading {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
   }) {
     return loading?.call(status);
   }
@@ -1026,7 +1028,7 @@ class _$_Loading implements _Loading {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1132,7 +1134,7 @@ class _$_Unapproved implements _Unapproved {
     required TResult Function() unapproved,
     required TResult Function() approved,
     required TResult Function() swapped,
-    required TResult Function() error,
+    required TResult Function(dynamic e) error,
   }) {
     return unapproved();
   }
@@ -1145,7 +1147,7 @@ class _$_Unapproved implements _Unapproved {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
   }) {
     return unapproved?.call();
   }
@@ -1158,7 +1160,7 @@ class _$_Unapproved implements _Unapproved {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
     required TResult orElse(),
   }) {
     if (unapproved != null) {
@@ -1257,7 +1259,7 @@ class _$_Approved implements _Approved {
     required TResult Function() unapproved,
     required TResult Function() approved,
     required TResult Function() swapped,
-    required TResult Function() error,
+    required TResult Function(dynamic e) error,
   }) {
     return approved();
   }
@@ -1270,7 +1272,7 @@ class _$_Approved implements _Approved {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
   }) {
     return approved?.call();
   }
@@ -1283,7 +1285,7 @@ class _$_Approved implements _Approved {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
     required TResult orElse(),
   }) {
     if (approved != null) {
@@ -1382,7 +1384,7 @@ class _$_Swapped implements _Swapped {
     required TResult Function() unapproved,
     required TResult Function() approved,
     required TResult Function() swapped,
-    required TResult Function() error,
+    required TResult Function(dynamic e) error,
   }) {
     return swapped();
   }
@@ -1395,7 +1397,7 @@ class _$_Swapped implements _Swapped {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
   }) {
     return swapped?.call();
   }
@@ -1408,7 +1410,7 @@ class _$_Swapped implements _Swapped {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
     required TResult orElse(),
   }) {
     if (swapped != null) {
@@ -1469,6 +1471,7 @@ abstract class _Swapped implements SwapState {
 abstract class _$ErrorCopyWith<$Res> {
   factory _$ErrorCopyWith(_Error value, $Res Function(_Error) then) =
       __$ErrorCopyWithImpl<$Res>;
+  $Res call({dynamic e});
 }
 
 /// @nodoc
@@ -1479,25 +1482,49 @@ class __$ErrorCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
 
   @override
   _Error get _value => super._value as _Error;
+
+  @override
+  $Res call({
+    Object? e = freezed,
+  }) {
+    return _then(_Error(
+      e == freezed
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Error implements _Error {
-  const _$_Error();
+  const _$_Error(this.e);
+
+  @override
+  final dynamic e;
 
   @override
   String toString() {
-    return 'SwapState.error()';
+    return 'SwapState.error(e: $e)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Error);
+    return identical(this, other) ||
+        (other is _Error &&
+            (identical(other.e, e) ||
+                const DeepCollectionEquality().equals(other.e, e)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(e);
+
+  @JsonKey(ignore: true)
+  @override
+  _$ErrorCopyWith<_Error> get copyWith =>
+      __$ErrorCopyWithImpl<_Error>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1507,9 +1534,9 @@ class _$_Error implements _Error {
     required TResult Function() unapproved,
     required TResult Function() approved,
     required TResult Function() swapped,
-    required TResult Function() error,
+    required TResult Function(dynamic e) error,
   }) {
-    return error();
+    return error(e);
   }
 
   @override
@@ -1520,9 +1547,9 @@ class _$_Error implements _Error {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
   }) {
-    return error?.call();
+    return error?.call(e);
   }
 
   @override
@@ -1533,11 +1560,11 @@ class _$_Error implements _Error {
     TResult Function()? unapproved,
     TResult Function()? approved,
     TResult Function()? swapped,
-    TResult Function()? error,
+    TResult Function(dynamic e)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(e);
     }
     return orElse();
   }
@@ -1587,5 +1614,9 @@ class _$_Error implements _Error {
 }
 
 abstract class _Error implements SwapState {
-  const factory _Error() = _$_Error;
+  const factory _Error(dynamic e) = _$_Error;
+
+  dynamic get e => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$ErrorCopyWith<_Error> get copyWith => throw _privateConstructorUsedError;
 }

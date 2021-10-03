@@ -20,7 +20,7 @@ class _$SwapTokensStateTearOff {
   _Data data(List<InchToken> tokens,
       {InchToken? from,
       InchToken? to,
-      BigInt? nativeBalance,
+      required BigInt nativeBalance,
       List<BalancedInchToken> balances = const []}) {
     return _Data(
       tokens,
@@ -63,7 +63,7 @@ mixin _$SwapTokensState {
             List<InchToken> tokens,
             InchToken? from,
             InchToken? to,
-            BigInt? nativeBalance,
+            BigInt nativeBalance,
             List<BalancedInchToken> balances)
         data,
     required TResult Function(
@@ -77,7 +77,7 @@ mixin _$SwapTokensState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
@@ -88,7 +88,7 @@ mixin _$SwapTokensState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
@@ -174,7 +174,7 @@ abstract class _$DataCopyWith<$Res> implements $SwapTokensStateCopyWith<$Res> {
       {List<InchToken> tokens,
       InchToken? from,
       InchToken? to,
-      BigInt? nativeBalance,
+      BigInt nativeBalance,
       List<BalancedInchToken> balances});
 }
 
@@ -211,7 +211,7 @@ class __$DataCopyWithImpl<$Res> extends _$SwapTokensStateCopyWithImpl<$Res>
       nativeBalance: nativeBalance == freezed
           ? _value.nativeBalance
           : nativeBalance // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
+              as BigInt,
       balances: balances == freezed
           ? _value.balances
           : balances // ignore: cast_nullable_to_non_nullable
@@ -224,7 +224,10 @@ class __$DataCopyWithImpl<$Res> extends _$SwapTokensStateCopyWithImpl<$Res>
 
 class _$_Data implements _Data {
   const _$_Data(this.tokens,
-      {this.from, this.to, this.nativeBalance, this.balances = const []});
+      {this.from,
+      this.to,
+      required this.nativeBalance,
+      this.balances = const []});
 
   @override
   final List<InchToken> tokens;
@@ -233,7 +236,7 @@ class _$_Data implements _Data {
   @override
   final InchToken? to;
   @override
-  final BigInt? nativeBalance;
+  final BigInt nativeBalance;
   @JsonKey(defaultValue: const [])
   @override
   final List<BalancedInchToken> balances;
@@ -282,7 +285,7 @@ class _$_Data implements _Data {
             List<InchToken> tokens,
             InchToken? from,
             InchToken? to,
-            BigInt? nativeBalance,
+            BigInt nativeBalance,
             List<BalancedInchToken> balances)
         data,
     required TResult Function(
@@ -299,7 +302,7 @@ class _$_Data implements _Data {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
@@ -313,7 +316,7 @@ class _$_Data implements _Data {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
@@ -366,7 +369,7 @@ abstract class _Data implements SwapTokensState {
   const factory _Data(List<InchToken> tokens,
       {InchToken? from,
       InchToken? to,
-      BigInt? nativeBalance,
+      required BigInt nativeBalance,
       List<BalancedInchToken> balances}) = _$_Data;
 
   @override
@@ -375,7 +378,7 @@ abstract class _Data implements SwapTokensState {
   InchToken? get from => throw _privateConstructorUsedError;
   @override
   InchToken? get to => throw _privateConstructorUsedError;
-  BigInt? get nativeBalance => throw _privateConstructorUsedError;
+  BigInt get nativeBalance => throw _privateConstructorUsedError;
   List<BalancedInchToken> get balances => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -471,7 +474,7 @@ class _$_Loading implements _Loading {
             List<InchToken> tokens,
             InchToken? from,
             InchToken? to,
-            BigInt? nativeBalance,
+            BigInt nativeBalance,
             List<BalancedInchToken> balances)
         data,
     required TResult Function(
@@ -488,7 +491,7 @@ class _$_Loading implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
@@ -502,7 +505,7 @@ class _$_Loading implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
@@ -655,7 +658,7 @@ class _$_Error implements _Error {
             List<InchToken> tokens,
             InchToken? from,
             InchToken? to,
-            BigInt? nativeBalance,
+            BigInt nativeBalance,
             List<BalancedInchToken> balances)
         data,
     required TResult Function(
@@ -672,7 +675,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,
@@ -686,7 +689,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to,
-            BigInt? nativeBalance, List<BalancedInchToken> balances)?
+            BigInt nativeBalance, List<BalancedInchToken> balances)?
         data,
     TResult Function(List<InchToken> tokens, InchToken? from, InchToken? to)?
         loading,

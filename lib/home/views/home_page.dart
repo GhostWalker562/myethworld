@@ -34,8 +34,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final List<Feature> features = [
-      Feature('Snap Swap',
-          onTap: () => context.router.push(const SnapSwapRoute())),
+      Feature(
+        'Snap Swap',
+        onTap: () => context.router.push(const SnapSwapRoute()),
+        asset: 'assets/images/snap_swap.png',
+      ),
     ];
 
     return Scaffold(
@@ -133,7 +136,7 @@ class FeatureApp extends StatelessWidget {
                 child: Transform.scale(
                   scale: 1.05,
                   child: Image.asset(
-                    'assets/images/snap_swap.png',
+                    feature.asset ?? 'assets/images/snap_swap.png',
                     fit: BoxFit.cover,
                   ),
                 ),

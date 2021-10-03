@@ -10,5 +10,5 @@ class SwapState with _$SwapState {
   const factory SwapState.unapproved() = _Unapproved;
   const factory SwapState.approved() = _Approved;
   const factory SwapState.swapped() = _Swapped;
-  const factory SwapState.error() = _Error;
+  const factory SwapState.error(dynamic e) = _Error;
 }

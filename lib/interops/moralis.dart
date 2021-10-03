@@ -6,7 +6,7 @@ import 'dart:js';
 import 'package:js/js.dart';
 
 @JS('swap')
-external Future<JsObject> swap(
+external Future<dynamic> swap(
     String inputToken, String outputToken, String amount);
 
 @JS('swapTokens')

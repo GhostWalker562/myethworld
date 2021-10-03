@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myethworld/app/moralis/moralis_bloc.dart';
 import 'package:myethworld/app/themes.dart';
 import 'package:myethworld/components/app/app_components.dart';
 import 'package:myethworld/components/components.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:myethworld/components/toasts.dart';
 import 'package:myethworld/services/tokens/polygon_token.dart';
 import 'package:myethworld/snap_swap/swap/swap_bloc.dart';
 import 'package:myethworld/snap_swap/swap_tokens/swap_tokens_cubit.dart';
@@ -42,8 +44,19 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
       context.read<SwapBloc>().add(Swap(from.address, to.address,
           double.parse(val) * pow(10, from.decimals)));
 
-  void _swapBlocListener(BuildContext context, SwapState state) => state
-      .whenOrNull(swapped: () => context.read<SwapBloc>().add(const Reset()));
+  void _swapBlocListener(BuildContext context, SwapState state) {
+    final fToast = FToast();
+    fToast.init(context);
+    state.whenOrNull(
+      swapped: () => context.read<SwapBloc>().add(const Reset()),
+      error: (obj) {
+        fToast.showToast(
+          toastDuration: const Duration(seconds: 5),
+          child: UpgradeStyleToast(text: '$obj'),
+        );
+      },
+    );
+  }
 
   /// Get the balance of a token using the given parameters in a readable string.
   String _getBalance(
@@ -121,8 +134,8 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                 ),
                                 const Spacer(),
                                 if (from != null)
-                                  Text(
-                                      'Balance: ${_getBalance(from, nativeBalance!, balances)}'),
+                                  SelectableText(
+                                      'Balance: ${_getBalance(from, nativeBalance, balances)}'),
                               ],
                             ),
                             const SizedBox(height: 12),
@@ -151,7 +164,7 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                     style: context.textTheme.subtitle1,
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(
-                                          RegExp(r'(^\-?\d*\.?\d*)'))
+                                          RegExp(r'\d+\.?\d*'))
                                     ],
                                     onChanged: (val) =>
                                         _checkAllowance(context, from!, val),
@@ -200,9 +213,9 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                   ),
                                 ),
                                 const Spacer(),
-                                FutureBuilder(builder: (context, snapshot) {
-                                  return const Text('Balance: ');
-                                }),
+                                if (to != null)
+                                  SelectableText(
+                                      'Balance: ${_getBalance(to, nativeBalance, balances)}'),
                               ],
                             ),
                             const SizedBox(height: 12),
@@ -241,13 +254,16 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                 valueListenable: inputController,
                                 builder: (context, value, child) {
                                   final text = value.text;
+                                  final val = double.tryParse(text);
+                                  if (val == null) {
+                                    return const SizedBox.shrink();
+                                  }
 
                                   if (text.isNotEmpty &&
-                                      _hasSufficientFunds(from, nativeBalance!,
-                                          balances, double.parse(text))) {
+                                      _hasSufficientFunds(
+                                          from, nativeBalance, balances, val)) {
                                     return child!;
-                                  } else if (value.text.isNotEmpty &&
-                                      double.parse(text) > 0) {
+                                  } else if (value.text.isNotEmpty && val > 0) {
                                     return Container(
                                       decoration: BoxDecoration(
                                         borderRadius: Radii.m,
@@ -284,7 +300,7 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                     return Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        if (!from.isNative)
+                                        if (!from.isNative) ...[
                                           TransparentButton(
                                             onTap: state.whenOrNull(
                                               unapproved: () => () =>
@@ -293,8 +309,13 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: Radii.m,
-                                                color: context
-                                                    .colorScheme.secondary,
+                                                color: state.maybeWhen(
+                                                  approved: () => context
+                                                      .colorScheme.secondary
+                                                      .withOpacity(0.1),
+                                                  orElse: () => context
+                                                      .colorScheme.secondary,
+                                                ),
                                               ),
                                               height: 60,
                                               alignment: Alignment.center,
@@ -302,26 +323,37 @@ class _SnapSwapPageState extends State<SnapSwapPage> {
                                                 loading: (status) =>
                                                     const CupertinoActivityIndicator(),
                                                 orElse: () => Text(
-                                                  'Approve',
+                                                  state.maybeWhen(
+                                                    approved: () => 'Approved',
+                                                    orElse: () => 'Approve',
+                                                  ),
                                                   style:
                                                       context.textTheme.button,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        const SizedBox(height: 24),
+                                          const SizedBox(height: 24),
+                                        ],
                                         TransparentButton(
-                                          onTap: () => _onSwap(
-                                            context,
-                                            from,
-                                            to,
-                                            inputController.text,
+                                          onTap: () => state.whenOrNull(
+                                            approved: () => _onSwap(
+                                              context,
+                                              from,
+                                              to,
+                                              inputController.text,
+                                            ),
                                           ),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: Radii.m,
-                                              color:
-                                                  context.colorScheme.secondary,
+                                              color: state.maybeWhen(
+                                                unapproved: () => context
+                                                    .colorScheme.secondary
+                                                    .withOpacity(0.1),
+                                                orElse: () => context
+                                                    .colorScheme.secondary,
+                                              ),
                                             ),
                                             height: 60,
                                             alignment: Alignment.center,
@@ -487,125 +519,141 @@ class SnapSwapWrapper extends StatelessWidget {
     return Scaffold(
       body: CustomImprovedScrolling(
         controller: controller,
-        child: Column(
-          children: [
-            Header(
-              onLogoTap: () => context.router.pushNamed('/'),
-              leading: ShaderText(
-                gradient: LinearGradient(
-                  colors: [
-                    context.colorScheme.primaryVariant,
-                    context.colorScheme.secondary,
-                    context.colorScheme.secondaryVariant,
-                  ],
-                ),
-                child: Text(
-                  'Snap Swap',
-                  style:
-                      accentTextTheme.headline4!.copyWith(color: Colors.white),
-                ),
-              ),
-              actions: const [
-                UpgradeButton(),
-                SizedBox(width: 8),
-                ConnectButton(),
-              ],
+        child: ThemeBuilder(
+            // https://colorhunt.co/palette/11052c3d087bf43b86ffe459
+            data: context.theme.copyWith(
+              colorScheme: RetroThemes.colorScheme,
+              scaffoldBackgroundColor: RetroThemes.scaffoldBackgroundColor,
+              textTheme: context.textTheme
+                  .apply(bodyColor: Colors.white, displayColor: Colors.white),
             ),
-            Expanded(
-              child: WalletGuard(
-                builder: (BuildContext context, state) {
-                  return BlocBuilder<MoralisBloc, MoralisState>(
-                    builder: (context, state) {
-                      return state.when(
-                        authenticated: () {
-                          return MultiBlocProvider(
-                            providers: [
-                              BlocProvider.value(
-                                  value: SwapTokensCubit()..refreshTokens()),
-                              BlocProvider.value(value: SwapBloc()),
-                            ],
-                            child: ListView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              controller: controller,
-                              children: [
-                                ...children,
-                              ],
-                            ),
-                          );
-                        },
-                        unauthenticated: () {
-                          return Stack(
-                            children: [
-                              Positioned.fill(
-                                child: PlasmaRenderer(
-                                  color: UpgradeThemes.colorScheme.primary
-                                      .withOpacity(0.05),
-                                  blur: 2.0,
-                                  particleType: ParticleType.atlas,
-                                ),
-                              ),
-                              Center(
-                                child: Container(
-                                  padding: const EdgeInsets.all(24),
-                                  decoration: BoxDecoration(
-                                    // Show green when the contract has been approved.
-                                    color: UpgradeThemes.colorScheme.surface,
-                                    borderRadius: Radii.m,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
+            builder: (context) {
+              return Column(
+                children: [
+                  Header(
+                    onLogoTap: () => context.router.pushNamed('/'),
+                    leading: ShaderText(
+                      gradient: LinearGradient(
+                        colors: [
+                          context.colorScheme.primaryVariant,
+                          context.colorScheme.secondary,
+                          context.colorScheme.secondaryVariant,
+                        ],
+                      ),
+                      child: Text(
+                        'Snap Swap',
+                        style: accentTextTheme.headline4!
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                    actions: const [
+                      UpgradeButton(),
+                      SizedBox(width: 8),
+                      ConnectButton(),
+                    ],
+                  ),
+                  Expanded(
+                    child: WalletGuard(
+                      builder: (BuildContext context, state) {
+                        return BlocBuilder<MoralisBloc, MoralisState>(
+                          builder: (context, state) {
+                            return state.when(
+                              authenticated: () {
+                                return MultiBlocProvider(
+                                  providers: [
+                                    BlocProvider.value(
+                                        value: SwapTokensCubit()
+                                          ..refreshTokens()),
+                                    BlocProvider.value(value: SwapBloc()),
+                                  ],
+                                  child: ListView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    controller: controller,
                                     children: [
-                                      SelectableText(
-                                        '🏃‍♂️ Last Step 😊',
-                                        style: accentTextTheme.bodyText2
-                                            ?.copyWith(fontSize: 24),
+                                      ...children,
+                                    ],
+                                  ),
+                                );
+                              },
+                              unauthenticated: () {
+                                return Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: PlasmaRenderer(
+                                        color: UpgradeThemes.colorScheme.primary
+                                            .withOpacity(0.05),
+                                        blur: 2.0,
+                                        particleType: ParticleType.atlas,
                                       ),
-                                      const SizedBox(height: 16),
-                                      SizedBox(
-                                        width: 300,
-                                        child: TransparentButton(
-                                          onTap: () => context
-                                              .read<MoralisBloc>()
-                                              .add(const MoralisEvent
-                                                  .authenticate()),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 24),
-                                            width: 200,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: Radii.s,
-                                              color:
-                                                  context.colorScheme.primary,
+                                    ),
+                                    Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(24),
+                                        decoration: BoxDecoration(
+                                          // Show green when the contract has been approved.
+                                          color:
+                                              UpgradeThemes.colorScheme.surface,
+                                          borderRadius: Radii.m,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SelectableText(
+                                              '🏃‍♂️ Last Step 😊',
+                                              style: accentTextTheme.bodyText2
+                                                  ?.copyWith(fontSize: 24),
                                             ),
-                                            child: Center(
-                                              child: Text(
-                                                'Authenticate',
-                                                style: context.textTheme.button!
-                                                    .copyWith(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
+                                            const SizedBox(height: 16),
+                                            SizedBox(
+                                              width: 300,
+                                              child: TransparentButton(
+                                                onTap: () => context
+                                                    .read<MoralisBloc>()
+                                                    .add(const MoralisEvent
+                                                        .authenticate()),
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 24),
+                                                  width: 200,
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: Radii.s,
+                                                    color: context
+                                                        .colorScheme.primary,
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Authenticate',
+                                                      style: context
+                                                          .textTheme.button!
+                                                          .copyWith(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }

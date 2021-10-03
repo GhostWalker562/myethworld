@@ -25,3 +25,25 @@ class UpgradeStyleToast extends StatelessWidget {
     );
   }
 }
+
+class PrimaryToast extends StatelessWidget {
+  const PrimaryToast({Key? key, required this.text}) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface.withOpacity(0.5),
+        borderRadius: Radii.s,
+      ),
+      child: SelectableText(
+        text,
+        style: context.textTheme.bodyText2!
+            .copyWith(color: context.colorScheme.primary),
+      ),
+    );
+  }
+}

@@ -31,6 +31,7 @@ async function swap(inputToken, outputToken, amount) {
     console.log(options);
     var receipt = await dex.swap(options);
     console.log(receipt);
+    return receipt;
   } catch (e) {
     console.log(e);
     throw e;

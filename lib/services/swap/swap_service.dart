@@ -33,8 +33,9 @@ class SwapService {
   Future<void> approve(String token) async =>
       await promiseToFuture(Moralis.swapApprove(token));
 
-  Future<JsObject> inchSwap(String input, String output, String amount) async =>
-      await promiseToFuture(Moralis.swap(input, output, amount));
+  Future<Map<String, dynamic>> inchSwap(
+          String input, String output, String amount) async =>
+      convertToDart(await promiseToFuture(Moralis.swap(input, output, amount)));
 
   Future<List<BalancedInchToken>> getTokenBalances() async {
     final balance = await promiseToFuture(Moralis.getTokenBalances());

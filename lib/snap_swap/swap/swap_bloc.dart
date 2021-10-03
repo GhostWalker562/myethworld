@@ -46,7 +46,7 @@ class SwapBloc extends Bloc<SwapEvent, SwapState> {
       await swapService.approve(event.from);
       emit(const SwapState.approved());
     } catch (e) {
-      emit(const SwapState.error());
+      emit(SwapState.error(e));
       emit(const SwapState.unapproved());
     }
   }
@@ -56,14 +56,16 @@ class SwapBloc extends Bloc<SwapEvent, SwapState> {
     try {
       final receipt = await swapService.inchSwap(
           event.from, event.out, event.amount.floor().toString());
-      final json = jsonDecode(stringify(receipt));
-      if ((json['status'] as String)[0] == '2') {
+      final status = (receipt['statusCode'] as int) / 100;
+      if (status == 2) {
         emit(const SwapState.swapped());
+      } else if (status == 5) {
+        throw 'Insufficent Balance 😔';
       } else {
-        throw json['message'];
+        throw receipt['message'];
       }
     } catch (e) {
-      emit(const SwapState.error());
+      emit(SwapState.error(e));
       log(e.toString());
       emit(const SwapState.approved());
     }

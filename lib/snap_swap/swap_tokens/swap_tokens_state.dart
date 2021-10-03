@@ -6,7 +6,7 @@ class SwapTokensState with _$SwapTokensState {
     List<InchToken> tokens, {
     InchToken? from,
     InchToken? to,
-    BigInt? nativeBalance,
+    required BigInt nativeBalance,
     @Default([]) List<BalancedInchToken> balances,
   }) = _Data;
 

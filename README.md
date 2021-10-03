@@ -1,5 +1,7 @@
 # MyEthWorld
 
+# ** This is Hackathon code. It's going to be messy. 😬 **
+
 ## Used Services
 * https://www.covalenthq.com/
 * https://www.superfluid.finance/home

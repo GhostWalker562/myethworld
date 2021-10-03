@@ -108,5 +108,7 @@ async function quote(inputToken, outputToken, amount) {
     amount: amount,
   });
 
+  console.log(quote);
+
   return quote;
 }

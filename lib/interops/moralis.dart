@@ -34,6 +34,6 @@ external Future<JsObject> user();
 external Future<void> logOut();
 
 @JS('quote')
-external Future<JsObject> quote(String inputToken, String outputToken, String amount);
+external Future<dynamic> quote(String inputToken, String outputToken, String amount);
 
 

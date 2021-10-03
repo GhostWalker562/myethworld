@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_web3/ethereum.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:myethworld/app/injectable.dart';
 import 'package:myethworld/services/swap/swap_service.dart';

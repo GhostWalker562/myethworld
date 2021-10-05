@@ -8,6 +8,7 @@ import 'package:myethworld/services/superfluid/superfluid_service.dart';
 import 'package:myethworld/services/superfluid/superfluid_user.dart';
 import 'package:myethworld/services/tokens/polygon_token.dart';
 import 'package:myethworld/services/web3service/web3_service.dart';
+import 'package:quiver/strings.dart';
 
 import '../injectable.dart';
 
@@ -74,10 +75,12 @@ class PremiumBloc extends Bloc<PremiumEvent, PremiumState> {
       emit(const Pending());
       for (Flow flow in await superfluidService.outFlows(
           event.account.address, event.account.chainId)) {
-        if (flow.receiver == SuperfluidService.recipientAccount) {
+        if (equalsIgnoreCase(
+            flow.receiver, SuperfluidService.recipientAccount)) {
           final PolygonToken? token =
               SuperfluidService.getChainTokens(event.account.chainId)
-                  .firstWhereOrNull((e) => e.address == flow.token!);
+                  .firstWhereOrNull(
+                      (e) => equalsIgnoreCase(e.address, flow.token));
           if (token == null) continue;
           premiumToken = token;
           emit(const Premium());
@@ -88,6 +91,7 @@ class PremiumBloc extends Bloc<PremiumEvent, PremiumState> {
       emit(const Basic());
       premiumToken = null;
     } catch (e) {
+      print(e);
       //TODO: Refresh page
     }
   }

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:js_util';
@@ -78,6 +80,8 @@ class SuperfluidService {
   Future<List<Flow>> outFlows(String address, int chainId) async {
     final flows = <Flow>[];
 
+    print('Opening flows...');
+
     // Set Up
     final subgraph = getSubgraph(chainId);
     final link = HttpLink(subgraph);
@@ -88,6 +92,7 @@ class SuperfluidService {
       cache: GraphQLCache(store: store),
       link: link,
     );
+    print('Opened flows...');
 
     // Options
     final doc = lang.parseString(retrieveOutFlows);
@@ -96,8 +101,10 @@ class SuperfluidService {
       variables: <String, dynamic>{'address': address.toLowerCase()},
     );
 
+    print('Retrieving flows...');
     final result = await client.query(options);
     final Map<String, dynamic>? data = result.data;
+    print(data);
 
     // Parse the flows
     if (data != null && data['account'] != null) {
@@ -113,7 +120,9 @@ class SuperfluidService {
       }
     }
 
-    log('Retrieved OutFlows: ${flows.toString()}');
+    await store.reset();
+
+    print('Retrieved OutFlows: ${flows.toString()}');
 
     return flows;
   }
@@ -179,5 +188,5 @@ query RetrieveOutFlows($address: ID!) {
 }
 ''';
 
-  static const recipientAccount = '0x5bf57B6bE918b085AB68a833F7DE5493243C4156';
+  static const recipientAccount = '0x5bf57b6be918b085ab68a833f7de5493243c4156';
 }

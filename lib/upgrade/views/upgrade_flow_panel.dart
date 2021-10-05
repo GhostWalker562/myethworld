@@ -224,32 +224,60 @@ class _UpgradeFlowPanelState extends State<UpgradeFlowPanel> {
                               ],
                               buttonText: 'Become Premium',
                               selectedButtonText: 'Current Plan',
-                              planCost: Text.rich(
-                                TextSpan(
-                                  children: [
+                              planCost: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text.rich(
                                     TextSpan(
-                                      text: '\$2.56',
-                                      style:
-                                          context.textTheme.bodyText2!.copyWith(
-                                        fontSize: 24,
-                                      ),
+                                      children: [
+                                        // -0.00000099
+                                        TextSpan(
+                                          text: '\$',
+                                          style: context.textTheme.bodyText2!
+                                              .copyWith(
+                                            fontSize: 24,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '0.000000',
+                                          style: context.textTheme.bodyText2!
+                                              .copyWith(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '99',
+                                          style: context.textTheme.bodyText2!
+                                              .copyWith(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: ' /second',
+                                          style: context.textTheme.bodyText2!
+                                              .copyWith(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text.rich(
                                     TextSpan(
-                                      text: '2420',
-                                      style:
-                                          context.textTheme.bodyText2!.copyWith(
-                                        fontSize: 12,
-                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: '( \$2.562420 /mo )',
+                                          style: context.textTheme.bodyText2!
+                                              .copyWith(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    TextSpan(
-                                      text: ' /mo',
-                                      style:
-                                          context.textTheme.bodyText2!.copyWith(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               buttonReplacement: (state is! Premium)
                                   // Create a list of supported token buttons to choose which

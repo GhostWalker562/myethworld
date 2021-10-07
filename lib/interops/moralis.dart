@@ -36,4 +36,7 @@ external Future<void> logOut();
 @JS('quote')
 external Future<dynamic> quote(String inputToken, String outputToken, String amount);
 
+@JS('saveFile')
+external Future<dynamic> saveFile(name, data);
+
 

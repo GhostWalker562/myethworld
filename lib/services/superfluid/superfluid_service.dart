@@ -104,7 +104,6 @@ class SuperfluidService {
     print('Retrieving flows...');
     final result = await client.query(options);
     final Map<String, dynamic>? data = result.data;
-    print(data);
 
     // Parse the flows
     if (data != null && data['account'] != null) {

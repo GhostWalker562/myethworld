@@ -39,6 +39,11 @@ class _HomePageState extends State<HomePage> {
         onTap: () => context.router.push(const SnapSwapRoute()),
         asset: 'assets/images/snap_swap.png',
       ),
+      Feature(
+        'File Upload',
+        onTap: () => context.router.push(const FileUploadRoute()),
+        // asset: 'assets/images/snap_swap.png',
+      ),
     ];
 
     return Scaffold(

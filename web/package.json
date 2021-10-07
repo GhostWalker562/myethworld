@@ -9,6 +9,7 @@
     "@ethersproject/contracts": "^5.4.1",
     "@ethersproject/providers": "^5.4.5",
     "@superfluid-finance/js-sdk": "0.5.5-dev.be0c14d.0",
+    "@textile/eth-storage": "^0.2.0",
     "@web3api/client-js": "^0.0.1-prealpha.44",
     "dotenv": "^10.0.0",
     "moralis": "^0.0.54",

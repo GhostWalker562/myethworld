@@ -15,3 +15,4 @@ import 'package:sa3_liquid/liquid/plasma/plasma.dart';
 part 'connect_button.dart';
 part 'upgrade_button.dart';
 part 'wallet_guard.dart';
+part 'moralis_guard.dart';

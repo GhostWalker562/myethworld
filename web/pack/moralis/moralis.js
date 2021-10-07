@@ -112,3 +112,9 @@ async function quote(inputToken, outputToken, amount) {
 
   return quote;
 }
+
+async function saveFile(name, data) {
+  const file = new Moralis.File(name, { base64: data });
+  await file.saveIPFS();
+  return file;
+}

@@ -40,9 +40,9 @@ class _HomePageState extends State<HomePage> {
         asset: 'assets/images/snap_swap.png',
       ),
       Feature(
-        'File Upload',
+        'IPFS Files',
         onTap: () => context.router.push(const FileUploadRoute()),
-        // asset: 'assets/images/snap_swap.png',
+        asset: 'assets/images/ipfs_upload.png',
       ),
     ];
 

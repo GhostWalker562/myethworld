@@ -88,7 +88,7 @@ class RouterAnimations {
         context,
         animation,
         child,
-        'File Upload',
+        'IPFS Files',
         const Color(0xFFFFF2EC),
         const Color(0xFF2F2E9C),
       );

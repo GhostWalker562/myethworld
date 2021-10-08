@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,21 +48,27 @@ class _FileUploadPageState extends State<FileUploadPage> {
           children: [
             const SizedBox(height: 12),
             ElevatedButton(
-              child: const Text('Click to Pick and Image'),
+              child: const Text('Pick an Image'),
               onPressed: () => _pickFile(context),
             ),
+            const SizedBox(height: 12),
             BlocBuilder<FilePickerCubit, FilePickerState>(
               builder: (context, state) {
                 return state.maybeWhen(
+                  picking: () {
+                    return const CupertinoActivityIndicator();
+                  },
                   picked: (result) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.memory(
                           result.files.single.bytes!,
-                          height: 500,
-                          width: 500,
+                          height: 300,
+                          width: 300,
+                          fit: BoxFit.cover,
                         ),
+                        const SizedBox(height: 12),
                         ElevatedButton(
                           child: const Text('Click to Upload'),
                           onPressed: () => _uploadFile(context, result),
@@ -74,7 +81,8 @@ class _FileUploadPageState extends State<FileUploadPage> {
               },
             ),
             const SizedBox(height: 30),
-            SelectableText('Files', style: accentTextTheme.headline5!.copyWith(fontSize: 36)),
+            SelectableText('Files',
+                style: accentTextTheme.headline5!.copyWith(fontSize: 36)),
             BlocConsumer<IpfsUploadBloc, IpfsUploadState>(
               listener: (context, state) {
                 final fToast = FToast();
@@ -90,7 +98,15 @@ class _FileUploadPageState extends State<FileUploadPage> {
               },
               builder: (context, state) {
                 return state.maybeWhen(
+                  loading: () {
+                    return const CupertinoActivityIndicator();
+                  },
                   files: (files) {
+                    if (files.isEmpty) {
+                      return SelectableText('Upload Some Files!',
+                          style: context.textTheme.headline4);
+                    }
+
                     return ResponsiveGridView.builder(
                       padding: const EdgeInsets.all(24),
                       primary: false,
@@ -224,7 +240,7 @@ class FileUploadPageWrapper extends StatelessWidget {
                 ],
               ),
               child: Text(
-                'File Picker',
+                'IPFS Files',
                 style: accentTextTheme.headline4!.copyWith(color: Colors.white),
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myethworld/file_upload/views/views.dart';
 import 'package:myethworld/home/home.dart';
+import 'package:myethworld/nft_editor/nft_editor.dart';
 import 'package:myethworld/snap_swap/snap_swap.dart';
 import 'package:myethworld/upgrade/upgrade.dart';
 import 'package:simple_animations/simple_animations.dart';
@@ -35,6 +36,13 @@ import 'package:supercharged/supercharged.dart';
       durationInMilliseconds: 1000,
       reverseDurationInMilliseconds: 1000,
       transitionsBuilder: RouterAnimations.fileUploadBuilder,
+    ),
+    CustomRoute(
+      page: NftEditorPage,
+      path: '/nft-editor',
+      durationInMilliseconds: 1000,
+      reverseDurationInMilliseconds: 1000,
+      transitionsBuilder: RouterAnimations.nftEditorPage,
     ),
     CustomRoute(
       page: UpgradePage,
@@ -89,6 +97,17 @@ class RouterAnimations {
         animation,
         child,
         'IPFS Files',
+        const Color(0xFFFFF2EC),
+        const Color(0xFF2F2E9C),
+      );
+
+  static Widget nftEditorPage(BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) =>
+      baseTransition(
+        context,
+        animation,
+        child,
+        'NFT Editor',
         const Color(0xFFFFF2EC),
         const Color(0xFF2F2E9C),
       );

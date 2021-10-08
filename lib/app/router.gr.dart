@@ -9,8 +9,9 @@ import 'package:flutter/material.dart' as _i2;
 
 import '../file_upload/views/views.dart' as _i6;
 import '../home/home.dart' as _i3;
+import '../nft_editor/nft_editor.dart' as _i7;
 import '../snap_swap/snap_swap.dart' as _i5;
-import '../upgrade/upgrade.dart' as _i7;
+import '../upgrade/upgrade.dart' as _i8;
 import 'router.dart' as _i4;
 
 class AppRouter extends _i1.RootStackRouter {
@@ -48,10 +49,20 @@ class AppRouter extends _i1.RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
+    NftEditorRoute.name: (routeData) {
+      return _i1.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i7.NftEditorPage(),
+          transitionsBuilder: _i4.RouterAnimations.nftEditorPage,
+          durationInMilliseconds: 1000,
+          reverseDurationInMilliseconds: 1000,
+          opaque: true,
+          barrierDismissible: false);
+    },
     UpgradeRoute.name: (routeData) {
       return _i1.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i7.UpgradePage(),
+          child: const _i8.UpgradePage(),
           transitionsBuilder: _i4.RouterAnimations.upgradeBuilder,
           durationInMilliseconds: 1000,
           reverseDurationInMilliseconds: 1000,
@@ -65,6 +76,7 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(HomeRoute.name, path: '/'),
         _i1.RouteConfig(SnapSwapRoute.name, path: '/snap-swap'),
         _i1.RouteConfig(FileUploadRoute.name, path: '/file-upload'),
+        _i1.RouteConfig(NftEditorRoute.name, path: '/nft-editor'),
         _i1.RouteConfig(UpgradeRoute.name, path: '/upgrade'),
         _i1.RouteConfig('*#redirect',
             path: '*', redirectTo: '/', fullMatch: true)
@@ -87,6 +99,12 @@ class FileUploadRoute extends _i1.PageRouteInfo<void> {
   const FileUploadRoute() : super(name, path: '/file-upload');
 
   static const String name = 'FileUploadRoute';
+}
+
+class NftEditorRoute extends _i1.PageRouteInfo<void> {
+  const NftEditorRoute() : super(name, path: '/nft-editor');
+
+  static const String name = 'NftEditorRoute';
 }
 
 class UpgradeRoute extends _i1.PageRouteInfo<void> {

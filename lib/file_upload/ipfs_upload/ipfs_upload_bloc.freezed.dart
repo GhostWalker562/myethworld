@@ -342,8 +342,10 @@ class _$IpfsUploadStateTearOff {
     return const _Loading();
   }
 
-  _Error error() {
-    return const _Error();
+  _Error error(Object obj) {
+    return _Error(
+      obj,
+    );
   }
 }
 
@@ -356,21 +358,21 @@ mixin _$IpfsUploadState {
   TResult when<TResult extends Object?>({
     required TResult Function(List<IpfsData> files) files,
     required TResult Function() loading,
-    required TResult Function() error,
+    required TResult Function(Object obj) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -479,7 +481,7 @@ class _$_Files implements _Files {
   TResult when<TResult extends Object?>({
     required TResult Function(List<IpfsData> files) files,
     required TResult Function() loading,
-    required TResult Function() error,
+    required TResult Function(Object obj) error,
   }) {
     return files(this.files);
   }
@@ -489,7 +491,7 @@ class _$_Files implements _Files {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
   }) {
     return files?.call(this.files);
   }
@@ -499,7 +501,7 @@ class _$_Files implements _Files {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
     required TResult orElse(),
   }) {
     if (files != null) {
@@ -590,7 +592,7 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function(List<IpfsData> files) files,
     required TResult Function() loading,
-    required TResult Function() error,
+    required TResult Function(Object obj) error,
   }) {
     return loading();
   }
@@ -600,7 +602,7 @@ class _$_Loading implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
   }) {
     return loading?.call();
   }
@@ -610,7 +612,7 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -662,6 +664,7 @@ abstract class _Loading implements IpfsUploadState {
 abstract class _$ErrorCopyWith<$Res> {
   factory _$ErrorCopyWith(_Error value, $Res Function(_Error) then) =
       __$ErrorCopyWithImpl<$Res>;
+  $Res call({Object obj});
 }
 
 /// @nodoc
@@ -672,34 +675,58 @@ class __$ErrorCopyWithImpl<$Res> extends _$IpfsUploadStateCopyWithImpl<$Res>
 
   @override
   _Error get _value => super._value as _Error;
+
+  @override
+  $Res call({
+    Object? obj = freezed,
+  }) {
+    return _then(_Error(
+      obj == freezed
+          ? _value.obj
+          : obj // ignore: cast_nullable_to_non_nullable
+              as Object,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Error implements _Error {
-  const _$_Error();
+  const _$_Error(this.obj);
+
+  @override
+  final Object obj;
 
   @override
   String toString() {
-    return 'IpfsUploadState.error()';
+    return 'IpfsUploadState.error(obj: $obj)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Error);
+    return identical(this, other) ||
+        (other is _Error &&
+            (identical(other.obj, obj) ||
+                const DeepCollectionEquality().equals(other.obj, obj)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(obj);
+
+  @JsonKey(ignore: true)
+  @override
+  _$ErrorCopyWith<_Error> get copyWith =>
+      __$ErrorCopyWithImpl<_Error>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<IpfsData> files) files,
     required TResult Function() loading,
-    required TResult Function() error,
+    required TResult Function(Object obj) error,
   }) {
-    return error();
+    return error(obj);
   }
 
   @override
@@ -707,9 +734,9 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
   }) {
-    return error?.call();
+    return error?.call(obj);
   }
 
   @override
@@ -717,11 +744,11 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<IpfsData> files)? files,
     TResult Function()? loading,
-    TResult Function()? error,
+    TResult Function(Object obj)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(obj);
     }
     return orElse();
   }
@@ -762,5 +789,9 @@ class _$_Error implements _Error {
 }
 
 abstract class _Error implements IpfsUploadState {
-  const factory _Error() = _$_Error;
+  const factory _Error(Object obj) = _$_Error;
+
+  Object get obj => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$ErrorCopyWith<_Error> get copyWith => throw _privateConstructorUsedError;
 }

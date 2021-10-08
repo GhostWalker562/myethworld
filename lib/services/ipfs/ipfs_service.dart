@@ -23,14 +23,16 @@ class IpfsService {
     final object = convertToDart(
         await promiseToFuture(saveFile('file', base64.encode(bytes!))));
     final box = await ipfsBox;
-    final List<String> data = box.get(0, defaultValue: []);
-    final files = _parseIpfsList(data);
-    box.put(0, files..add(IpfsData(object['hash'], object['ipfs'])));
+    final List<String> data = List<String>.from(box.get(0, defaultValue: []));
+    box.put(
+      0,
+      data..add(jsonEncode(IpfsData(object['hash'], object['ipfs']).toJson())),
+    );
   }
 
   Future<List<IpfsData>> getIpfsFiles() async {
     final box = await ipfsBox;
-    final List<String> data = box.get(0, defaultValue: []);
+    final List<String> data = List<String>.from(box.get(0, defaultValue: []));
     return _parseIpfsList(data);
   }
 

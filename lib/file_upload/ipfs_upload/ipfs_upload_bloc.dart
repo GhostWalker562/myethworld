@@ -22,7 +22,7 @@ class IpfsUploadBloc extends Bloc<IpfsUploadEvent, IpfsUploadState> {
       await ipfsService.uploadIpfs(event.file);
       add(const _RefreshFiles());
     } catch (e) {
-      _handleError(emit);
+      _handleError(e, emit);
     }
   }
 
@@ -32,12 +32,12 @@ class IpfsUploadBloc extends Bloc<IpfsUploadEvent, IpfsUploadState> {
       final files = await ipfsService.getIpfsFiles();
       emit(IpfsUploadState.files(files));
     } catch (e) {
-      _handleError(emit);
+      _handleError(e, emit);
     }
   }
 
-  void _handleError(Emitter emit) {
-    emit(const IpfsUploadState.error());
+  void _handleError(Object e, Emitter emit) {
+    emit(IpfsUploadState.error(e));
     emit(const IpfsUploadState.files([]));
   }
 }

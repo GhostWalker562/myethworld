@@ -12,6 +12,7 @@ class IpfsUploadBloc extends Bloc<IpfsUploadEvent, IpfsUploadState> {
   IpfsUploadBloc() : super(const _Files([])) {
     on<_UploadFile>(_uploadFile);
     on<_RefreshFiles>(_refreshFiles);
+    on<_DeleteHash>(_deleteHash);
   }
 
   final ipfsService = getIt<IpfsService>();
@@ -31,6 +32,16 @@ class IpfsUploadBloc extends Bloc<IpfsUploadEvent, IpfsUploadState> {
     try {
       final files = await ipfsService.getIpfsFiles();
       emit(IpfsUploadState.files(files));
+    } catch (e) {
+      _handleError(e, emit);
+    }
+  }
+
+  Future<void> _deleteHash(_DeleteHash event, Emitter emit) async {
+    emit(const IpfsUploadState.loading());
+    try {
+      await ipfsService.deleteHash(event.hash);
+      add(const _RefreshFiles());
     } catch (e) {
       _handleError(e, emit);
     }

@@ -26,6 +26,12 @@ class _$IpfsUploadEventTearOff {
   _RefreshFiles refreshFiles() {
     return const _RefreshFiles();
   }
+
+  _DeleteHash deleteHash(String hash) {
+    return _DeleteHash(
+      hash,
+    );
+  }
 }
 
 /// @nodoc
@@ -37,18 +43,21 @@ mixin _$IpfsUploadEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(FilePickerResult file) uploadFile,
     required TResult Function() refreshFiles,
+    required TResult Function(String hash) deleteHash,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(FilePickerResult file)? uploadFile,
     TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(FilePickerResult file)? uploadFile,
     TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -56,18 +65,21 @@ mixin _$IpfsUploadEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_UploadFile value) uploadFile,
     required TResult Function(_RefreshFiles value) refreshFiles,
+    required TResult Function(_DeleteHash value) deleteHash,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_UploadFile value)? uploadFile,
     TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_UploadFile value)? uploadFile,
     TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -157,6 +169,7 @@ class _$_UploadFile implements _UploadFile {
   TResult when<TResult extends Object?>({
     required TResult Function(FilePickerResult file) uploadFile,
     required TResult Function() refreshFiles,
+    required TResult Function(String hash) deleteHash,
   }) {
     return uploadFile(file);
   }
@@ -166,6 +179,7 @@ class _$_UploadFile implements _UploadFile {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(FilePickerResult file)? uploadFile,
     TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
   }) {
     return uploadFile?.call(file);
   }
@@ -175,6 +189,7 @@ class _$_UploadFile implements _UploadFile {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(FilePickerResult file)? uploadFile,
     TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
     required TResult orElse(),
   }) {
     if (uploadFile != null) {
@@ -188,6 +203,7 @@ class _$_UploadFile implements _UploadFile {
   TResult map<TResult extends Object?>({
     required TResult Function(_UploadFile value) uploadFile,
     required TResult Function(_RefreshFiles value) refreshFiles,
+    required TResult Function(_DeleteHash value) deleteHash,
   }) {
     return uploadFile(this);
   }
@@ -197,6 +213,7 @@ class _$_UploadFile implements _UploadFile {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_UploadFile value)? uploadFile,
     TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
   }) {
     return uploadFile?.call(this);
   }
@@ -206,6 +223,7 @@ class _$_UploadFile implements _UploadFile {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_UploadFile value)? uploadFile,
     TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
     required TResult orElse(),
   }) {
     if (uploadFile != null) {
@@ -266,6 +284,7 @@ class _$_RefreshFiles implements _RefreshFiles {
   TResult when<TResult extends Object?>({
     required TResult Function(FilePickerResult file) uploadFile,
     required TResult Function() refreshFiles,
+    required TResult Function(String hash) deleteHash,
   }) {
     return refreshFiles();
   }
@@ -275,6 +294,7 @@ class _$_RefreshFiles implements _RefreshFiles {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(FilePickerResult file)? uploadFile,
     TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
   }) {
     return refreshFiles?.call();
   }
@@ -284,6 +304,7 @@ class _$_RefreshFiles implements _RefreshFiles {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(FilePickerResult file)? uploadFile,
     TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
     required TResult orElse(),
   }) {
     if (refreshFiles != null) {
@@ -297,6 +318,7 @@ class _$_RefreshFiles implements _RefreshFiles {
   TResult map<TResult extends Object?>({
     required TResult Function(_UploadFile value) uploadFile,
     required TResult Function(_RefreshFiles value) refreshFiles,
+    required TResult Function(_DeleteHash value) deleteHash,
   }) {
     return refreshFiles(this);
   }
@@ -306,6 +328,7 @@ class _$_RefreshFiles implements _RefreshFiles {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_UploadFile value)? uploadFile,
     TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
   }) {
     return refreshFiles?.call(this);
   }
@@ -315,6 +338,7 @@ class _$_RefreshFiles implements _RefreshFiles {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_UploadFile value)? uploadFile,
     TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
     required TResult orElse(),
   }) {
     if (refreshFiles != null) {
@@ -326,6 +350,146 @@ class _$_RefreshFiles implements _RefreshFiles {
 
 abstract class _RefreshFiles implements IpfsUploadEvent {
   const factory _RefreshFiles() = _$_RefreshFiles;
+}
+
+/// @nodoc
+abstract class _$DeleteHashCopyWith<$Res> {
+  factory _$DeleteHashCopyWith(
+          _DeleteHash value, $Res Function(_DeleteHash) then) =
+      __$DeleteHashCopyWithImpl<$Res>;
+  $Res call({String hash});
+}
+
+/// @nodoc
+class __$DeleteHashCopyWithImpl<$Res>
+    extends _$IpfsUploadEventCopyWithImpl<$Res>
+    implements _$DeleteHashCopyWith<$Res> {
+  __$DeleteHashCopyWithImpl(
+      _DeleteHash _value, $Res Function(_DeleteHash) _then)
+      : super(_value, (v) => _then(v as _DeleteHash));
+
+  @override
+  _DeleteHash get _value => super._value as _DeleteHash;
+
+  @override
+  $Res call({
+    Object? hash = freezed,
+  }) {
+    return _then(_DeleteHash(
+      hash == freezed
+          ? _value.hash
+          : hash // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_DeleteHash implements _DeleteHash {
+  const _$_DeleteHash(this.hash);
+
+  @override
+  final String hash;
+
+  @override
+  String toString() {
+    return 'IpfsUploadEvent.deleteHash(hash: $hash)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _DeleteHash &&
+            (identical(other.hash, hash) ||
+                const DeepCollectionEquality().equals(other.hash, hash)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(hash);
+
+  @JsonKey(ignore: true)
+  @override
+  _$DeleteHashCopyWith<_DeleteHash> get copyWith =>
+      __$DeleteHashCopyWithImpl<_DeleteHash>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(FilePickerResult file) uploadFile,
+    required TResult Function() refreshFiles,
+    required TResult Function(String hash) deleteHash,
+  }) {
+    return deleteHash(hash);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(FilePickerResult file)? uploadFile,
+    TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
+  }) {
+    return deleteHash?.call(hash);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(FilePickerResult file)? uploadFile,
+    TResult Function()? refreshFiles,
+    TResult Function(String hash)? deleteHash,
+    required TResult orElse(),
+  }) {
+    if (deleteHash != null) {
+      return deleteHash(hash);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_UploadFile value) uploadFile,
+    required TResult Function(_RefreshFiles value) refreshFiles,
+    required TResult Function(_DeleteHash value) deleteHash,
+  }) {
+    return deleteHash(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_UploadFile value)? uploadFile,
+    TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
+  }) {
+    return deleteHash?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_UploadFile value)? uploadFile,
+    TResult Function(_RefreshFiles value)? refreshFiles,
+    TResult Function(_DeleteHash value)? deleteHash,
+    required TResult orElse(),
+  }) {
+    if (deleteHash != null) {
+      return deleteHash(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DeleteHash implements IpfsUploadEvent {
+  const factory _DeleteHash(String hash) = _$_DeleteHash;
+
+  String get hash => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$DeleteHashCopyWith<_DeleteHash> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

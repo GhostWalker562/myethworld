@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myethworld/components/app/app_components.dart';
@@ -9,7 +11,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:myethworld/components/toasts.dart';
 import 'package:myethworld/file_upload/file_picker/file_picker_cubit.dart';
 import 'package:myethworld/file_upload/ipfs_upload/ipfs_upload_bloc.dart';
-
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FileUploadPage extends StatefulWidget {
   const FileUploadPage({Key? key}) : super(key: key);
@@ -25,78 +28,174 @@ class _FileUploadPageState extends State<FileUploadPage> {
   Future<void> _uploadFile(BuildContext context, FilePickerResult file) async =>
       context.read<IpfsUploadBloc>().add(IpfsUploadEvent.uploadFile(file));
 
+  Future<void> _deleteHash(BuildContext context, String hash) async =>
+      context.read<IpfsUploadBloc>().add(IpfsUploadEvent.deleteHash(hash));
+
+  Future<void> _downloadFile(String url) async {
+    if (await canLaunch(url)) await launch(url);
+  }
+
+  Future<void> _copyHash(String hash) async =>
+      Clipboard.setData(ClipboardData(text: hash));
+
   @override
   Widget build(BuildContext context) {
     return FileUploadPageWrapper(
       builder: (context) {
-        return Center(
-          child: SizedBox(
-            width: 300,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextButton(
-                  child: const Text('Click to Pick'),
-                  onPressed: () => _pickFile(context),
-                ),
-                BlocBuilder<FilePickerCubit, FilePickerState>(
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      picked: (result) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.memory(result.files.single.bytes!),
-                            TextButton(
-                              child: const Text('Click to Upload'),
-                              onPressed: () => _uploadFile(context, result),
-                            ),
-                          ],
-                        );
-                      },
-                      orElse: () => const SizedBox.shrink(),
-                    );
-                  },
-                ),
-                BlocConsumer<IpfsUploadBloc, IpfsUploadState>(
-                  listener: (context, state) {
-                    final fToast = FToast();
-                    fToast.init(context);
-                    state.whenOrNull(
-                      error: (obj) {
-                        fToast.showToast(
-                          toastDuration: const Duration(seconds: 5),
-                          child: UpgradeStyleToast(text: '$obj'),
-                        );
-                      },
-                    );
-                  },
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      files: (files) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: files.length,
-                          itemBuilder: (context, index) {
-                            final file = files[index];
-
-                            return Row(
-                              children: [
-                                Text(file.url),
-                                const SizedBox(width: 8),
-                                Text(file.hash),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      orElse: () => const SizedBox.shrink(),
-                    );
-                  },
-                ),
-              ],
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 12),
+            ElevatedButton(
+              child: const Text('Click to Pick and Image'),
+              onPressed: () => _pickFile(context),
             ),
-          ),
+            BlocBuilder<FilePickerCubit, FilePickerState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  picked: (result) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.memory(
+                          result.files.single.bytes!,
+                          height: 500,
+                          width: 500,
+                        ),
+                        ElevatedButton(
+                          child: const Text('Click to Upload'),
+                          onPressed: () => _uploadFile(context, result),
+                        ),
+                      ],
+                    );
+                  },
+                  orElse: () => const SizedBox.shrink(),
+                );
+              },
+            ),
+            const SizedBox(height: 30),
+            SelectableText('Files', style: accentTextTheme.headline5!.copyWith(fontSize: 36)),
+            BlocConsumer<IpfsUploadBloc, IpfsUploadState>(
+              listener: (context, state) {
+                final fToast = FToast();
+                fToast.init(context);
+                state.whenOrNull(
+                  error: (obj) {
+                    fToast.showToast(
+                      toastDuration: const Duration(seconds: 5),
+                      child: UpgradeStyleToast(text: '$obj'),
+                    );
+                  },
+                );
+              },
+              builder: (context, state) {
+                return state.maybeWhen(
+                  files: (files) {
+                    return ResponsiveGridView.builder(
+                      padding: const EdgeInsets.all(24),
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: files.length,
+                      gridDelegate: const ResponsiveGridDelegate(
+                        childAspectRatio: 1,
+                        minCrossAxisExtent: 400,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                      ),
+                      itemBuilder: (context, index) {
+                        final file = files[index];
+
+                        return Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: Radii.m,
+                            color: context.colorScheme.surface,
+                            border: Border.all(
+                                color: context.colorScheme.onSurface
+                                    .withOpacity(0.05)),
+                          ),
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child:
+                                      CachedNetworkImage(imageUrl: file.url)),
+                              const SizedBox(height: 16),
+                              Wrap(
+                                runSpacing: 12,
+                                spacing: 12,
+                                children: [
+                                  TransparentButton(
+                                    onTap: () => _copyHash(file.hash),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: context
+                                            .theme.scaffoldBackgroundColor,
+                                        borderRadius: Radii.m,
+                                        border: Border.all(
+                                            color: context.colorScheme.onSurface
+                                                .withOpacity(0.05)),
+                                      ),
+                                      width: 200,
+                                      height: 50,
+                                      child: Text(
+                                        'Copy Hash',
+                                        style:
+                                            context.textTheme.button!.copyWith(
+                                          color: context.colorScheme.onSurface,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TransparentButton(
+                                    onTap: () => _downloadFile(file.url),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: context.colorScheme.primary,
+                                        borderRadius: Radii.m,
+                                      ),
+                                      width: 200,
+                                      height: 50,
+                                      child: Text(
+                                        'Download File',
+                                        style:
+                                            context.textTheme.button!.copyWith(
+                                          color: context.colorScheme.onPrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: 200,
+                                    child: UnderlinedButton(
+                                      onTap: () =>
+                                          _deleteHash(context, file.hash),
+                                      lineColor: context.colorScheme.error,
+                                      child: Text(
+                                        'Delete',
+                                        style:
+                                            context.textTheme.button!.copyWith(
+                                          color: context.colorScheme.error,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  orElse: () => const SizedBox.shrink(),
+                );
+              },
+            ),
+          ],
         );
       },
     );
@@ -142,15 +241,22 @@ class FileUploadPageWrapper extends StatelessWidget {
                   builder: (context, state) => MultiBlocProvider(
                     providers: [
                       BlocProvider.value(value: FilePickerCubit()),
-                      BlocProvider.value(value: IpfsUploadBloc()),
+                      BlocProvider.value(
+                          value: IpfsUploadBloc()
+                            ..add(const IpfsUploadEvent.refreshFiles())),
                     ],
-                    child: SingleChildScrollView(
-                      physics: const NeverScrollableScrollPhysics(),
+                    child: CustomImprovedScrolling(
                       controller: controller,
-                      child: Builder(
-                        builder: (context) {
-                          return builder(context);
-                        }
+                      child: ListView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: controller,
+                        children: [
+                          Builder(
+                            builder: (context) {
+                              return builder(context);
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),

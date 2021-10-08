@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:js_util';
 
+import 'package:collection/src/iterable_extensions.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:hive/hive.dart';
@@ -23,17 +24,33 @@ class IpfsService {
     final object = convertToDart(
         await promiseToFuture(saveFile('file', base64.encode(bytes!))));
     final box = await ipfsBox;
+    final ipfsFiles = await getIpfsFiles();
     final List<String> data = List<String>.from(box.get(0, defaultValue: []));
-    box.put(
-      0,
-      data..add(jsonEncode(IpfsData(object['hash'], object['ipfs']).toJson())),
-    );
+    final ipfs = IpfsData(object['hash'], object['ipfs']);
+    if (ipfsFiles.firstWhereOrNull((e) => e.hash == ipfs.hash) == null) {
+      box.put(
+        0,
+        data..add(jsonEncode(ipfs.toJson())),
+      );
+    }
   }
 
   Future<List<IpfsData>> getIpfsFiles() async {
     final box = await ipfsBox;
     final List<String> data = List<String>.from(box.get(0, defaultValue: []));
     return _parseIpfsList(data);
+  }
+
+  Future<void> deleteHash(String hash) async {
+    final files = await getIpfsFiles();
+    final box = await ipfsBox;
+    await box.put(
+      0,
+      files
+          .where((e) => e.hash != hash)
+          .map((e) => jsonEncode(e.toJson()))
+          .toList(),
+    );
   }
 
   List<IpfsData> _parseIpfsList(List<String> list) {

@@ -27,12 +27,21 @@ class IpfsService {
     final ipfsFiles = await getIpfsFiles();
     final List<String> data = List<String>.from(box.get(0, defaultValue: []));
     final ipfs = IpfsData(object['hash'], object['ipfs']);
+
+    // Prevent duplicate hashes
     if (ipfsFiles.firstWhereOrNull((e) => e.hash == ipfs.hash) == null) {
       box.put(
         0,
         data..add(jsonEncode(ipfs.toJson())),
       );
     }
+  }
+
+  Future<String> uploadAndRetrieve(String codec) async {
+    final object =
+        convertToDart(await promiseToFuture(saveFile('file', codec)));
+    final ipfs = IpfsData(object['hash'], object['ipfs']);
+    return ipfs.url;
   }
 
   Future<List<IpfsData>> getIpfsFiles() async {

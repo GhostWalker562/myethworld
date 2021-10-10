@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -16,3 +17,4 @@ part 'connect_button.dart';
 part 'upgrade_button.dart';
 part 'wallet_guard.dart';
 part 'moralis_guard.dart';
+part 'subscription_guard.dart';

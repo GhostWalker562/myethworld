@@ -44,6 +44,11 @@ class _HomePageState extends State<HomePage> {
         onTap: () => context.router.push(const FileUploadRoute()),
         asset: 'assets/images/ipfs_upload.png',
       ),
+      Feature(
+        'NFT Editor',
+        onTap: () => context.router.push(const NftEditorRoute()),
+        asset: 'assets/images/nft_editor.png',
+      ),
     ];
 
     return Scaffold(

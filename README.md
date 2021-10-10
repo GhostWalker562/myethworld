@@ -3,11 +3,12 @@
 # ** This is Hackathon code. It's going to be messy. 😬 **
 
 ## Used Services
-* https://www.covalenthq.com/
 * https://www.superfluid.finance/home
-* https://polywrap.io/#/
 * https://www.nftport.xyz/
 * https://moralis.io/
+* https://polygon.technology/
+* https://app.1inch.io/
+* https://thegraph.com/hosted-service/
 
 ## Commands
 * Webpacking `npm run build`

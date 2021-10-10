@@ -2,6 +2,9 @@
 
 # ** This is Hackathon code. It's going to be messy. 😬 **
 
+## Project
+Check out the project page at https://hack.myethworld.com
+
 ## Used Services
 * https://www.superfluid.finance/home
 * https://www.nftport.xyz/
